@@ -1,9 +1,8 @@
 # Management System for IACS company
-*Ort Braude College Of Engineering
-*Information Systems Engineering Final Project
+## Ort Braude College Of Engineering
+### Information Systems Engineering Final Project
 
-
-Students:
+*__Students:__*
 Ron Dadon
 Guy Franco
 
