@@ -1,0 +1,9 @@
+{
+    "routes": [
+        {
+            "pattern": "/",
+            "controller": "main",
+            "method": "index"
+        }
+    ]
+}
