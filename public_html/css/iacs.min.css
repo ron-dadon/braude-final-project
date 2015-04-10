@@ -1,6 +1,21 @@
+/* Html background */
+html {
+    background: #f2f5f6;
+    background: -moz-radial-gradient(center, ellipse cover,  #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f2f5f6), color-stop(37%,#e3eaed), color-stop(100%,#c8d7dc));
+    background: -webkit-radial-gradient(center, ellipse cover,  #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+    background: -o-radial-gradient(center, ellipse cover,  #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+    background: -ms-radial-gradient(center, ellipse cover,  #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+    background: radial-gradient(ellipse at center,  #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=1 );
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 /* Fix body padding for fixed navbars */
 body {
     padding-top: 115px;
+    background: none;
 }
 
 /* Fix navbar brand image padding */
@@ -20,6 +35,14 @@ body {
     padding: 0 5px;
 }
 
+.margin-bottom-5px {
+    margin-bottom: 5px;
+}
+
+.margin-bottom-15px {
+    margin-bottom: 15px;
+}
+
 .top-fixed-header {
     position: fixed;
     top: 50px;
@@ -29,4 +52,8 @@ body {
 
 .no-margin {
     margin: 0;
+}
+
+.font-125 {
+    font-size: 125%;
 }
