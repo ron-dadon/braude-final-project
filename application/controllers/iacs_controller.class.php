@@ -15,17 +15,27 @@ abstract class IACS_Controller extends Trident_Abstract_Controller
                 $user = unserialize($user);
                 /** @var Users_Model $users */
                 $users = $this->load_model('users');
+                $user = $users->get_user_by_id($user->id);
+                if ($user === null)
+                {
+                    $this->redirect('/error');
+                }
                 $user->last_activity = date('Y-m-d H:i:s');
                 $user->last_ip = $this->request->from_ip;
                 $user->last_browser = $this->request->browser . ' ' . $this->request->browser_version;
                 $user->last_platform = $this->request->platform;
                 if (!$users->update_user($user))
                 {
+                    $this->session->destroy();
                     $this->redirect('/error');
                 }
+                $this->session->set('user-entity', serialize($user));
+                $this->session->set('user-name', $user->name);
+                $this->session->set('user-admin', $user->admin ? true : false);
             }
             else
             {
+                $this->session->destroy();
                 $this->redirect('/login');
             }
         }

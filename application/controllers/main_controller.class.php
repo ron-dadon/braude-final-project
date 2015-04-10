@@ -51,7 +51,7 @@ class Main_Controller extends IACS_Controller
                 {
                     $this->session->set('user-logged', true);
                     $this->session->set('user-name', $user->name);
-                    $this->session->set('user-admin', $user->admin);
+                    $this->session->set('user-admin', $user->admin ? true : false);
                     $this->session->set('user-entity', serialize($user));
                     $this->redirect('/');
                 }
