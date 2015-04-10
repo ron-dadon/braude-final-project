@@ -39,7 +39,7 @@ class Navbar_View extends Trident_Abstract_View
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-left" method="post" action="<?php $this->public_path()?>/search" data-toggle="validator">
+                <form class="navbar-form navbar-left hidden-xs" method="post" action="<?php $this->public_path()?>/search" data-toggle="validator">
                     <div class="input-group">
                         <input type="text" class="form-control" name="global_search" required placeholder="חפש במערכת...">
                         <span class="input-group-btn">
