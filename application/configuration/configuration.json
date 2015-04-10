@@ -3,17 +3,17 @@
         "production":   false,
         "debug":        false,
         "time_zone":    "israel",
-        "rtl":          false
+        "rtl":          true
     },
     "paths": {
-        "public":       "http://trident.local.com",
+        "public":       "http://iacs.local.com",
         "application":  "../application",
         "data":         "../application/data",
         "logs":         "../application/logs",
         "routes":       "../application/configuration/routes.json"
     },
     "security": {
-        "encryption_key":   "secret key",
+        "encryption_key":   "dan-n@iacs.co.il",
         "hash_function":    "sha256",
         "salt_length":      32,
         "global_xss_clean": true,
@@ -22,7 +22,7 @@
     "database": {
         "type":     "mysql",
         "host":     "localhost",
-        "name":     "test",
+        "name":     "iacs",
         "user":     "root",
         "password": "",
         "charset":  "utf8"

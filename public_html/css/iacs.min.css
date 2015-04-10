@@ -1,0 +1,32 @@
+/* Fix body padding for fixed navbars */
+body {
+    padding-top: 115px;
+}
+
+/* Fix navbar brand image padding */
+.navbar-brand-image {
+    padding: 5px 15px;
+}
+
+.link-like {
+    cursor: pointer;
+}
+
+.link-like:hover {
+    text-decoration: underline;
+}
+
+.padded-sides-5px {
+    padding: 0 5px;
+}
+
+.top-fixed-header {
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    margin: 0;
+}
+
+.no-margin {
+    margin: 0;
+}

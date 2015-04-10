@@ -1,7 +1,7 @@
 <?php
 
 
-class Main_Index_View extends Trident_Abstract_View
+class Products_Index_View extends Trident_Abstract_View
 {
     public function render()
     {
@@ -9,7 +9,7 @@ class Main_Index_View extends Trident_Abstract_View
         $this->include_shared_view('navbar');
     ?>
     <div class="well well-sm top-fixed-header">
-        <h2 class="no-margin"><i class="fa fa-fw fa-home"></i> ראשי</h2>
+        <h2 class="no-margin"><i class="fa fa-fw fa-shopping-cart"></i> מוצרים</h2>
     </div>
     <div class="container-fluid">
         <p>Test</p>

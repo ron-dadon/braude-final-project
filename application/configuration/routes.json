@@ -10,9 +10,49 @@
             "function": "index"
         },
         {
-            "pattern": "/test",
+            "pattern": "/search",
             "controller": "main",
-            "function": "test"
+            "function": "search"
+        },
+        {
+            "pattern": "/clients",
+            "controller": "clients",
+            "function": "index"
+        },
+        {
+            "pattern": "/products",
+            "controller": "products",
+            "function": "index"
+        },
+        {
+            "pattern": "/quotes",
+            "controller": "quotes",
+            "function": "index"
+        },
+        {
+            "pattern": "/invoices",
+            "controller": "invoices",
+            "function": "index"
+        },
+        {
+            "pattern": "/reports",
+            "controller": "reports",
+            "function": "index"
+        },
+        {
+            "pattern": "/management",
+            "controller": "management",
+            "function": "index"
+        },
+        {
+            "pattern": "/login",
+            "controller": "main",
+            "function": "login"
+        },
+        {
+            "pattern": "/logout",
+            "controller": "main",
+            "function": "logout"
         }
     ]
 }

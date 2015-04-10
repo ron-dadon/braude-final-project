@@ -10,13 +10,13 @@ class Main_Error_View extends Trident_Abstract_View
     ?>
     <div class="container">
         <div class="page-header">
-            <h1><strong>Trident Framework <small>Sample Application</small></strong></h1>
+            <h1><strong>IACS <small>מערכת ניהול</small></strong></h1>
         </div>
         <div class="alert alert-danger">
-            <h2><i class="fa fa-fw fa-exclamation-triangle"></i> <strong>Oops!</strong> Something went wrong!</h2>
-            <p>The resource you are searching doesn't exists.</p>
+            <h2><i class="fa fa-fw fa-exclamation-triangle"></i> <strong>אופס!</strong> משהו השתבש!</h2>
+            <p>המשאב שחיפשת אינו קיים או שאינו זמין. אנא השתמש בתפריטי המערכת על מנת להגיע לחלקיה השונים.</p>
             <p>
-                <a href="<?php $this->public_path()?>" class="btn btn-danger btn-lg"><i class="fa fa-fw fa-home"></i> Back to home page</a>
+                <a href="<?php $this->public_path()?>" class="btn btn-danger btn-lg"><i class="fa fa-fw fa-home"></i> חזור למסך הראשי</a>
             </p>
         </div>
     </div>

@@ -46,8 +46,7 @@ function trident_auto_load($class)
         'core' . DS . 'mvc',
         'core' . DS . 'request',
         'core' . DS . 'router',
-        'core' . DS . 'session',
-        'core' . DS . 'test'
+        'core' . DS . 'session'
     ];
     foreach ($search as $path)
     {

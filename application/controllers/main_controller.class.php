@@ -1,18 +1,19 @@
 <?php
 
 
-class Main_Controller extends Trident_Abstract_Controller
+class Main_Controller extends IACS_Controller
 {
 
     public function index()
     {
-        $this->load_view()->render();
+        $view_data['current-menu'] = 'home';
+        $view_data['current-user'] = $this->get_connected_user_name();
+        $this->load_view($view_data)->render();
     }
 
-    public function test()
+    public function search()
     {
-        $test = new Example_Test();
-        $test->run_test();
+
     }
 
     public function error()
