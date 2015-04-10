@@ -18,4 +18,28 @@ class Management_Controller extends IACS_Controller
         $this->load_view($view_data)->render();
     }
 
+    public function show_users()
+    {
+        // TODO: implement show users list
+    }
+
+    public function add_user()
+    {
+        // TODO: implement add a new user
+    }
+
+    public function edit_user($id)
+    {
+        // TODO: implement editing user information
+    }
+
+    public function delete_user($id)
+    {
+        // TODO: implement deleting user
+    }
+
+    public function settings()
+    {
+        // TODO: implement settings management
+    }
 }
