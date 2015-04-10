@@ -287,4 +287,8 @@ abstract class Trident_Abstract_Entity
         return str_replace('_entity', '', strtolower(get_class($this)));
     }
 
+    function __sleep()
+    {
+        return array_keys(get_object_vars($this));
+    }
 }

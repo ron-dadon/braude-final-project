@@ -26,7 +26,7 @@ class Main_Login_View extends Trident_Abstract_View
                                 <label>משתמש:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                    <input class="form-control" type="email" name="user_email" required data-error="יש להזין דואר אלקטרוני כמזהה משתמש" placeholder="דואר אלקטרוני">
+                                    <input class="form-control" type="email" name="user_email" value="<?php echo $this->get('last-user-email')?>" required autofocus data-error="יש להזין דואר אלקטרוני כמזהה משתמש" placeholder="דואר אלקטרוני">
                                 </div>
                                 <span class="help-block with-errors no-margin"></span>
                             </div>
@@ -34,7 +34,7 @@ class Main_Login_View extends Trident_Abstract_View
                                 <label>סיסמא:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                                    <input class="form-control" type="password" name="user_password" required data-error="יש להזין סיסמא.">
+                                    <input class="form-control" type="password" name="user_password" value="<?php echo $this->get('last-user-password')?>" required data-error="יש להזין סיסמא.">
                                 </div>
                                 <span class="help-block with-errors no-margin"></span>
                             </div>

@@ -25,7 +25,9 @@ class Navbar_View extends Trident_Abstract_View
                     <li<?php if ($this->get('current-menu') === 'quotes') { echo ' class="active"'; }?>><a href="<?php $this->public_path()?>/quotes"><i class="fa fa-fw fa-file-text"></i> הצעות מחיר</a></li>
                     <li<?php if ($this->get('current-menu') === 'invoices') { echo ' class="active"'; }?>><a href="<?php $this->public_path()?>/invoices"><i class="fa fa-fw fa-money"></i> חשבוניות עסקה</a></li>
                     <li<?php if ($this->get('current-menu') === 'reports') { echo ' class="active"'; }?>><a href="<?php $this->public_path()?>/reports"><i class="fa fa-fw fa-line-chart"></i> דוחות</a></li>
+                    <?php if ($this->get('is_admin')): ?>
                     <li<?php if ($this->get('current-menu') === 'management') { echo ' class="active"'; }?>><a href="<?php $this->public_path()?>/management"><i class="fa fa-fw fa-cogs"></i> ניהול</a></li>
+                    <?php endif; ?>
                 </ul>
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown">
