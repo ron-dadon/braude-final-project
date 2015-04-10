@@ -1,9 +1,18 @@
 {
+    "default": {
+        "controller": "main",
+        "function": "error"
+    },
     "routes": [
         {
             "pattern": "/",
             "controller": "main",
-            "method": "index"
+            "function": "index"
+        },
+        {
+            "pattern": "/test",
+            "controller": "main",
+            "function": "test"
         }
     ]
 }
