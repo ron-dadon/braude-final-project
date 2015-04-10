@@ -6,6 +6,7 @@ class Main_Controller extends IACS_Controller
 
     public function index()
     {
+        $this->only_connected();
         $view_data['current-menu'] = 'home';
         $view_data['current-user'] = $this->get_connected_user_name();
         $this->load_view($view_data)->render();
@@ -13,6 +14,7 @@ class Main_Controller extends IACS_Controller
 
     public function search()
     {
+        $this->only_connected();
         if ($this->request->type === 'POST')
         {
             $view_data['search-term'] = $this->request->post->get('global_search');

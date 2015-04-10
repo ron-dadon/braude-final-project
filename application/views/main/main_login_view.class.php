@@ -23,6 +23,7 @@ class Main_Login_View extends Trident_Abstract_View
                             </div>
                             <?php endif; ?>
                             <div class="form-group">
+                                <label>משתמש:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
                                     <input class="form-control" type="email" name="user_email" required data-error="יש להזין דואר אלקטרוני כמזהה משתמש" placeholder="דואר אלקטרוני">
@@ -30,6 +31,7 @@ class Main_Login_View extends Trident_Abstract_View
                                 <span class="help-block with-errors no-margin"></span>
                             </div>
                             <div class="form-group no-margin">
+                                <label>סיסמא:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
                                     <input class="form-control" type="password" name="user_password" required data-error="יש להזין סיסמא.">
