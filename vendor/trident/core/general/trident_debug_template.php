@@ -1,4 +1,4 @@
-    <div class="container">
+    <div class="container-fluid">
         <div class="panel panel-default" style="direction: ltr">
             <div class="panel-heading">
                 <strong><i class="fa fa-bug"></i> Debug information</strong>

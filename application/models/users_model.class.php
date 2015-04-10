@@ -29,4 +29,9 @@ class Users_Model extends Trident_Abstract_Model
             return null;
         }
     }
+
+    public function update_user($user)
+    {
+        return $this->database->update_entity($user, 'users', 'id', 'user_');
+    }
 }

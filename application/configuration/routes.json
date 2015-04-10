@@ -10,6 +10,11 @@
             "function": "index"
         },
         {
+            "pattern": "/error",
+            "controller": "main",
+            "function": "error"
+        },
+        {
             "pattern": "/search",
             "controller": "main",
             "function": "search"

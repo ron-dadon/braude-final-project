@@ -3,6 +3,34 @@
 
 abstract class IACS_Controller extends Trident_Abstract_Controller
 {
+    function __construct($configuration, $log, $request, $session)
+    {
+        parent::__construct($configuration, $log, $request, $session);
+        $this->load_database();
+        if ($this->is_logged_in())
+        {
+            if (($user = $this->session->get('user-entity')) !== null)
+            {
+                /** @var User_Entity $user */
+                $user = unserialize($user);
+                /** @var Users_Model $users */
+                $users = $this->load_model('users');
+                $user->last_activity = date('Y-m-d H:i:s');
+                $user->last_ip = $this->request->from_ip;
+                $user->last_browser = $this->request->browser . ' ' . $this->request->browser_version;
+                $user->last_platform = $this->request->platform;
+                if (!$users->update_user($user))
+                {
+                    $this->redirect('/error');
+                }
+            }
+            else
+            {
+                $this->redirect('/login');
+            }
+        }
+    }
+
 
     protected function get_connected_user_name()
     {
