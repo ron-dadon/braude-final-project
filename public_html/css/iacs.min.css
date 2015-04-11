@@ -68,3 +68,44 @@ body {
 .font-125 {
     font-size: 125%;
 }
+
+.rounded-left {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+/* Bootgrid fixes */
+.bootgrid-footer .search, .bootgrid-header .search {
+    float: right;
+    margin: 0;
+}
+.bootgrid-table th >.column-header-anchor >.icon {
+    text-align: left;
+    left: 0;
+}
+
+.bootgrid-table th {
+    background: #e8e8e8;
+}
+
+.bootgrid-table th:hover {
+    background: #d8d8d8;
+}
+
+.bootgrid-table th > .column-header-anchor > .text {
+    margin: 0 0 0 16px;
+}
+
+.bootgrid-table tr td:last-child{
+    width:1%;
+    white-space:nowrap !important;
+}
+
+td.table-action > span.action-label {
+    display: none;
+}
+
+.table-action:hover > .action-label {
+    display: inline-block;
+}
+
