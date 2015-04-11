@@ -15,14 +15,30 @@ class Clients_Controller extends IACS_Controller
         /** @var Clients_Model $clients */
         $clients = $this->load_model('clients');
         $view_data['clients-list'] = $clients->get_all();
-        $view_data['current-menu'] = 'clients';
-        $view_data['current-user'] = $this->get_connected_user_name();
+        $view_data['client-delete'] = $this->session->pull('client-delete');
+        $view_data['client-delete-name'] = $this->session->pull('client-delete-name');
         $this->load_view($view_data)->render();
     }
 
     public function show_client($id)
     {
-        // TODO: implement show client information
+        /** @var Clients_Model $clients */
+        $clients = $this->load_model('clients');
+        /** @var Client_Entity $client */
+        $client = $clients->get_client_by_id($id);
+        /** @var Contacts_Model $contacts */
+        $contacts = $this->load_model('contacts');
+        /** @var Contact_Entity[] $client_contacts */
+        $client_contacts = $contacts->get_all_for_client($client);
+        if ($client === null || $client_contacts === null)
+        {
+            $this->redirect('/error');
+        }
+        $view_data['client'] = $client;
+        $view_data['contacts'] = $client_contacts;
+        $view_data['client-edit'] = $this->session->pull('client-edit');
+        $view_data['client-edit-name'] = $this->session->pull('client-edit-name');
+        $this->load_view($view_data)->render();
     }
 
     public function show_client_contacts($id)
@@ -37,7 +53,27 @@ class Clients_Controller extends IACS_Controller
 
     public function edit_client($id)
     {
-        // TODO: implement edit client information
+        /** @var Clients_Model $clients */
+        $clients = $this->load_model('clients');
+        $client = $clients->get_client_by_id($id);
+        if ($client === null)
+        {
+            $this->redirect('/error');
+        }
+        if ($this->request->type === 'POST')
+        {
+            $new_client = new Client_Entity();
+            $new_client->data_from_post($this->request->post, 'client_');
+            $new_client->created_on = $client->created_on;
+            $new_client->delete = $client->delete;
+            $new_client->id = $client->id;
+            $this->session->set('client-edit', $clients->update_client($new_client));
+            $this->session->set('client-edit-name', $new_client->name);
+            $this->redirect('/clients/show/' . $client->id);
+            exit();
+        }
+        $view_data['client'] = $client;
+        $this->load_view($view_data)->render();
     }
 
     public function edit_client_contact($contact_id)
@@ -47,7 +83,16 @@ class Clients_Controller extends IACS_Controller
 
     public function delete_client($id)
     {
-        // TODO: implement delete client
+        /** @var Clients_Model $clients */
+        $clients = $this->load_model('clients');
+        $client = $clients->get_client_by_id($id);
+        if ($client === null)
+        {
+            $this->redirect('/error');
+        }
+        $this->session->set('client-delete', $clients->delete_client($client));
+        $this->session->set('client-delete-name', $client->name);
+        $this->redirect('/clients');
     }
 
     public function delete_client_contact($contact_id)

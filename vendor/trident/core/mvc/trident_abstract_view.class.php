@@ -185,4 +185,9 @@ abstract class Trident_Abstract_View
         return htmlspecialchars($var, ENT_HTML5 | ENT_QUOTES);
     }
 
+    public function sql_date_to_php($date)
+    {
+        $date = DateTime::createFromFormat('Y-m-d', $date);
+        return $date->format('d/m/Y');
+    }
 }

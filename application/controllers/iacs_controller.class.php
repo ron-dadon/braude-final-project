@@ -80,6 +80,14 @@ abstract class IACS_Controller extends Trident_Abstract_Controller
             $view = debug_backtrace()[1]['function'];
             $view = str_replace('_controller', '', strtolower(get_class($this))) . '_' . $view . '_view';
         }
+        if (!isset($view_data['current-user']))
+        {
+            $view_data['current-user'] = $this->get_connected_user_name();
+        }
+        if (!isset($view_data['current-menu']))
+        {
+            $view_data['current-menu'] = str_replace('_controller', '', strtolower(get_class($this)));
+        }
         $view_data['is_admin'] = $this->is_admin();
         return parent::load_view($view_data, $view);
     }

@@ -58,6 +58,21 @@
             "pattern": "/logout",
             "controller": "main",
             "function": "logout"
+        },
+        {
+            "pattern": "/clients/delete/(id)",
+            "controller": "clients",
+            "function": "delete_client"
+        },
+        {
+            "pattern": "/clients/edit/(id)",
+            "controller": "clients",
+            "function": "edit_client"
+        },
+        {
+            "pattern": "/clients/show/(id)",
+            "controller": "clients",
+            "function": "show_client"
         }
     ]
 }
