@@ -53,6 +53,7 @@ class Main_Controller extends IACS_Controller
                     $this->session->set('user-name', $user->name);
                     $this->session->set('user-admin', $user->admin ? true : false);
                     $this->session->set('user-entity', serialize($user));
+                    $this->log->entry('login', 'User ' . $user->email . ' logged in from ' . $this->request->from_ip);
                     $this->redirect('/');
                 }
             }
@@ -61,6 +62,7 @@ class Main_Controller extends IACS_Controller
                 $view_data['login-wrong'] = true;
                 $view_data['last-user-email'] = $email;
                 $view_data['last-user-password'] = $password;
+                $this->log->entry('login', 'Failed login from ' . $this->request->from_ip . ' using ' . $email);
             }
         }
         $this->load_view($view_data)->render();
@@ -68,6 +70,8 @@ class Main_Controller extends IACS_Controller
 
     public function logout()
     {
+        $this->only_logged_in();
+        $this->log->entry('login', 'User ' . $this->session->pull('user-name') . ' logged out from ' . $this->request->from_ip);
         $this->session->destroy();
         $this->redirect('/login');
     }

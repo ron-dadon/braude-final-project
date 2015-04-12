@@ -112,7 +112,6 @@ class Clients_Index_View extends Trident_Abstract_View
                     '<a href="<?php $this->public_path()?>/clients/show/' + row.client_id + '" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-user"></i> הצג</button>' +
                     '<a href="<?php $this->public_path()?>/clients/edit/' + row.client_id + '" class="btn btn-xs btn-info margin-sides-5px"><i class="fa fa-fw fa-pencil"></i> ערוך</button>' +
                     '<a onclick="show_delete_confirm(\'' + row.client_name + '\',' + row.client_id + ')" class="btn btn-xs btn-danger"><i class="fa fa-fw fa-trash"></i> מחק</button>' +
-                    '<a href="<?php $this->public_path()?>/clients/contacts/' + row.client_id + '" class="btn btn-xs btn-default margin-sides-5px"><i class="fa fa-fw fa-users"></i> אנשי קשר</button>' +
                     '</div>';
                 }
             }

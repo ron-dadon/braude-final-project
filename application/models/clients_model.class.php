@@ -53,12 +53,30 @@ class Clients_Model extends Trident_Abstract_Model
 
     /**
      * @param Client_Entity $client
+     *
+     * @return bool
      */
     public function update_client($client)
     {
+        if ($client->delete)
+        {
+            return false;
+        }
         /** @var Trident_Query_MySql $result */
         $result = $this->database->update_entity($client, 'clients', 'id', 'client_');
         return $result->success;
+    }
+
+    /**
+     * @param Client_Entity $client
+     *
+     * @return Trident_Query_MySql
+     */
+    public function add_client($client)
+    {
+        /** @var Trident_Query_MySql $result */
+        $result = $this->database->insert_entity($client, 'clients', 'client_');
+        return $result;
     }
 
 } 

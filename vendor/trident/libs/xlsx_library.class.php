@@ -157,7 +157,7 @@ class Xlsx_Library extends Trident_Abstract_Library
         $zip->close();
     }
 
-    protected function initialize_sheet($sheet_name, $rtl = true)
+    protected function initialize_sheet($sheet_name, $rtl = true, $max_width = 11.5)
     {
         //if already initialized
         if ($this->current_sheet == $sheet_name || isset($this->sheets[$sheet_name]))
@@ -195,19 +195,20 @@ class Xlsx_Library extends Trident_Abstract_Library
         $sheet->file_writer->write('</sheetView>');
         $sheet->file_writer->write('</sheetViews>');
         $sheet->file_writer->write('<cols>');
-        $sheet->file_writer->write('<col collapsed="false" hidden="false" max="1025" min="1" style="0" width="11.5"/>');
+        $sheet->file_writer->write('<col collapsed="false" hidden="false" max="1025" min="1" style="0" width="' . $max_width . '"/>');
+        //$sheet->file_writer->write('<col collapsed="false" hidden="false" max="1025" min="1" style="0" width="11.5"/>');
         $sheet->file_writer->write('</cols>');
         $sheet->file_writer->write('<sheetData>');
     }
 
-    public function write_sheet_header($sheet_name, array $header_types, $rtl = true)
+    public function write_sheet_header($sheet_name, array $header_types, $rtl = true, $max_width = 11.5)
     {
         if (empty($sheet_name) || empty($header_types) || !empty($this->sheets[$sheet_name]))
         {
             return;
         }
 
-        self::initialize_sheet($sheet_name, $rtl);
+        self::initialize_sheet($sheet_name, $rtl, $max_width);
         $sheet = &$this->sheets[$sheet_name];
         $sheet->cell_formats = array_values($header_types);
         $header_row = array_keys($header_types);
@@ -222,14 +223,14 @@ class Xlsx_Library extends Trident_Abstract_Library
         $this->current_sheet = $sheet_name;
     }
 
-    public function write_sheet_row($sheet_name, array $row, $rtl = true)
+    public function write_sheet_row($sheet_name, array $row, $rtl = true, $max_width = 11.5)
     {
         if (empty($sheet_name) || empty($row))
         {
             return;
         }
 
-        self::initialize_sheet($sheet_name, $rtl);
+        self::initialize_sheet($sheet_name, $rtl, $max_width);
         $sheet = &$this->sheets[$sheet_name];
         if (empty($sheet->cell_formats))
         {
@@ -274,17 +275,40 @@ class Xlsx_Library extends Trident_Abstract_Library
         $sheet->finalized = true;
     }
 
+    private function get_max_width($data, $header_types = [])
+    {
+        $max_width = 11.5;
+        foreach ($data as $row)
+        {
+            foreach ($row as $col)
+            {
+                if (mb_strlen($col, 'UTF-8') > $max_width)
+                {
+                    $max_width = mb_strlen($col, 'UTF-8');
+                }
+            }
+        }
+        foreach ($header_types as $col => $type)
+        {
+            if (mb_strlen($col, 'UTF-8') > $max_width)
+            {
+                $max_width = mb_strlen($col, 'UTF-8');
+            }
+        }
+        return $max_width;
+    }
     public function write_sheet($data, $sheet_name = '', $header_types = [], $rtl = true)
     {
         $sheet_name = empty($sheet_name) ? 'Sheet1' : $sheet_name;
         $data = empty($data) ? [['']] : $data;
+        $max_width = $this->get_max_width($data, []);
         if (!empty($header_types))
         {
-            $this->write_sheet_header($sheet_name, $header_types, $rtl);
+            $this->write_sheet_header($sheet_name, $header_types, $rtl, $max_width);
         }
         foreach ($data as $i => $row)
         {
-            $this->write_sheet_row($sheet_name, $row, $rtl);
+            $this->write_sheet_row($sheet_name, $row, $rtl, $max_width);
         }
         $this->finalize_sheet($sheet_name);
     }
@@ -347,7 +371,7 @@ class Xlsx_Library extends Trident_Abstract_Library
         $file->write('<borders count="1"><border diagonalDown="false" diagonalUp="false"><left/><right/><top/><bottom/><diagonal/></border></borders>');
         $file->write('<cellStyleXfs count="20">');
         $file->write('<xf applyAlignment="true" applyBorder="true" applyFont="true" applyProtection="true" borderId="0" fillId="0" fontId="0" numFmtId="164">');
-        $file->write('<alignment horizontal="general" indent="0" shrinkToFit="false" textRotation="0" vertical="bottom" wrapText="false"/>');
+        $file->write('<alignment horizontal="general" indent="0" shrinkToFit="true" textRotation="0" vertical="bottom" wrapText="false"/>');
         $file->write('<protection hidden="false" locked="true"/>');
         $file->write('</xf>');
         $file->write('<xf applyAlignment="false" applyBorder="false" applyFont="true" applyProtection="false" borderId="0" fillId="0" fontId="1" numFmtId="0"/>');

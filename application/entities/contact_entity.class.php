@@ -4,6 +4,7 @@
 class Contact_Entity extends Trident_Abstract_Entity
 {
     public $id;
+    public $client;
     public $first_name;
     public $last_name;
     public $phone;

@@ -83,6 +83,6 @@ class Trident_Log
             }
         }
         $log_file .= '.txt';
-        file_put_contents($log_file, $data, LOCK_EX);
+        file_put_contents($log_file, $data, FILE_APPEND | LOCK_EX);
     }
 }

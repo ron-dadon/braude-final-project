@@ -65,6 +65,21 @@
             "function": "delete_client"
         },
         {
+            "pattern": "/clients/contacts/delete/(id)",
+            "controller": "clients",
+            "function": "delete_client_contact"
+        },
+        {
+            "pattern": "/clients/add-contact/(id)",
+            "controller": "clients",
+            "function": "add_client_contact"
+        },
+        {
+            "pattern": "/clients/export-contacts/(id)",
+            "controller": "clients",
+            "function": "export_contacts"
+        },
+        {
             "pattern": "/clients/edit/(id)",
             "controller": "clients",
             "function": "edit_client"
@@ -73,6 +88,16 @@
             "pattern": "/clients/show/(id)",
             "controller": "clients",
             "function": "show_client"
+        },
+        {
+            "pattern": "/clients/export",
+            "controller": "clients",
+            "function": "export_clients"
+        },
+        {
+            "pattern": "/clients/add",
+            "controller": "clients",
+            "function": "add_client"
         }
     ]
 }

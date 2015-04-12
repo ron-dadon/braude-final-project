@@ -29,12 +29,37 @@ class Clients_Show_Client_View extends Trident_Abstract_View
     </ol>
     <?php if (($alert = $this->get('client-edit', false)) === true): ?>
     <div class="alert alert-success no-margin alert-dismissible fade in">
-        <strong><i class="fa fa-fw fa-check-circle"></i> הפעולה בוצעה!</strong> המשתמש <strong><?php echo $this->escape($this->get('client-edit-name')) ?></strong> עודכן בהצלחה
+        <strong><i class="fa fa-fw fa-check-circle"></i> הפעולה בוצעה!</strong> המשתמש <strong><?php echo $this->get('client-edit-name') ?></strong> עודכן בהצלחה
+    </div>
+    <?php endif; ?>
+    <?php if (($alert = $this->get('client-add', false)) === true): ?>
+    <div class="alert alert-success no-margin alert-dismissible fade in">
+        <strong><i class="fa fa-fw fa-check-circle"></i> הפעולה בוצעה!</strong> המשתמש <strong><?php echo $this->get('client-add-name') ?></strong> נוסף בהצלחה
+    </div>
+    <?php endif; ?>
+    <?php if (($alert = $this->get('contact-add', false)) === true): ?>
+    <div class="alert alert-success no-margin alert-dismissible fade in">
+        <strong><i class="fa fa-fw fa-check-circle"></i> הפעולה בוצעה!</strong> איש הקשר <strong><?php echo $this->get('contact-add-name') ?></strong> נוסף בהצלחה
+    </div>
+    <?php endif; ?>
+    <?php if (($alert = $this->get('contact-delete', false)) === true): ?>
+    <div class="alert alert-success no-margin alert-dismissible fade in">
+        <strong><i class="fa fa-fw fa-check-circle"></i> הפעולה בוצעה!</strong> איש הקשר <strong><?php echo $this->get('contact-delete-name') ?></strong> נמחק בהצלחה
     </div>
     <?php endif; ?>
     <?php if ($this->get('client-edit', false) === false): ?>
     <div class="alert alert-danger no-margin alert-dismissible fade in">
-        <strong><i class="fa fa-fw fa-exclamation-circle"></i> הפעולה נכשלה!</strong> המשתמש <strong><?php echo $this->escape($this->get('client-edit-name')) ?></strong> לא עודכן בהצלחה
+        <strong><i class="fa fa-fw fa-exclamation-circle"></i> הפעולה נכשלה!</strong> המשתמש <strong><?php echo $this->get('client-edit-name') ?></strong> לא עודכן בהצלחה
+    </div>
+    <?php endif; ?>
+    <?php if ($this->get('contact-delete', false) === false): ?>
+    <div class="alert alert-danger no-margin alert-dismissible fade in">
+        <strong><i class="fa fa-fw fa-exclamation-circle"></i> הפעולה נכשלה!</strong> איש הקשר <strong><?php echo $this->get('contact-delete-name') ?></strong> לא נמחק בהצלחה
+    </div>
+    <?php endif; ?>
+    <?php if ($this->get('contact-add', false) === false): ?>
+    <div class="alert alert-danger no-margin alert-dismissible fade in">
+        <strong><i class="fa fa-fw fa-exclamation-circle"></i> הפעולה נכשלה!</strong> איש הקשר <strong><?php echo $this->get('contact-add-name') ?></strong> לא נוסף בהצלחה
     </div>
     <?php endif; ?>
     <div class="panel panel-default">
@@ -55,6 +80,11 @@ class Clients_Show_Client_View extends Trident_Abstract_View
         <div class="panel-heading">
             <strong class="font-125"><i class="fa fa-fw fa-user"></i> אנשי קשר: <?php echo $this->escape($client->name)?></strong>
         </div>
+        <?php if (count($contacts) === 0): ?>
+        <div class="panel-body">
+            <p class="text-center">אין אנשי קשר ללקוח</p>
+        </div>
+        <?php else: ?>
         <div class="table-responsive">
             <table id="contacts-table" class="table table-condensed table-hover table-striped table-bordered">
                 <thead>
@@ -87,13 +117,14 @@ class Clients_Show_Client_View extends Trident_Abstract_View
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-xs-12 text-left">
-                        <div class="btn-group">
-                            <a href="<?php $this->public_path()?>/clients/export-contacts/<?php echo $client->id?>" class="btn btn-default"><i class="fa fa-fw fa-file-excel-o"></i> יצא רשימה</a>
-                            <a href="<?php $this->public_path()?>/clients/add-contact/<?php echo $client->id?>" class="btn btn-success"><i class="fa fa-fw fa-user-plus"></i> הוספת איש קשר</a>
-                        </div>
+        </div>
+        <?php endif; ?>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12 text-left">
+                    <div class="btn-group">
+                        <a href="<?php $this->public_path()?>/clients/export-contacts/<?php echo $client->id?>" class="btn btn-default"><i class="fa fa-fw fa-file-excel-o"></i> יצא רשימה</a>
+                        <a href="<?php $this->public_path()?>/clients/add-contact/<?php echo $client->id?>" class="btn btn-success"><i class="fa fa-fw fa-user-plus"></i> הוספת איש קשר</a>
                     </div>
                 </div>
             </div>
@@ -104,13 +135,17 @@ class Clients_Show_Client_View extends Trident_Abstract_View
             <strong class="font-125"><i class="fa fa-fw fa-file-text"></i> הצעות מחיר פתוחות: <?php echo $this->escape($client->name)?></strong>
         </div>
         <div class="panel-body">
-            Opened quotes
+        <?php if ($this->get('client-open-quotes') === null): ?>
+            <p class="text-center">אין הצעות מחיר פתוחות ללקוח</p>
+        <?php endif; ?>
         </div>
         <div class="panel-heading">
             <strong class="font-125"><i class="fa fa-fw fa-money"></i> חשבוניות עסקה פתוחות: <?php echo $this->escape($client->name)?></strong>
         </div>
         <div class="panel-body">
-            Opened Invoices
+        <?php if ($this->get('client-open-invoices') === null): ?>
+            <p class="text-center">אין חשבוניות עסקה פתוחות ללקוח</p>
+        <?php endif; ?>
         </div>
     </div>
     <!-- Google Maps Modal -->
