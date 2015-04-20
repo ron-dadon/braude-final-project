@@ -1,4 +1,5 @@
 {
+    "base": "/iacs/public_html",
     "default": {
         "controller": "main",
         "function": "error"
@@ -10,94 +11,14 @@
             "function": "index"
         },
         {
-            "pattern": "/error",
-            "controller": "main",
-            "function": "error"
-        },
-        {
-            "pattern": "/search",
-            "controller": "main",
-            "function": "search"
-        },
-        {
-            "pattern": "/clients",
-            "controller": "clients",
-            "function": "index"
-        },
-        {
-            "pattern": "/products",
-            "controller": "products",
-            "function": "index"
-        },
-        {
-            "pattern": "/quotes",
-            "controller": "quotes",
-            "function": "index"
-        },
-        {
-            "pattern": "/invoices",
-            "controller": "invoices",
-            "function": "index"
-        },
-        {
-            "pattern": "/reports",
-            "controller": "reports",
-            "function": "index"
-        },
-        {
-            "pattern": "/management",
-            "controller": "management",
-            "function": "index"
-        },
-        {
             "pattern": "/login",
             "controller": "main",
             "function": "login"
         },
         {
-            "pattern": "/logout",
+            "pattern": "/forgot-password",
             "controller": "main",
-            "function": "logout"
-        },
-        {
-            "pattern": "/clients/delete/(id)",
-            "controller": "clients",
-            "function": "delete_client"
-        },
-        {
-            "pattern": "/clients/contacts/delete/(id)",
-            "controller": "clients",
-            "function": "delete_client_contact"
-        },
-        {
-            "pattern": "/clients/add-contact/(id)",
-            "controller": "clients",
-            "function": "add_client_contact"
-        },
-        {
-            "pattern": "/clients/export-contacts/(id)",
-            "controller": "clients",
-            "function": "export_contacts"
-        },
-        {
-            "pattern": "/clients/edit/(id)",
-            "controller": "clients",
-            "function": "edit_client"
-        },
-        {
-            "pattern": "/clients/show/(id)",
-            "controller": "clients",
-            "function": "show_client"
-        },
-        {
-            "pattern": "/clients/export",
-            "controller": "clients",
-            "function": "export_clients"
-        },
-        {
-            "pattern": "/clients/add",
-            "controller": "clients",
-            "function": "add_client"
+            "function": "forgot_password"
         }
     ]
 }

@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,25 +22,59 @@
 
 /**
  * Class Trident_Application
- *
  * Core application class to bootstrap the application.
  */
 class Trident_Application
 {
+
     /**
+     * Configuration class instance
+     *
      * @var Trident_Configuration
      */
     private $_configuration = null;
+
+    /**
+     * Request class instance
+     *
+     * @var Trident_Request
+     */
     private $_request = null;
+
+    /**
+     * Session class instance
+     *
+     * @var Trident_Session
+     */
     private $_session = null;
+
+    /**
+     * Router class instance
+     *
+     * @var Trident_Router
+     */
     private $_router = null;
+
+    /**
+     * Log class instance
+     *
+     * @var Trident_Log
+     */
     private $_log = null;
 
+    /**
+     * Constructor
+     * The application constructor creates the configuration class instance and loads the supplied configuration file.
+     * Creates all the core classes instances according to the configuration settings where any are needed.
+     *
+     * @param string $configuration_file Configuration file path relative to the public index.php file.
+     */
     function __construct($configuration_file)
     {
         if (!is_readable($configuration_file))
         {
-            throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
+            error_log("Trident framework: Can't create application. Configuration file $configuration_file doesn't exists or is not readable");
+            http_response(500);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
         if ($this->_configuration->get('environment', 'debug'))
@@ -59,32 +89,22 @@ class Trident_Application
         {
             date_default_timezone_set($time_zone);
         }
+        else
+        {
+            date_default_timezone_set('utc');
+        }
         $this->_log = new Trident_Log($this->_configuration);
         if (is_null($app_path = $this->_configuration->get('paths', 'application')))
         {
-            throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
+            error_log("Trident framework: Can't initialize application auto loading function because application path is not configured in
+                the configuration file");
+            http_response(500);
         }
         spl_autoload_register([$this, '_application_auto_load']);
-        $this->_request = new Trident_Request($this->_configuration);
-        $this->_session = new Trident_Session();
-        $this->_router = new Trident_Router($this->_configuration->get('paths','routes'));
-        try
-        {
-            $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
-        }
-        catch (Trident_Exception $e)
-        {
-            $this->_log->entry('routing', $e->getMessage());
-            if ($e->getCode() === TRIDENT_ERROR_NO_MATCHED_ROUTE)
-            {
-                header("HTTP/1.0 404 Not Found");
-                die('The request resource was not found or is unavailable (404 Error)');
-            }
-            else
-            {
-                $this->_log->entry('routing', $e->getMessage());
-            }
-        }
+        $this->_request = new Trident_Request($this->_configuration, $this->_log);
+        $this->_session = new Trident_Session($this->_configuration->get('environment', 'session_prefix'));
+        $this->_router = new Trident_Router($this->_configuration->get('paths', 'routes'));
+        $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
         if (isset($debug))
         {
             $debug->inject_dependencies($this->_configuration, $this->_request, $this->_session);
@@ -94,20 +114,21 @@ class Trident_Application
 
     /**
      * Application auto loading
+     * Searches for the required class files in the application directory,
+     * within the controllers, models, entities and views directories.
      *
-     * Searches for the required class files in the application directory, within the controllers, models and views directories.
-     *
-     * @param string $class class name
+     * @param string $class Class name.
      */
     private function _application_auto_load($class)
     {
+        $class = strtolower($class);
         $app_path = $this->_configuration->get('paths', 'application');
         $views = array_diff(scandir($app_path . DS . 'views' . DS), ['.', '..']);
         $search = [
             $app_path . DS . 'controllers',
             $app_path . DS . 'models',
             $app_path . DS . 'entities',
-            $app_path . DS . 'tests'
+            $app_path . DS . 'views'
         ];
         foreach ($views as $view)
         {

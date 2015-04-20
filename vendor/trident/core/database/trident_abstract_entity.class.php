@@ -1,17 +1,60 @@
 <?php
+/**
+ * Trident Framework - PHP MVC Framework
+ * The MIT License (MIT)
+ * Copyright (c) 2015 Ron Dadon
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-define('TRIDENT_ENTITY_INVALID_TYPE', 1);
-define('TRIDENT_ENTITY_INVALID_MIN_VAL', 2);
-define('TRIDENT_ENTITY_INVALID_MAX_VAL', 3);
-
+/**
+ * Class Trident_Abstract_Entity.
+ * Abstract entity class for implementing database entities.
+ * To implement an entity simply inherit from this class and add your entity fields as public variables.
+ */
 abstract class Trident_Abstract_Entity
 {
 
     /**
-     * Set data from post
+     * Name of the table in the database.
      *
-     * @param Trident_Request_Post $post
-     * @param string               $prefix
+     * @var string
+     */
+    protected  $table_name;
+
+    /**
+     * Field name prefix.
+     *
+     * @var string
+     */
+    protected $field_prefix = '';
+
+    /**
+     * Primary key field name.
+     *
+     * @var string
+     */
+    protected $primary_key_field;
+
+    /**
+     * Set entity fields values from post values.
+     * This method will go over the request's post data and search for keys that matches the fields names (with prefix).
+     *
+     * @param Trident_Request_Post $post   Request post instance.
+     * @param string               $prefix Post key prefix.
      */
     public function data_from_post($post, $prefix = '')
     {
@@ -26,10 +69,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Set data from array
+     * Set entity fields values from array values.
+     * This method will go over the array's data and search for keys that matches the fields names (with prefix).
      *
-     * @param array $array
-     * @param string               $prefix
+     * @param array  $array  Array of key-value pairs.
+     * @param string $prefix Key prefix.
      */
     public function data_from_array($array, $prefix = '')
     {
@@ -44,17 +88,22 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Get all fields and values
+     * Get all fields and values as key-value pairs array.
      *
      * @return array
      */
     public function get_fields()
     {
-        return get_object_vars($this);
+        $protected = [
+            'table_name' => '',
+            'field_prefix' => '',
+            'primary_key_field' => ''
+        ];
+        return array_diff_key(get_object_vars($this), $protected);
     }
 
     /**
-     * Get all fields names
+     * Get all fields names.
      *
      * @return array
      */
@@ -64,13 +113,43 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate int variable
-
-     * @param string $field
-     * @param int $min
-     * @param int $max
+     * Get the entity table name.
      *
-     * @return bool|int
+     * @return string
+     */
+    public function get_table_name()
+    {
+        return $this->table_name;
+    }
+
+    /**
+     * Get the entity fields prefix.
+     *
+     * @return string
+     */
+    public function get_field_prefix()
+    {
+        return $this->field_prefix;
+    }
+
+    /**
+     * Get the entity primary key field name.
+     *
+     * @return string
+     */
+    public function get_primary_key_field()
+    {
+        return $this->primary_key_field;
+    }
+
+    /**
+     * Validate integer field.
+     *
+     * @param string $field Field name.
+     * @param int    $min   Minimum value.
+     * @param int    $max   Maximum value.
+     *
+     * @return bool True if valid, false otherwise.
      */
     public function validate_int($field, $min = -2147483648, $max = 2147483647)
     {
@@ -78,30 +157,23 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        if (filter_var($this->$field, FILTER_VALIDATE_INT) === false)
+        if (filter_var($this->$field, FILTER_VALIDATE_INT) === false ||
+            $this->$field < $min || $this->$field > $max
+        )
         {
-            return TRIDENT_ENTITY_INVALID_TYPE;
-        }
-        if ($this->$field < $min)
-        {
-            return TRIDENT_ENTITY_INVALID_MIN_VAL;
-        }
-        if ($this->$field > $max)
-        {
-            return TRIDENT_ENTITY_INVALID_MAX_VAL;
+            return false;
         }
         return true;
     }
 
     /**
-     * Validate tinyint variable
+     * Validate tinyint field.
      *
-     * @param string $field
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_tiny_int($field, $min = null, $max = null)
     {
@@ -109,14 +181,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate smallint variable
+     * Validate smallint field.
      *
-     * @param string $field
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_small_int($field, $min = null, $max = null)
     {
@@ -124,14 +195,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate mediumint variable
+     * Validate mediumint field.
      *
-     * @param string $field
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_medium_int($field, $min = null, $max = null)
     {
@@ -139,9 +209,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * @param string $field
+     * Validate field is a email address.
      *
-     * @return bool|int
+     * @param string $field Field name.
+     *
+     * @return bool True if valid, false otherwise.
      */
     public function validate_email($field)
     {
@@ -153,11 +225,12 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * @param string $field
+     * Validate field matches regular expression.
      *
-     * @param        $regex
+     * @param string $field Field name.
+     * @param string $regex Regular expression.
      *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_regex($field, $regex)
     {
@@ -169,46 +242,12 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate min value
+     * Validate field string is at least a minimum length.
      *
-     * @param $field
-     * @param $min
+     * @param string $field Field name.
+     * @param string $min   Minimum length.
      *
-     * @return bool
-     */
-    public function validate_min_value($field, $min)
-    {
-        if (array_search($field, $this->get_field_names()) === false)
-        {
-            return false;
-        }
-        return $this->$field >= $min;
-    }
-
-    /**
-     * Validate max value
-     *
-     * @param $field
-     * @param $max
-     *
-     * @return bool
-     */
-    public function validate_max_value($field, $max)
-    {
-        if (array_search($field, $this->get_field_names()) === false)
-        {
-            return false;
-        }
-        return $this->$field <= $max;
-    }
-
-    /**
-     * Validate min length
-     *
-     * @param string $field
-     * @param $min
-     *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_min_length($field, $min)
     {
@@ -216,16 +255,16 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) >= $min;
+        return mb_strlen($this->$field, 'UTF-8') >= $min;
     }
 
     /**
-     * Validate max length
+     * Validate field string is at most a maximum length.
      *
-     * @param string $field
-     * @param int $max
+     * @param string $field Field name.
+     * @param string $max   Maximum length.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_max_length($field, $max)
     {
@@ -233,17 +272,17 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) <= $max;
+        return mb_strlen($this->$field, 'UTF-8') <= $max;
     }
 
     /**
-     * Validate float variable
-
-     * @param string $field
-     * @param int $min
-     * @param int $max
+     * Validate float field.
      *
-     * @return bool|int
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
+     *
+     * @return bool True if valid, false otherwise.
      */
     public function validate_float($field, $min = null, $max = null)
     {
@@ -251,27 +290,22 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        if (filter_var($this->$field, FILTER_VALIDATE_FLOAT) === false)
+        if (filter_var($this->$field, FILTER_VALIDATE_FLOAT) === false ||
+            (!is_null($min) && $this->$field < $min) ||
+            (!is_null($max) && $this->$field > $max)
+        )
         {
-            return TRIDENT_ENTITY_INVALID_TYPE;
-        }
-        if (!is_null($min) && $this->$field < $min)
-        {
-            return TRIDENT_ENTITY_INVALID_MIN_VAL;
-        }
-        if (!is_null($max) && $this->$field > $max)
-        {
-            return TRIDENT_ENTITY_INVALID_MAX_VAL;
+            return false;
         }
         return true;
     }
 
     /**
-     * Validate not empty
+     * Validate field not empty.
      *
-     * @param string $field
+     * @param string $field Field name.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_not_empty($field)
     {
@@ -282,13 +316,52 @@ abstract class Trident_Abstract_Entity
         return $this->$field !== '' && $this->$field !== null;
     }
 
+    /**
+     * Validate field is null.
+     *
+     * @param string $field Field name.
+     *
+     * @return bool True if valid, false otherwise.
+     */
+    public function validate_null($field)
+    {
+        if (array_search($field, $this->get_field_names()) === false)
+        {
+            return false;
+        }
+        return $this->$field === null;
+    }
+
+    /**
+     * Validate field is a valid http(s) URL.
+     *
+     * @param string $field Field name.
+     *
+     * @return bool True if valid, false otherwise.
+     */
+    public function validate_http_url($field)
+    {
+        return $this->validate_regex($field, '/^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9\-\_\.]+[\.][a-zA-Z0-9]+$/');
+    }
+
+    /**
+     * Get entity name (without the _Entity suffix).
+     *
+     * @return string
+     */
     public function entity_name()
     {
         return str_replace('_entity', '', strtolower(get_class($this)));
     }
 
+    /**
+     * Return the list of variables to serialise using the serialize function.
+     *
+     * @return array Class variables to serialize.
+     */
     function __sleep()
     {
         return array_keys(get_object_vars($this));
     }
+
 }

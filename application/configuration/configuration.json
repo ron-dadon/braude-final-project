@@ -1,19 +1,25 @@
 {
     "environment": {
-        "production":   false,
-        "debug":        false,
-        "time_zone":    "israel",
-        "rtl":          true
+        "production": false,
+        "debug": true,
+        "display_response_errors": true,
+        "time_zone": "israel",
+        "session_prefix": "iacs_"
+    },
+    "display": {
+        "rtl": true,
+        "theme": false,
+        "language": "he"
     },
     "paths": {
-        "public":       "http://iacs.local.com",
+        "public":       "http://localhost/iacs/public_html",
         "application":  "../application",
         "data":         "../application/data",
         "logs":         "../application/logs",
         "routes":       "../application/configuration/routes.json"
     },
     "security": {
-        "encryption_key":   "dan-n@iacs.co.il",
+        "encryption_key":   "secret key",
         "hash_function":    "sha256",
         "salt_length":      32,
         "global_xss_clean": true,
@@ -22,7 +28,7 @@
     "database": {
         "type":     "mysql",
         "host":     "localhost",
-        "name":     "iacs",
+        "name":     "test",
         "user":     "root",
         "password": "",
         "charset":  "utf8"

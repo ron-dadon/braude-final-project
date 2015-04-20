@@ -1,13 +1,12 @@
 <?php
 
-class Footer_View extends Trident_Abstract_View
+class Footer_View extends IACS_View
 {
     public function render()
     {
 ?>
-<script>
-    setTimeout(function() { $('.alert-dismissible').alert('close'); }, 5000);
-</script>
+    <!-- Footer section -->
+    <!-- End of footer section -->
 </body>
 </html>
 <?php

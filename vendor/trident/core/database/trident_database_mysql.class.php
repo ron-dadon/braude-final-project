@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,18 +21,24 @@
  */
 
 /**
- * Class Trident_Database_MySql
- *
- * MySql database class for handling MySql databases
+ * Class Trident_Database_MySql.
+ * MySql database class for handling MySql databases.
  */
 class Trident_Database_MySql extends Trident_Abstract_Database
 {
 
     /**
-     * @param Trident_Configuration $configuration
+     * Initialize PDO according to the configuration.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
      */
     function __construct($configuration)
     {
+        if (!$configuration->section_exists('database'))
+        {
+            error_log("Trident framework: Database configuration is missing from the configuration file.");
+            http_response(500);
+        }
         $host = $configuration->get('database', 'host');
         $database = $configuration->get('database', 'name');
         $password = $configuration->get('database', 'password');
@@ -54,13 +56,21 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Query_MySql $query
+     * Run database query.
      *
-     * @return Trident_Query_MySql
+     * @param Trident_Abstract_Query $query The query to execute.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function run_query($query)
     {
         $statement = $this->prepare($query->query_string);
+        if ($statement === false)
+        {
+            $query->error_code = $this->errorInfo()[1];
+            $query->error_description = $this->errorInfo()[2];
+            return $query;
+        }
         foreach ($query->parameters as $name => $parameter)
         {
             $statement->bindParam($name, $parameter['value'], $parameter['type']);
@@ -86,14 +96,30 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param string $entity
-     * @param string $query
-     * @param array $parameters
-     * @param string $prefix
+     * Check if a table exists in the database.
      *
-     * @return Trident_Query_MySql|bool
+     * @param string $table Table name.
+     *
+     * @return bool True if table exists, false otherwise.
      */
-    public function select_entity($entity, $query, $parameters, $prefix)
+    public function is_table_exists($table)
+    {
+        $query = new Trident_Query_MySql();
+        $query->query_string = "SHOW TABLES LIKE '$table'";
+        $result = $this->run_query($query);
+        return $result->success && $result->row_count === 1;
+    }
+
+    /**
+     * Perform a select query for a given entity.
+     *
+     * @param string $entity     Entity class name.
+     * @param string $query      Query string.
+     * @param array  $parameters Query parameters.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
+     */
+    public function select_entity($entity, $query, $parameters)
     {
         if (strtolower(substr($entity, -7, 7)) !== '_entity')
         {
@@ -107,7 +133,7 @@ class Trident_Database_MySql extends Trident_Abstract_Database
         $query_instance->query_string = $query;
         foreach ($parameters as $key => $value)
         {
-            $query_instance->set_parameter(ltrim($key, ':'), $value);
+            $query_instance->set_parameter($key, $value);
         }
         $query_instance->type = 'select';
         $query_instance = $this->run_query($query_instance);
@@ -118,7 +144,7 @@ class Trident_Database_MySql extends Trident_Abstract_Database
             {
                 /** @var Trident_Abstract_Entity $entity_instance */
                 $entity_instance = new $entity();
-                $entity_instance->data_from_array($row, $prefix);
+                $entity_instance->data_from_array($row, $entity_instance->get_field_prefix());
                 $result[] = $entity_instance;
             }
             $query_instance->result_set = $result;
@@ -127,22 +153,23 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $prefix
+     * Perform an insert query for a given entity.
      *
-     * @return Trident_Abstract_Query|bool
+     * @param Trident_Abstract_Entity $entity Entity instance.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
-    public function insert_entity($entity, $table, $prefix)
+    public function insert_entity($entity)
     {
         if (!($entity instanceof Trident_Abstract_Entity))
         {
             return false;
         }
+        $prefix = $entity->get_field_prefix();
+        $table = $entity->get_table_name();
         $query = new Trident_Query_MySql();
         $fields = $entity->get_field_names();
         $field_parameters = [];
-        $parameters = [];
         foreach ($fields as $key => $value)
         {
             $field_parameters[] = ':' . $value;
@@ -157,26 +184,27 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $id_field
-     * @param string $prefix
+     * Perform an update query for a given entity.
      *
-     * @return Trident_Query_MySql|bool
+     * @param Trident_Abstract_Entity $entity   Entity instance.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
-    public function update_entity($entity, $table, $id_field, $prefix)
+    public function update_entity($entity)
     {
         if (!($entity instanceof Trident_Abstract_Entity))
         {
             return false;
         }
+        $id_field = $entity->get_primary_key_field();
+        $prefix = $entity->get_field_prefix();
+        $table = $entity->get_table_name();
         if (array_search($id_field, $entity->get_field_names()) === false)
         {
             return false;
         }
         $query = new Trident_Query_MySql();
         $fields = array_diff($entity->get_field_names(), [$id_field]);
-        $parameters = [];
         foreach ($fields as $key => $value)
         {
             $fields[$key] = $prefix . $value . ' = :' . $value;
@@ -190,19 +218,21 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $id_field
-     * @param string $prefix
+     * Perform a delete query for a given entity.
      *
-     * @return Trident_Query_MySql|bool
+     * @param Trident_Abstract_Entity $entity   Entity instance.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
-    public function delete_entity($entity, $table, $id_field, $prefix)
+    public function delete_entity($entity)
     {
         if (!($entity instanceof Trident_Abstract_Entity))
         {
             return false;
         }
+        $id_field = $entity->get_primary_key_field();
+        $prefix = $entity->get_field_prefix();
+        $table = $entity->get_table_name();
         if (array_search($id_field, $entity->get_field_names()) === false)
         {
             return false;

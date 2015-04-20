@@ -1,78 +1,85 @@
 <?php
 
-
 abstract class IACS_Controller extends Trident_Abstract_Controller
 {
-    function __construct($configuration, $log, $request, $session)
+
+    /**
+     * Validate a user is logged in.
+     *
+     * @return bool True if user is logged in, false otherwise.
+     */
+    protected function is_logged_in()
     {
-        parent::__construct($configuration, $log, $request, $session);
-        $this->load_database();
-        if ($this->is_logged_in())
+        return $this->session->get('logged_in') === true;
+    }
+
+    /**
+     * Validate a logged user is an administrator.
+     *
+     * @return bool True if user is administrator, false otherwise.
+     */
+    protected function is_admin()
+    {
+        return $this->session->get('admin') === true;
+    }
+
+    /**
+     * Check if a logged user got a specific permission.
+     *
+     * @param string $permission Permission name.
+     *
+     * @return bool True if the user got the permission, false otherwise.
+     */
+    protected function got_permission($permission)
+    {
+        $permissions = $this->session->get('permissions');
+        if ($permissions === null || !is_array($permissions))
         {
-            if (($user = $this->session->get('user-entity')) !== null)
-            {
-                /** @var User_Entity $user */
-                $user = unserialize($user);
-                /** @var Users_Model $users */
-                $users = $this->load_model('users');
-                $user = $users->get_user_by_id($user->id);
-                if ($user === null)
-                {
-                    $this->redirect('/error');
-                }
-                $user->last_activity = date('Y-m-d H:i:s');
-                $user->last_ip = $this->request->from_ip;
-                $user->last_browser = $this->request->browser . ' ' . $this->request->browser_version;
-                $user->last_platform = $this->request->platform;
-                if (!$users->update_user($user))
-                {
-                    $this->session->destroy();
-                    $this->redirect('/error');
-                }
-                $this->session->set('user-entity', serialize($user));
-                $this->session->set('user-name', $user->name);
-                $this->session->set('user-admin', $user->admin ? true : false);
-            }
-            else
-            {
-                $this->session->destroy();
-                $this->redirect('/login');
-            }
+            return false;
         }
-    }
-
-
-    protected function get_connected_user_name()
-    {
-        return $this->session->get('user-name');
-    }
-
-    protected function only_logged_in()
-    {
-        if (!$this->is_logged_in())
+        if (!array_key_exists($permission, $permissions))
         {
-            $this->redirect('/login');
+            return false;
         }
+        return $permissions[$permission] === true;
     }
 
-    protected function only_admin()
+    /**
+     * Update the logged user information in the database.
+     * Re-fetch the user for the database, in case an administrator changed his permissions or
+     * removed the user from the database while the user was logged in.
+     */
+    protected function update_logged_user()
     {
-        if (!$this->is_admin())
+        // TODO: implement update logged user method.
+    }
+
+    /**
+     * Return the logged in user object.
+     *
+     * @return User_Entity|null
+     */
+    protected function get_logged_user()
+    {
+        $user = $this->session->get('user');
+        if ($user === null)
         {
-            $this->redirect('/');
+            return null;
         }
+        $user = unserialize($user);
+        return $user;
     }
 
-    public function is_logged_in()
-    {
-        return $this->session->get('user-logged') === true;
-    }
-
-    public function is_admin()
-    {
-        return $this->session->get('user-admin') === true;
-    }
-
+    /**
+     * Load view instance.
+     * If $view is not specified, loads the view according to the calling callable (controller_function_view).
+     * Automatically add important data to the view data.
+     *
+     * @param array $view_data View data array.
+     * @param null  $view      View name.
+     *
+     * @return Trident_Abstract_View View instance.
+     */
     protected function load_view($view_data = [], $view = null)
     {
         if (is_null($view))
@@ -80,15 +87,8 @@ abstract class IACS_Controller extends Trident_Abstract_Controller
             $view = debug_backtrace()[1]['function'];
             $view = str_replace('_controller', '', strtolower(get_class($this))) . '_' . $view . '_view';
         }
-        if (!isset($view_data['current-user']))
-        {
-            $view_data['current-user'] = $this->get_connected_user_name();
-        }
-        if (!isset($view_data['current-menu']))
-        {
-            $view_data['current-menu'] = str_replace('_controller', '', strtolower(get_class($this)));
-        }
-        $view_data['is_admin'] = $this->is_admin();
+        $view_data['user'] = $this->get_logged_user();
         return parent::load_view($view_data, $view);
     }
+
 }

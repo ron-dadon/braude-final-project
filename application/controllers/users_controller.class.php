@@ -1,6 +1,6 @@
 <?php
 
-class Invoices_Controller extends IACS_Controller
+class Users_Controller extends IACS_Controller
 {
 
     public function index()

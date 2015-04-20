@@ -1,53 +1,44 @@
 <?php
 
-
-class Main_Login_View extends Trident_Abstract_View
+class Main_Login_View extends IACS_View
 {
+
     public function render()
     {
         $this->include_shared_view('header');
-    ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 col-lg-offset-4 col-lg-4">
-                <img class="img-responsive center-block margin-bottom-15px" src="<?php $this->public_path()?>/images/logo-xl.png">
-                <form method="post" data-toggle="validator">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-center">
-                            <strong class="font-125"><span>כניסה למערכת</span></strong>
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-lg-4 col-lg-offset-4">
+            <img src="<?php $this->public_path() ?>/images/logo.png" class="img-responsive margin-bottom margin-top">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>התחברות</strong>
+                </div>
+                <div class="panel-body">
+                    <form method="post" id="login-form" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="user-name">שם משתמש:</label>
+                            <input class="form-control" type="text" id="user-name" name="user_name" required>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="panel-body">
-                            <?php if ($this->get('login-wrong') == true): ?>
-                            <div class="alert alert-danger">
-                                <strong><i class="fa fa-fw fa-exclamation-circle"></i> שגיאה:</strong> לא ניתן להכנס למערכת. שם המשתמש ו/או הסיסמא אינם תקינים.
-                            </div>
-                            <?php endif; ?>
-                            <div class="form-group">
-                                <label>משתמש:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                    <input class="form-control" type="email" name="user_email" value="<?php echo $this->get('last-user-email')?>" required autofocus data-error="יש להזין דואר אלקטרוני כמזהה משתמש" placeholder="דואר אלקטרוני">
-                                </div>
-                                <span class="help-block with-errors no-margin"></span>
-                            </div>
-                            <div class="form-group no-margin">
-                                <label>סיסמא:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                                    <input class="form-control" type="password" name="user_password" value="<?php echo $this->get('last-user-password')?>" required data-error="יש להזין סיסמא.">
-                                </div>
-                                <span class="help-block with-errors no-margin"></span>
-                            </div>
+                        <div class="form-group">
+                            <label for="user-password">סיסמא:</label>
+                            <input class="form-control" type="password" id="user-password" name="user_password" required>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="panel-footer text-left">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> כניסה</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="panel-footer text-left">
+                    <a class="btn btn-link" href="<?php $this->public_path() ?>/forgot-password">שכחת סיסמא?</a>
+                    <button class="btn btn-primary" onclick="$('#login-form').submit()"><i class="fa fa-sign-in"></i> התחבר</button>
+                </div>
             </div>
         </div>
     </div>
-    <?php
+</div>
+<?php
         $this->include_shared_view('footer');
     }
-}
+
+} 

@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,24 +21,23 @@
  */
 
 /**
- * Class Trident_Log
- *
- * Log handling
+ * Class Trident_Log.
+ * Log functions to create log files.
  */
 class Trident_Log
 {
 
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     private $_configuration;
 
     /**
-     * Constructor
-     *
      * Inject dependencies.
      *
-     * @param Trident_Configuration $configuration
+     * @param Trident_Configuration $configuration Configuration instance.
      */
     function __construct($configuration)
     {
@@ -50,18 +45,17 @@ class Trident_Log
     }
 
     /**
-     * Append log entry to a log file
+     * Append log entry to a log file.
      *
-     * @param string $log_file log file
-     * @param string $log_entry log entry
-     *
-     * @throws Trident_Exception
+     * @param string $log_file  Log file prefix.
+     * @param string $log_entry Log entry.
      */
     public function entry($log_file, $log_entry)
     {
         if (is_null($this->_configuration->get('paths', 'logs')))
         {
-            throw new Trident_Exception("Logs path is not configured in the configuration file", TRIDENT_ERROR_MISSING_LOGS_PATH);
+            error_log("Trident framework: Logs path is not configured in the configuration file");
+            http_response(500);
         }
         $date = date('d/m/Y');
         $time = date('H:i:s');
@@ -71,18 +65,19 @@ class Trident_Log
         }
         $data = "\"$date\",\"$time\",\"$log_entry\"" . PHP_EOL;
         $prefix = is_null($value = $this->_configuration->get('paths', 'prefix')) ? '' : $value;
-        $file = $this->_configuration->get('paths', 'logs') . DS . $prefix . $log_file . date('d_m_Y');
+        $file = $this->_configuration->get('paths', 'logs') . DS . $prefix . $log_file . '_' . date('d_m_Y');
         $log_file = $file;
         if (!is_null($this->_configuration->get('log', 'max_size')))
         {
             $i = 1;
-            while (file_exists($log_file) && filesize($log_file) > $this->_configuration->get('log', 'max_size'))
+            $max_size = $this->_configuration->get('log', 'max_size');
+            while (file_exists($log_file . '.txt') && filesize($log_file . '.txt') > $max_size)
             {
-                $log_file = $file . "_part_$i";
+                $log_file = $file . "_$i";
                 $i++;
             }
         }
         $log_file .= '.txt';
-        file_put_contents($log_file, $data, FILE_APPEND | LOCK_EX);
+        file_put_contents($log_file, $data, LOCK_EX);
     }
 }

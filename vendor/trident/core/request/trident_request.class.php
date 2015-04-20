@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,74 +22,113 @@
 
 /**
  * Class Trident_Request
- *
- * A wrapper class for all of the client request elements such as client information (browser, ip etc),
- * get, post, cookies and uploaded files.
+ * A wrapper class for all of the client request elements such as client information (browser, ip etc), get, post,
+ * cookies and uploaded files.
  */
 class Trident_Request
 {
 
     /**
+     * Request Post instance.
+     *
      * @var Trident_Request_Post
      */
     public $post;
+
     /**
+     * Request Get instance.
+     *
      * @var Trident_Request_Get
      */
     public $get;
+
     /**
+     * Request Cookie instance.
+     *
      * @var Trident_Request_Cookie
      */
     public $cookie;
+
     /**
+     * Request Files instance.
+     *
      * @var Trident_Request_Files
      */
     public $files;
+
     /**
+     * Request client's ip address.
+     *
      * @var string
      */
     public $from_ip;
+
     /**
+     * Request URI.
+     *
      * @var string
      */
     public $uri;
+
     /**
+     * Request type (GET, POST etc.).
+     *
      * @var string
      */
     public $type;
+
     /**
+     * Client browser name.
+     *
      * @var string
      */
     public $browser;
+
     /**
+     * Client platform name.
+     *
      * @var string
      */
     public $platform;
+
     /**
+     * Client browser version.
+     *
      * @var string
      */
     public $browser_version;
+
     /**
+     * Is the request a secure (https) request.
+     *
      * @var bool
      */
     public $https;
+
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     private $_configuration;
 
     /**
-     * Constructor
+     * Log instance.
      *
-     * Initializes the class variables.
-     *
-     * @param Trident_Configuration $configuration
-     *
-     * @throws Trident_Exception
+     * @var Trident_Log
      */
-    function __construct($configuration)
+    private $_log;
+
+    /**
+     * Initializes the class variables and inject configuration. instance.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param Trident_Log $log Log instance.
+     */
+    function __construct($configuration, $log)
     {
         $this->_configuration = $configuration;
+        $this->_log = $log;
         $this->post = new Trident_Request_Post($this->_configuration);
         $this->get = new Trident_Request_Get($this->_configuration);
         $this->cookie = new Trident_Request_Cookie($this->_configuration);
@@ -109,9 +144,9 @@ class Trident_Request
     }
 
     /**
-     * Parses the client ip from the global server array
+     * Parses the client ip from the global server array.
      *
-     * @return string
+     * @return string The client's ip address.
      */
     private function _parse_ip()
     {
@@ -162,16 +197,15 @@ class Trident_Request
     }
 
     /**
-     * Parses a user agent string into its important parts
+     * Parses a user agent string into its important parts.
      *
      * @author Jesse G. Donat <donatj@gmail.com>
      * @link   https://github.com/donatj/PhpUserAgent
      * @link   http://donatstudios.com/PHP-Parser-HTTP_USER_AGENT
      *
-     * @param string|null $user_agent User agent string to parse or null. Uses $_SERVER['HTTP_USER_AGENT'] on NULL
+     * @param string|null $user_agent User agent string to parse or null. Uses $_SERVER['HTTP_USER_AGENT'] on null.
      *
-     * @throws Trident_Exception
-     * @return string[] an array with browser, version and platform keys
+     * @return string[] An array with browser, version and platform keys.
      */
     private function _parse_user_agent($user_agent = null)
     {
@@ -183,8 +217,8 @@ class Trident_Request
             }
             else
             {
-                throw new Trident_Exception("Can't parse user agent. No user agent string is given", TRIDENT_ERROR_URI_PARSE_NA);
-
+                error_log("Trident framework: Can't parse user agent. No user agent string is given");
+                return ['browser' => 'n/a', 'version' => 'n/a', 'platform' => 'n/a'];
             }
         }
 
@@ -240,7 +274,7 @@ class Trident_Request
 			NintendoBrowser|PLAYSTATION\ (\d|Vita)+)
 			(?:\)?;?)
 			(?:(?:[:/ ])(?P<version>[0-9A-Z.]+)|/(?:[A-Z]*))%ix',
-            $user_agent, $result, PREG_PATTERN_ORDER);
+                       $user_agent, $result, PREG_PATTERN_ORDER);
 
         // If nothing matched, return null (to avoid undefined index errors)
         if (!isset($result['browser'][0]) || !isset($result['version'][0]))

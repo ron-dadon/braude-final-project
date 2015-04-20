@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,47 +21,68 @@
  */
 
 /**
- * Class Trident_Abstract_Controller
- *
- * Abstract controller class for creating controllers
+ * Class Trident_Abstract_Controller.
+ * Abstract controller class for creating controllers.
  */
 abstract class Trident_Abstract_Controller
 {
 
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     protected $configuration;
+
     /**
+     * Request instance.
+     *
      * @var Trident_Request
      */
     protected $request;
+
     /**
+     * Session instance.
+     *
      * @var Trident_Session
      */
     protected $session;
+
     /**
+     * Database instance.
+     *
      * @var Trident_Abstract_Database
      */
     protected $database;
+
     /**
+     * IO instance.
+     *
      * @var Trident_IO
      */
     protected $io;
+
     /**
+     * Log instance.
+     *
      * @var Trident_Log
      */
     protected $log;
 
     /**
-     * Constructor
+     * Libraries instance.
      *
-     * Inject dependencies
+     * @var Trident_Libraries
+     */
+    protected $libraries;
+
+    /**
+     * Inject dependencies.
      *
-     * @param Trident_Configuration $configuration
-     * @param Trident_Request $request
-     * @param Trident_Log $log
-     * @param Trident_Session $session
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param Trident_Request       $request       Request instance.
+     * @param Trident_Log           $log           Log instance.
+     * @param Trident_Session       $session       Session instance.
      */
     function __construct($configuration, $log, $request, $session)
     {
@@ -74,20 +91,19 @@ abstract class Trident_Abstract_Controller
         $this->request = $request;
         $this->session = $session;
         $this->io = new Trident_IO();
+        $this->libraries = new Trident_Libraries($this->configuration, $this->log,
+            $this->request, $this->session, $this->io);
     }
 
     /**
-     * Load database instance
-     *
-     * Database instance will be available through $this->_database
-     *
-     * @throws Trident_Exception
+     * Load database instance.
+     * Database instance will be available through $this->_database.
      */
     protected function load_database()
     {
         if ($this->configuration->section_exists('database'))
         {
-            if (!is_null($type = $this->configuration->get('database','type')))
+            if (!is_null($type = $this->configuration->get('database', 'type')))
             {
                 $database_type = $type;
             }
@@ -105,36 +121,40 @@ abstract class Trident_Abstract_Controller
                 // MySql error code 1045 means that access was denied for the user
                 if ($e->getCode() === 1045)
                 {
-                    throw new Trident_Exception("Database access denied", TRIDENT_ERROR_DATABASE_ACCESS_DENIED);
+                    error_log("Trident framework: Access to database denied. Please check configuration.");
+                    $this->response_code(500, "Database access denied.");
                 }
                 // MySql error code 1049 means that the database doesn't exists
                 if ($e->getCode() === 1049)
                 {
-                    throw new Trident_Exception("Database doesn't exists", TRIDENT_ERROR_DATABASE_NOT_EXISTS);
+                    error_log("Trident framework: Database doesn't exists. Please check configuration.");
+                    $this->response_code(500, "Database doesn't exists.");
                 }
                 // MySql error code 2002 means that database host can't be reached
                 if ($e->getCode() === 2002)
                 {
-                    throw new Trident_Exception("Database is not reachable", TRIDENT_ERROR_DATABASE_NA);
+                    error_log("Trident framework: Database server is unavailable. Please check configuration.");
+                    $this->response_code(500, "Database unavailable.");
                 }
-                throw new Trident_Exception("Database error", TRIDENT_ERROR_DATABASE_GENERAL, $e);
+                error_log("Trident framework: Unknown database error. PDO message: " . $e->getMessage());
+                $this->response_code(500, "Database error.");
             }
         }
         else
         {
-            throw new Trident_Exception("Can't load database, missing required configuration section", TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION);
+            error_log("Trident framework: Database configuration is missing. Can't load database object.");
+            $this->response_code(500, "Database error.");
         }
     }
 
     /**
-     * Load view instance
-     *
+     * Load view instance.
      * If $view is not specified, loads the view according to the calling callable (controller_function_view).
      *
-     * @param array $view_data view data variables
-     * @param null  $view view name
+     * @param array $view_data View data array.
+     * @param null  $view      View name.
      *
-     * @return Trident_Abstract_View
+     * @return Trident_Abstract_View View instance.
      */
     protected function load_view($view_data = [], $view = null)
     {
@@ -145,51 +165,56 @@ abstract class Trident_Abstract_Controller
         }
         else
         {
-            if (strtolower(substr($view,-5,5)) !== '_view')
+            if (strtolower(substr($view, -5, 5)) !== '_view')
             {
                 $view .= '_view';
             }
+        }
+        if (!class_exists($view))
+        {
+            error_log("Trident framework: Can't load view $view. View class doesn't exists.");
+            $this->response_code(500);
         }
         return new $view($this->configuration, $view_data);
     }
 
     /**
-     * Load model instance
+     * Load model instance.
      *
-     * @param string $model model name
+     * @param string $model Model name.
      *
-     * @return Trident_Abstract_Model
+     * @return Trident_Abstract_Model Model instance.
      */
     protected function load_model($model)
     {
-        if (strtolower(substr($model,-6,6)) !== '_model')
+        if (strtolower(substr($model, -6, 6)) !== '_model')
         {
             $model .= '_model';
+        }
+        if (!class_exists($model))
+        {
+            error_log("Trident framework: Can't load model $model. Model class doesn't exists.");
+            $this->response_code(500);
         }
         return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
 
     /**
-     * Load library instance
+     * Load library instance.
+     * Library will be available through $this->libraries->library name.
      *
-     * @param string $library library name
-     *
-     * @return Trident_Abstract_Library
+     * @param string $library Library name.
      */
     protected function load_library($library)
     {
-        if (strtolower(substr($library,-8,8)) !== '_library')
-        {
-            $library .= '_library';
-        }
-        return new $library($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
+        $this->libraries->load_library($library);
     }
 
     /**
-     * Redirect
+     * Redirect.
      *
-     * @param string $uri redirect uri
-     * @param bool $base use public path as prefix
+     * @param string $uri  Redirect URI.
+     * @param bool   $base Use public path as prefix.
      */
     protected function redirect($uri, $base = true)
     {
@@ -199,18 +224,28 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Download a file
+     * Sends a response to the client.
      *
-     * @param string $file path to file
-     * @param string $file_name optional file name
+     * @param int $code Response code.
+     * @param string $message Response message.
+     */
+    protected function response_code($code, $message = null)
+    {
+        http_response($code, $this->configuration->get('environment', 'display_response_errors') === true, $message);
+    }
+
+    /**
+     * Download a file.
      *
-     * @throws Trident_Exception
+     * @param string $file      Path to file.
+     * @param string $file_name Optional file name.
      */
     protected function download_file($file, $file_name = '')
     {
         if (!file_exists($file) || !is_readable($file))
         {
-            throw new Trident_Exception("Can't read file $file for download", TRIDENT_ERROR_DOWNLOAD_FILE_NOT_READABLE);
+            error_log("Trident framework: Can't download file $file. File doesn't exists or is unreadable");
+            $this->response_code(500);
         }
         header('Content-Type: application/octet-stream');
         header("Content-Transfer-Encoding: Binary");
@@ -220,10 +255,10 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Download data as a file
+     * Download data as a file.
      *
-     * @param string $data file data
-     * @param string $file_name file name
+     * @param string $data      File data.
+     * @param string $file_name File name.
      */
     protected function download_data($data, $file_name)
     {
@@ -233,5 +268,4 @@ abstract class Trident_Abstract_Controller
         echo $data;
         exit();
     }
-
 }
