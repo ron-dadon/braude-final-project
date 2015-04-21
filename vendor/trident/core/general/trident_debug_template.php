@@ -1,5 +1,5 @@
 <!-- Debug information -->
-<div class="container">
+<div class="container" style="margin-top: 15px">
     <script>
         function toogle_debug_panel()
         {

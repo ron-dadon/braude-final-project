@@ -1,7 +1,7 @@
 {
     "environment": {
         "production": false,
-        "debug": true,
+        "debug": false,
         "display_response_errors": true,
         "time_zone": "israel",
         "session_prefix": "iacs_"

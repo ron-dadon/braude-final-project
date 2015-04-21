@@ -5,10 +5,6 @@ class Main_Controller extends IACS_Controller
 
     public function index()
     {
-        if (!$this->is_logged_in())
-        {
-            //$this->redirect('/login');
-        }
         $this->load_view()->render();
     }
 
@@ -19,6 +15,10 @@ class Main_Controller extends IACS_Controller
 
     public function login()
     {
+        if ($this->request->is_post())
+        {
+            $this->set_alert('success', 'התחברת בהצלחה!', 'כל הכבוד!');
+        }
         $this->load_view()->render();
     }
 

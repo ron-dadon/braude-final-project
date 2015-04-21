@@ -162,7 +162,7 @@ class Trident_Router
             {
                 $route = $route->pattern;
                 error_log("Trident framework: Error dispatching route $route");
-                http_response(500);
+                http_response(404);
             }
         }
         else

@@ -421,4 +421,14 @@ class Trident_Request
 
         return ['platform' => $platform ?: null, 'browser' => $browser ?: null, 'version' => $version ?: null];
     }
+
+    /**
+     * Is the request method is post.
+     *
+     * @return bool True if post request, false otherwise.
+     */
+    public function is_post()
+    {
+        return strtolower($this->type) === 'post';
+    }
 }

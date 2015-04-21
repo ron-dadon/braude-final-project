@@ -5,6 +5,25 @@ class Main_Login_View extends IACS_View
 
     public function render()
     {
+        $fields = [
+            'user_name' => [
+                'type' => 'email',
+                'label' => 'מזהה משתמש:',
+                'holder' => 'מזהה משתמש',
+                'validators' => [
+                    'required',
+                    'data-error="יש להזין מזהה משתמש חוקי. מזהה המשתמש הוא הדואר האלקטרוני המשוייך לחשבונך."'
+                ]
+            ],
+            'user_password' => [
+                'type' => 'password',
+                'label' => 'סיסמא:',
+                'validators' => [
+                    'required',
+                    'data-error="יש להזין סיסמא."'
+                ]
+            ]
+        ];
         $this->include_shared_view('header');
 ?>
 <div class="container-fluid">
@@ -17,17 +36,9 @@ class Main_Login_View extends IACS_View
                 </div>
                 <div class="panel-body">
                     <form method="post" id="login-form" data-toggle="validator">
-                        <div class="form-group">
-                            <label for="user-name">שם משתמש:</label>
-                            <input class="form-control" type="text" id="user-name" name="user_name" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="user-password">סיסמא:</label>
-                            <input class="form-control" type="password" id="user-password" name="user_password" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
+                        <?php $this->create_form_fields($fields) ?>
                     </form>
+                    <?php $this->alert() ?>
                 </div>
                 <div class="panel-footer text-left">
                     <a class="btn btn-link" href="<?php $this->public_path() ?>/forgot-password">שכחת סיסמא?</a>

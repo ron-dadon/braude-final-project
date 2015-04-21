@@ -2,15 +2,23 @@
 
 /* Uncomment next block when using fixed navigation bars */
 body {
-    padding-top: 50px;
+    padding-top: 100px;
 }
 
 .panel {
     box-shadow: 0 0 25px #cccccc;
 }
 
-.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+.navbar>.container .navbar-brand,
+.navbar>.container-fluid .navbar-brand {
     color: #ffffff;
+    margin-right: auto !important;
+    margin-left: 15px !important;
+}
+
+.navbar>.container .collapse.navbar-collapse,
+.navbar>.container-fluid .collapse.navbar-collapse {
+    max-height: 100%;
 }
 
 /* Boot-grid overrides */
@@ -29,10 +37,37 @@ body {
     background-size: cover;
 }
 
+.no-margins {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
 .margin-bottom {
     margin-bottom: 20px;
 }
 
 .margin-top {
     margin-top: 20px;
+}
+
+.upper-bar {
+    padding: 5px 15px;
+    background: #265a88;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 24px;
+    position: fixed;
+    display: block;
+    margin-top: -50px;
+    right: 0;
+    width: 100%;
+    border-bottom: solid 1px #184079;
+}
+
+.upper-bar > small {
+    font-weight: 400;
+    color: #ffffff;
 }

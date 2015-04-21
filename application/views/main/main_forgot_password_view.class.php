@@ -5,6 +5,16 @@ class Main_Forgot_Password_View extends IACS_View
 
     public function render()
     {
+        $fields = [
+            'user_email' => [
+                'type' => 'email',
+                'label' => 'דואר אלקטרוני:',
+                'holder' => 'דואר אלקטרוני',
+                'validators' => [
+                    'required'
+                ]
+            ]
+        ];
         $this->include_shared_view('header');
 ?>
 <div class="container-fluid">
@@ -17,11 +27,7 @@ class Main_Forgot_Password_View extends IACS_View
                 <div class="panel-body">
                     <p>לצורך איפוס הססיסמא אנא הכנס את האימייל המשוייך לחשבונך בשדה מטה. הודעת דואר אלקטרוני המכילה קישור לאיפוס הסיסמא תישלח אלייך בדקות הקרובות.</p>
                     <form method="post" id="forgot-password-form" data-toggle="validator">
-                        <div class="form-group">
-                            <label for="user-email">דואר אלקטרוני:</label>
-                            <input class="form-control" type="email" id="user-email" name="user_email" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
+                        <?php $this->create_form_fields($fields) ?>
                     </form>
                 </div>
                 <div class="panel-footer text-left">

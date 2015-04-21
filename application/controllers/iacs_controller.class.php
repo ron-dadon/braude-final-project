@@ -70,6 +70,34 @@ abstract class IACS_Controller extends Trident_Abstract_Controller
         return $user;
     }
 
+    public function set_alert($type, $title, $message)
+    {
+        switch ($type)
+        {
+            case 'success':
+                $icon = 'fa fa-fw fa-check-circle';
+                break;
+            case 'danger':
+                $icon = 'fa fa-fw fa-times-circle';
+                break;
+            case 'warning':
+                $icon = 'fa fa-fw fa-exclamation-circle';
+                break;
+            case 'info':
+                $icon = 'fa fa-fw fa-info-circle';
+                break;
+            default:
+                $icon = 'fa fa-fw fa-circle';
+        }
+        $alert = [
+            'type' => $type,
+            'title' => $title,
+            'message' => $message,
+            'icon' => $icon
+        ];
+        $this->session->set('alert', $alert);
+    }
+
     /**
      * Load view instance.
      * If $view is not specified, loads the view according to the calling callable (controller_function_view).
@@ -88,6 +116,8 @@ abstract class IACS_Controller extends Trident_Abstract_Controller
             $view = str_replace('_controller', '', strtolower(get_class($this))) . '_' . $view . '_view';
         }
         $view_data['user'] = $this->get_logged_user();
+        $view_data['alert'] = $this->session->pull('alert');
+        $view_data['controller'] = str_replace('_controller', '', strtolower(get_class($this)));
         return parent::load_view($view_data, $view);
     }
 
