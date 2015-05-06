@@ -29,7 +29,7 @@ class Main_Login_View extends IACS_View
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-lg-4 col-lg-offset-4">
-            <img src="<?php $this->public_path() ?>/images/logo.png" class="img-responsive margin-bottom margin-top">
+            <img src="<?php $this->public_path() ?>/images/logo.png" class="img-responsive margin-bottom">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>התחברות</strong>

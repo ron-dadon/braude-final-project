@@ -106,6 +106,13 @@ class Trident_Request
     public $https;
 
     /**
+     * Is the request is a AJAX request.
+     *
+     * @var bool
+     */
+    public $ajax;
+
+    /**
      * Configuration instance.
      *
      * @var Trident_Configuration
@@ -136,6 +143,7 @@ class Trident_Request
         $this->uri = htmlspecialchars($_SERVER['REQUEST_URI']);
         $this->type = filter_var($_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING);
         $this->https = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || $_SERVER['SERVER_PORT'] === 443;
+        $this->ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
         $this->from_ip = $this->_parse_ip();
         $agent = $this->_parse_user_agent();
         $this->browser = $agent['browser'];
