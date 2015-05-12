@@ -1,24 +1,45 @@
 {
-    "base": "/iacs/public_html",
+    "prefix": "/Final-Project/Public",
     "default": {
-        "controller": "main",
-        "function": "error"
+        "pattern": "",
+        "controller": "Main",
+        "method": "Error"
     },
     "routes": [
         {
             "pattern": "/",
-            "controller": "main",
-            "function": "index"
+            "controller": "Main",
+            "method": "Index"
         },
         {
-            "pattern": "/login",
-            "controller": "main",
-            "function": "login"
+            "pattern": "/Clients",
+            "controller": "Clients",
+            "method": "Index"
         },
         {
-            "pattern": "/forgot-password",
-            "controller": "main",
-            "function": "forgot_password"
+            "pattern": "/Products",
+            "controller": "Products",
+            "method": "Index"
+        },
+        {
+            "pattern": "/Quotes",
+            "controller": "Quotes",
+            "method": "Index"
+        },
+        {
+            "pattern": "/Invoices",
+            "controller": "Invoices",
+            "method": "Index"
+        },
+        {
+            "pattern": "/Licenses",
+            "controller": "Licenses",
+            "method": "Index"
+        },
+        {
+            "pattern": "/Reports",
+            "controller": "Reports",
+            "method": "Index"
         }
     ]
 }
