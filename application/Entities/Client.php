@@ -19,6 +19,7 @@ class Client extends Entity {
     public $phone;
     public $email;
     public $website;
+    public $delete;
 
     function __construct()
     {
@@ -66,6 +67,11 @@ class Client extends Entity {
         {
             $valid = false;
             $this->_errors['website'] = "Website is not in a valid format";
+        }
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
         }
 
         return $valid;

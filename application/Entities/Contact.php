@@ -20,6 +20,7 @@ class Contact extends  Entity {
     public $fax;
     public $email;
     public $position;
+    public $delete;
 
     function __construct()
     {
@@ -70,6 +71,11 @@ class Contact extends  Entity {
         {
             $valid = false;
             $this->_errors['position'] = "position must be at least 1 character and up to 20";
+        }
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
         }
         return $valid;
     }

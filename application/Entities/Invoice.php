@@ -18,6 +18,7 @@ class Invoice extends Entity {
     public $creationDate;
     public $receipt;
     public $taxInvoice;
+    public $delete;
 
     function __construct()
     {
@@ -59,6 +60,11 @@ class Invoice extends Entity {
         {
             $valid = false;
             $this->_errors['taxInvoice'] = "Tax Invoice must be up to 30 characters";
+        }
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
         }
 
 

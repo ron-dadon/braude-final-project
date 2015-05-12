@@ -17,6 +17,7 @@ class Product extends Entity {
     public $description;
     public $basePrice;
     public $type;
+    public $delete;
     /**software*/
     public $version;
     public $license;
@@ -69,7 +70,11 @@ class Product extends Entity {
             $valid = false;
             $this->_errors['version'] = "version must be in a valid format ";
         }
-
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
+        }
         return $valid;
     }
 

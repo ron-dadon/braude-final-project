@@ -18,6 +18,7 @@ class Quote extends Entity {
     public $creationDate;
     public $validTo;
     public $status;
+    public $delete;
 
     function __construct()
     {
@@ -59,6 +60,11 @@ class Quote extends Entity {
         {
             $valid = false;
             $this->_errors['status'] = "status must be at least 1 character and up to 20";
+        }
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
         }
         return $valid;
 

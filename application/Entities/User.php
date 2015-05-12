@@ -15,6 +15,7 @@ class User extends Entity
     public $lastName;
     public $email;
     public $privilege;
+    public $delete;
 
     function __construct()
     {
@@ -58,7 +59,11 @@ class User extends Entity
             $valid = false;
             $this->_errors['password'] = "password is not in a valid format";
         }
-
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
+        }
         return $valid;
     }
 

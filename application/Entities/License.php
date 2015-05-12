@@ -18,6 +18,7 @@ class License extends Entity {
     public $serial;
     public $creationDate;
     public $validUntil;
+    public $delete;
 
     function __construct()
     {
@@ -50,6 +51,11 @@ class License extends Entity {
         {
             $valid = false;
             $this->_errors['validUntil'] = "valid Until must be a valid date format";
+        }
+        if (!$this->isBoolean($this->delete))
+        {
+            $valid = false;
+            $this->_errors['delete'] = "Delete must be 1 or 0 only";
         }
 
         /** add serial check */

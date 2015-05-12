@@ -7,7 +7,7 @@ use Application\Entities\User;
 
 class Users extends AbstractModel
 {
-
+/**add non deleted find**/
     public function getById($id)
     {
         return $this->getORM()->findById('User', $id);
@@ -15,7 +15,7 @@ class Users extends AbstractModel
 
     public function getAll()
     {
-        return $this->getORM()->find('User');
+        return $this->getORM()->find('User', "user_delete = 0");
     }
 
     public function search($term, $values)
@@ -24,7 +24,7 @@ class Users extends AbstractModel
         {
             throw new \InvalidArgumentException("Search users values mush be an array");
         }
-        return $this->getORM()->find('User',$term, $values);
+        return $this->getORM()->find('User',"$term AND user_delete = 0", $values);
     }
 
     /**
@@ -36,5 +36,17 @@ class Users extends AbstractModel
     {
         return $this->getORM()->save($user);
     }
+    /**
+     * @param User $user
+     *
+     * @return \Trident\Database\Result
+     */
+    public function delete($user)
+    {
+        $user->delete = 1;
+        return $this->getORM()->save($user);
+
+    }
+
 
 } 
