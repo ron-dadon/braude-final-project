@@ -28,6 +28,14 @@ class Header extends AbstractView
     <!--[if IE]><link rel="shortcut icon" href="<?php $this->publicPath() ?>images/favicon.ico"><![endif]-->
     <link rel="apple-touch-icon" href="<?php $this->publicPath() ?>images/favicon.png">
     <link rel="icon" href="<?php $this->publicPath() ?>images/favicon.png">
+    <?php $this->js('js/jquery.min.js') ?>
+    <?php $this->js('js/bootstrap.min.js') ?>
+    <?php $this->js('js/bootstrap-file-input.min.js') ?>
+    <?php $this->js('js/bootstrap-file-input-he.min.js') ?>
+    <?php $this->js('js/bootstrap-grid.min.js') ?>
+    <?php $this->js('js/bootstrap-select.min.js') ?>
+    <?php $this->js('js/bootstrap-tree.min.js') ?>
+    <?php $this->js('js/bootstrap-validator.min.js') ?>
 </head>
 <body>
 <?php
@@ -37,6 +45,12 @@ class Header extends AbstractView
     {
         $file = $this->publicPath(true) . $file;
         echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $file . "\">" . PHP_EOL;
+    }
+
+    public function js($file)
+    {
+        $file = $this->publicPath(true) . $file;
+        echo "<script src=\"" . $file . "\"></script>" . PHP_EOL;
     }
 
 }

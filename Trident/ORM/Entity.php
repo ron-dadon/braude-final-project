@@ -322,6 +322,45 @@ abstract class Entity
     }
 
     /**
+     * Validate a string is a valid date (yyyy-mm-dd)
+     *
+     * @param string $var Variable to validate.
+     *
+     * @return bool True if valid date false otherwise.
+     */
+    protected function isDate($var)
+    {
+        $d = \DateTime::createFromFormat("Y-m-d", $var);
+        return $d !== false;
+    }
+
+    /**
+     * Validate a string is a valid date-time (yyyy-mm-dd hh:ii:ss)
+     *
+     * @param string $var Variable to validate.
+     *
+     * @return bool True if valid date-time false otherwise.
+     */
+    protected function isDateTime($var)
+    {
+        $d = \DateTime::createFromFormat("Y-m-d H:i:s", $var);
+        return $d !== false;
+    }
+
+    /**
+     * Validate a string is a valid time (hh:ii:ss)
+     *
+     * @param string $var Variable to validate.
+     *
+     * @return bool True if valid time false otherwise.
+     */
+    protected function isTime($var)
+    {
+        $d = \DateTime::createFromFormat("H:i:s", $var);
+        return $d !== false;
+    }
+
+    /**
      * Validate a string exists in a list.
      *
      * @param string $var  Variable to validate.
