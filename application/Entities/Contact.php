@@ -1,18 +1,25 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: פרנקו
+ * Date: 12/05/2015
+ * Time: 14:43
+ */
 
-namespace Application\Entities;
+namespace application\Entities;
+
 
 use Trident\ORM\Entity;
 
-class User extends Entity
-{
+class Contact extends  Entity {
 
     public $id;
     public $firstName;
     public $lastName;
+    public $phone;
+    public $fax;
     public $email;
-    public $privilege;
-
+    public $position;
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.
@@ -22,12 +29,7 @@ class User extends Entity
      */
     public function isValid()
     {
-        $valid = true;
-        if (!$this->isString($this->firstName, 1, 20))
-        {
-            $valid = false;
-            $this->_errors['firstName'] = "First name must be a";
-        }
+        // TODO: Implement isValid() method.
     }
 
-}
+} 
