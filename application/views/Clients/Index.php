@@ -34,6 +34,12 @@ class Index extends AbstractView
                         <td>Phone 1</td>
                         <td>Actions</td>
                     </tr>
+                    <tr>
+                        <td>Client 2</td>
+                        <td>Address 2</td>
+                        <td>Phone 2</td>
+                        <td>Actions</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -42,10 +48,7 @@ class Index extends AbstractView
         </div>
     </div>
 </div>
-<input type="date" onchange="alert($(this).val())">
-<script>
-    $('#clients-table').bootgrid();
-</script>
+<script src="<?php $this->publicPath() ?>js/clients-index.js"></script>
 <?php
         $this->getSharedView('Footer')->render();
     }

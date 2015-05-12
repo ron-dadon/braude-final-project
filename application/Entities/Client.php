@@ -12,12 +12,21 @@ namespace application\Entities;
 use Trident\ORM\Entity;
 
 class Client extends Entity {
+
     public $id;
     public $name;
     public $address;
     public $phone;
     public $email;
     public $website;
+
+    function __construct()
+    {
+        $this->_table = "users";
+        $this->_prefix = "user_";
+        $this->_primary = "id";
+    }
+
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.

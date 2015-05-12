@@ -25,7 +25,7 @@ class LogoutModal extends AbstractView
                     Are you sure you want to logout?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-link" data-dismiss="modal"><i class="fa fa-fw fa-times"></i> Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-fw fa-times"></i> Cancel</button>
                     <button type="button" class="btn btn-danger"><i class="fa fa-fw fa-check"></i> Logout</button>
                 </div>
             </div>
