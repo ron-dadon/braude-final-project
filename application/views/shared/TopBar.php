@@ -27,7 +27,7 @@ class TopBar extends AbstractView
             <div class="collapse navbar-collapse" id="mobile-menu">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="#"><i class="fa fa-fw fa-cogs"></i> Settings</a></li>
-                    <li class="danger"><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                    <li class="danger"><a href="#" data-toggle="modal" data-target="#logout-modal"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
                 </ul>
            </div>
         </div>

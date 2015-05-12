@@ -8,7 +8,8 @@ use \Trident\MVC\AbstractView;
 class Footer extends AbstractView
 {
 
-    public function render() { ?>
+    public function render() {
+        $this->getSharedView('LogoutModal')->render(); ?>
     <?php $this->js('js/jquery.min.js') ?>
     <?php $this->js('js/bootstrap.min.js') ?>
     <?php $this->js('js/bootstrap-file-input.min.js') ?>
