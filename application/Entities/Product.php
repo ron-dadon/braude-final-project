@@ -22,7 +22,6 @@ class Product extends Entity {
     public $license;
     /**training*/
     public $length;
-    public $units;
 
     /**
      * Implement validation rules.
@@ -33,7 +32,39 @@ class Product extends Entity {
      */
     public function isValid()
     {
-        // TODO: Implement isValid() method.
+        $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
+        if (!$this->isString($this->name, 1, 50))
+        {
+            $valid = false;
+            $this->_errors['name'] = "Name must be at least 1 character and up to 50";
+        }
+        if (!$this->isString($this->description, 0, 65535))
+        {
+            $valid = false;
+            $this->_errors['description'] = "Description must be up to 65535";
+        }
+        if (!$this->isFloat($this->basePrice,0))
+        {
+            $valid = false;
+            $this->_errors['basePrice'] = "Base Price must be in a valid format ";
+        }
+        if (!$this->isInteger($this->length,0))
+        {
+            $valid = false;
+            $this->_errors['length'] = "length must be in a valid format ";
+        }
+        if (!$this->isPattern($this->version,'/^[0-9a-zA-Z\.\s]{,20}&/'))
+        {
+            $valid = false;
+            $this->_errors['version'] = "version must be in a valid format ";
+        }
+
+        return $valid;
     }
 
 

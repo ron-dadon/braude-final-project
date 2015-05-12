@@ -27,7 +27,34 @@ class Quote extends Entity {
      */
     public function isValid()
     {
-        // TODO: Implement isValid() method.
+        $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
+        if (!$this->isString($this->note, 0, 65535))
+        {
+            $valid = false;
+            $this->_errors['note'] = "Note must be up to 65535 characters";
+        }
+        if (!$this->isDate($this->creationDate))
+        {
+            $valid = false;
+            $this->_errors['creationDate'] = "Creation Date must be a valid date format";
+        }
+        if (!$this->isDate($this->validTo))
+        {
+            $valid = false;
+            $this->_errors['validTo'] = "Creation Date must be a valid date format";
+        }
+        if (!$this->isString($this->status, 1, 30))
+        {
+            $valid = false;
+            $this->_errors['status'] = "status must be at least 1 character and up to 20";
+        }
+        return $valid;
+
     }
 
 } 

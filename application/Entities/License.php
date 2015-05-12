@@ -27,7 +27,22 @@ class License extends Entity {
      */
     public function isValid()
     {
-        // TODO: Implement isValid() method.
+        $valid = true;
+        if (!$this->isDate($this->creationDate))
+        {
+            $valid = false;
+            $this->_errors['creationDate'] = "Creation Date must be a valid date format";
+        }
+        if (!$this->isDate($this->validUntil))
+        {
+            $valid = false;
+            $this->_errors['validUntil'] = "valid Until must be a valid date format";
+        }
+
+        /** add serial check */
+
+        return $valid;
+
     }
 
 } 

@@ -27,7 +27,35 @@ class Invoice extends Entity {
      */
     public function isValid()
     {
-        // TODO: Implement isValid() method.
+        $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
+        if (!$this->isString($this->note, 0, 65535))
+        {
+            $valid = false;
+            $this->_errors['note'] = "Note must be up to 65535 characters";
+        }
+        if (!$this->isDate($this->creationDate))
+        {
+            $valid = false;
+            $this->_errors['creationDate'] = "Creation Date must be a valid date format";
+        }
+        if (!$this->isString($this->receipt, 0, 30))
+        {
+            $valid = false;
+            $this->_errors['receipt'] = "Receipt must be up to 30 characters";
+        }
+        if (!$this->isString($this->taxInvoice, 0, 30))
+        {
+            $valid = false;
+            $this->_errors['taxInvoice'] = "Tax Invoice must be up to 30 characters";
+        }
+
+
+        return $valid;
     }
 
 } 

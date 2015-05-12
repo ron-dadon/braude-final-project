@@ -29,7 +29,44 @@ class Contact extends  Entity {
      */
     public function isValid()
     {
-        // TODO: Implement isValid() method.
+        $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
+        if (!$this->isString($this->firstName, 1, 20))
+        {
+            $valid = false;
+            $this->_errors['firstName'] = "First name must be at least 1 character and up to 20";
+        }
+        if (!$this->isString($this->lastName, 1, 20))
+        {
+            $valid = false;
+            $this->_errors['lastName'] = "Last name must be at least 1 character and up to 20";
+        }
+        if (!$this->isEmail($this->email))
+        {
+            $valid = false;
+            $this->_errors['email'] = "Email is not in a valid format";
+        }
+        if (!$this->isPattern($this->phone,'/^[0-9]{9,10}|[0-9]{2,3}\-[0-9]{7}$/'))
+        {
+        $valid = false;
+        $this->_errors['phone'] = "Phone must be 9 or 10 digits long and can allow a -";
+        }if (!$this->isPattern($this->fax,'/^[0-9]{9,10}|[0-9]{2,3}\-[0-9]{7}$/'))
+        {
+        $valid = false;
+        $this->_errors['fax'] = "Fax must be 9 or 10 digits long and can allow a -";
+        }
+        if (!$this->isString($this->position, 1, 30))
+        {
+            $valid = false;
+            $this->_errors['position'] = "position must be at least 1 character and up to 20";
+        }
+        return $valid;
+
+
     }
 
 } 
