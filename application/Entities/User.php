@@ -16,6 +16,13 @@ class User extends Entity
     public $email;
     public $privilege;
 
+    function __construct()
+    {
+        $this->_table = "users";
+        $this->_prefix = "user_";
+        $this->_primary = "id";
+    }
+
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.
@@ -26,6 +33,11 @@ class User extends Entity
     public function isValid()
     {
         $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
         if (!$this->isString($this->firstName, 1, 20))
         {
             $valid = false;

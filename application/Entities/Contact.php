@@ -20,6 +20,13 @@ class Contact extends  Entity {
     public $fax;
     public $email;
     public $position;
+
+    function __construct()
+    {
+        $this->_table = "contacts";
+        $this->_prefix = "contact_";
+        $this->_primary = "id";
+    }
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.
@@ -65,8 +72,6 @@ class Contact extends  Entity {
             $this->_errors['position'] = "position must be at least 1 character and up to 20";
         }
         return $valid;
-
-
     }
 
 } 

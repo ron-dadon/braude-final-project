@@ -13,10 +13,18 @@ use Trident\ORM\Entity;
 
 class License extends Entity {
 
+    public $id;
     public $type;
     public $serial;
     public $creationDate;
     public $validUntil;
+
+    function __construct()
+    {
+        $this->_table = "licenses";
+        $this->_prefix = "license_";
+        $this->_primary = "id";
+    }
 
     /**
      * Implement validation rules.
@@ -28,6 +36,11 @@ class License extends Entity {
     public function isValid()
     {
         $valid = true;
+        if (!$this->isInteger($this->id, 1) && $this->id !== null)
+        {
+            $valid = false;
+            $this->_errors['id'] = "Invalid id";
+        }
         if (!$this->isDate($this->creationDate))
         {
             $valid = false;

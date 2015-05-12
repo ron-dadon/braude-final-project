@@ -23,6 +23,12 @@ class Product extends Entity {
     /**training*/
     public $length;
 
+    function __construct()
+    {
+        $this->_table = "products";
+        $this->_prefix = "product_";
+        $this->_primary = "id";
+    }
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.

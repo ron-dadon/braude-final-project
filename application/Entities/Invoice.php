@@ -18,6 +18,13 @@ class Invoice extends Entity {
     public $creationDate;
     public $receipt;
     public $taxInvoice;
+
+    function __construct()
+    {
+        $this->_table = "invoices";
+        $this->_prefix = "invoice_";
+        $this->_primary = "id";
+    }
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.

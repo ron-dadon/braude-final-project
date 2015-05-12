@@ -18,6 +18,13 @@ class Quote extends Entity {
     public $creationDate;
     public $validTo;
     public $status;
+
+    function __construct()
+    {
+        $this->_table = "quotes";
+        $this->_prefix = "quote_";
+        $this->_primary = "id";
+    }
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.

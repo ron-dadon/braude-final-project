@@ -22,8 +22,8 @@ class Client extends Entity {
 
     function __construct()
     {
-        $this->_table = "users";
-        $this->_prefix = "user_";
+        $this->_table = "clients";
+        $this->_prefix = "client_";
         $this->_primary = "id";
     }
 
