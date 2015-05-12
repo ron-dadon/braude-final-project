@@ -89,7 +89,7 @@ class Mapper
      *
      * @param string     $entity Entity class name.
      * @param int|string $id     Entity primary key value.
-     *
+     * @param string $where Additional where condition.
      * @return null|Entity Returns the entity instance if found, otherwise returns null.
      *
      * @throws EntityNotFoundException
