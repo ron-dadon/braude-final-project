@@ -28,6 +28,13 @@ abstract class Entity
     protected $_primary;
 
     /**
+     * Errors array.
+     *
+     * @var array
+     */
+    protected $_errors;
+
+    /**
      * Get primary property name.
      *
      * @return string
@@ -55,6 +62,16 @@ abstract class Entity
     public function getPrefix()
     {
         return $this->_prefix;
+    }
+
+    /**
+     * Get entity errors.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 
     /**

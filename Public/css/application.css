@@ -58,6 +58,13 @@
     background: #ac2925;
 }
 
+.modal .modal-dialog .modal-content .modal-header.bg-danger {
+    background: #ac2925;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 #side-menu ul li.active > span.arrow-right {
     position: absolute;
     top: 0;
