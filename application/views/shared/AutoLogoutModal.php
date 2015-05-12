@@ -14,7 +14,7 @@ class AutoLogoutModal extends AbstractView
      */
     public function render() { ?>
     <!-- Logout modal -->
-    <div class="modal fade" id="auto-logout-modal" tabindex="-1" data-keyboard="false" data-static="true">
+    <div class="modal fade" id="auto-logout-modal" tabindex="-1" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
@@ -24,7 +24,7 @@ class AutoLogoutModal extends AbstractView
                     You didn't use the system for a long time, and you where automatically logged out. Please login again to continue.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default"><i class="fa fa-fw fa-sign-in"></i> Go to login</button>
+                    <a href="<?php $this->publicPath() ?>" class="btn btn-default"><i class="fa fa-fw fa-sign-in"></i> Go to login</a>
                 </div>
             </div>
         </div>

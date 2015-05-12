@@ -35,6 +35,16 @@ abstract class Entity
     protected $_errors;
 
     /**
+     * Select properties to be serialized.
+     *
+     * @return array Properties array.
+     */
+    function __sleep()
+    {
+        return array_keys(get_object_vars($this));
+    }
+
+    /**
      * Get primary property name.
      *
      * @return string
@@ -95,6 +105,28 @@ abstract class Entity
                 return $this->_prefix . $item;
             }, $fields);
         return array_combine($fields, $values);
+    }
+
+    /**
+     * Fill entity properties from an associative array.
+     * Array keys must contain the field prefix.
+     *
+     * @param array $array Data array.
+     */
+    public function fromArray($array)
+    {
+        if (!is_array($array))
+        {
+            throw new \InvalidArgumentException("Entity from array method requires an array as argument");
+        }
+        $fields = array_keys($this->toArray());
+        foreach ($array as $field => $value)
+        {
+            if (isset($fields[$field]))
+            {
+                $this->$field = $value;
+            }
+        }
     }
 
     /**

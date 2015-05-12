@@ -26,7 +26,7 @@ class LogoutModal extends AbstractView
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-fw fa-times"></i> Cancel</button>
-                    <button type="button" class="btn btn-danger"><i class="fa fa-fw fa-check"></i> Logout</button>
+                    <a href="<?php $this->publicPath() ?>Logout" class="btn btn-danger"><i class="fa fa-fw fa-check"></i> Logout</a>
                 </div>
             </div>
         </div>

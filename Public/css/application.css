@@ -85,6 +85,10 @@ body {
     body {
         padding-right: 200px;
     }
+
+    #login-container {
+        margin-right: -200px;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {

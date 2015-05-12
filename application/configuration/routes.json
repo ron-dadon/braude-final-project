@@ -12,6 +12,16 @@
             "method": "Index"
         },
         {
+            "pattern": "/Logout",
+            "controller": "Main",
+            "method": "Logout"
+        },
+        {
+            "pattern": "/Login",
+            "controller": "Main",
+            "method": "Login"
+        },
+        {
             "pattern": "/Clients",
             "controller": "Clients",
             "method": "Index"

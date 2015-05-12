@@ -108,9 +108,9 @@ abstract class AbstractView
         }
         if ($return)
         {
-            return $path;
+            return rtrim($path, '/') . '/';
         }
-        echo $path;
+        echo rtrim($path, '/') . '/';
         return true;
     }
 

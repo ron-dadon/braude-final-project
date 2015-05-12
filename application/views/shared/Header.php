@@ -20,7 +20,7 @@ class Header extends AbstractView
     <?php $this->css('css/bootstrap-grid.min.css') ?>
     <?php $this->css('css/bootstrap-select.min.css') ?>
     <?php $this->css('css/bootstrap-tree.min.css') ?>
-    <?php // $this->css('css/bootstrap-theme.min.css') ?>
+    <?php $this->css('css/bootstrap-theme.min.css') ?>
     <?php $this->css('css/bootstrap-rtl.min.css') ?>
     <?php $this->css('css/arimo.min.css') ?>
     <?php $this->css('css/font-awesome.min.css') ?>
