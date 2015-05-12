@@ -14,7 +14,6 @@ class User extends Entity
     public $firstName;
     public $lastName;
     public $email;
-    public $privilege;
     public $delete;
 
     function __construct()

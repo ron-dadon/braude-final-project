@@ -95,6 +95,17 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+.alert > h4 {
+    font-weight: 700;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
 /* Bootgrid fixes */
 .bootgrid-table th > .column-header-anchor > .icon {
     right: auto !important;

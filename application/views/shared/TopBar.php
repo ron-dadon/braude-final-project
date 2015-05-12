@@ -5,7 +5,14 @@ namespace Application\Views\Shared;
 
 
 use Trident\MVC\AbstractView;
+use Application\Entities\User;
 
+/**
+ * Class TopBar
+ *
+ * @property User $currentUser
+ * @package Application\Views\Shared
+ */
 class TopBar extends AbstractView
 {
 
@@ -26,8 +33,9 @@ class TopBar extends AbstractView
             </div>
             <div class="collapse navbar-collapse" id="mobile-menu">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="#"><i class="fa fa-fw fa-cogs"></i> Settings</a></li>
-                    <li class="danger"><a href="#" data-toggle="modal" data-target="#logout-modal"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-user"></i> <?php echo $this->currentUser->firstName . ' ' . $this->currentUser->lastName ?></a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-cogs"></i> ניהול</a></li>
+                    <li class="danger"><a href="#" data-toggle="modal" data-target="#logout-modal"><i class="fa fa-fw fa-power-off"></i> התנתקות</a></li>
                 </ul>
            </div>
         </div>

@@ -33,6 +33,18 @@ class IacsBaseController extends AbstractController
         $reflect = new \ReflectionClass($this);
         $class = $reflect->getShortName();
         $viewData['currentMenuItem'] = $class;
+        try
+        {
+            $user = $this->getSession()->item('iacs-logged-user');
+        }
+        catch (\InvalidArgumentException $e)
+        {
+            $user = null;
+        }
+        if (isset($user))
+        {
+            $viewData['currentUser'] = unserialize($user);
+        }
         if (is_null($viewName))
         {
             $viewName = debug_backtrace()[1]['function'];

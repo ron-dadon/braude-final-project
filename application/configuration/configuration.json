@@ -16,5 +16,5 @@
     "database.host": "localhost",
     "database.user": "iacs",
     "database.password": "123456",
-    "database.name": "test"
+    "database.name": "iacs_dev"
 }
