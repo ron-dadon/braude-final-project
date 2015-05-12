@@ -1,5 +1,5 @@
 {
-    "prefix": "/Final-Project/Public",
+    "prefix": "/iacs/Public",
     "default": {
         "pattern": "",
         "controller": "Main",

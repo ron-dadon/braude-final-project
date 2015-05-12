@@ -8,7 +8,7 @@
     "application.path": "../",
     "application.namespace": "Application",
 
-    "paths.public": "http://localhost/Final-Project/Public/",
+    "paths.public": "http://localhost/iacs/Public/",
     "paths.application": "../Application/",
     "paths.data": "../Application/Data/",
     "paths.logs": "../Application/Logs/",
