@@ -95,7 +95,7 @@ class Mapper
      * @throws EntityNotFoundException
      * @throws MySqlException
      */
-    public function findById($entity, $id)
+    public function findById($entity, $id, $where = "")
     {
         $entity = "\\" . $this->_namespace . "\\Entities\\" . $entity;
         if (!class_exists($entity))
@@ -105,7 +105,7 @@ class Mapper
         /** @var Entity $object */
         $object = new $entity();
         list($primary, $prefix) = [$object->getPrimary(), $object->getPrefix()];
-        $result = $this->find($entity, "$prefix$primary = :id", [':id' => $id]);
+        $result = $this->find($entity, "$where AND $prefix$primary = :id", [':id' => $id]);
         if ($result !== null)
         {
             return $result[0];
