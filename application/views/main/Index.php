@@ -13,7 +13,7 @@ class Index extends AbstractView
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
-    <?php var_dump($this->currentUser) ?>
+
 </div>
 <?php
         $this->getSharedView('Footer')->render();

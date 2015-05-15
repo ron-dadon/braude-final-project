@@ -24,7 +24,7 @@ class AutoLogoutModal extends AbstractView
                     You didn't use the system for a long time, and you where automatically logged out. Please login again to continue.
                 </div>
                 <div class="modal-footer">
-                    <a href="<?php $this->publicPath() ?>" class="btn btn-default"><i class="fa fa-fw fa-sign-in"></i> Go to login</a>
+                    <a href="<?php $this->publicPath() ?>Login" class="btn btn-default"><i class="fa fa-fw fa-sign-in"></i> Go to login</a>
                 </div>
             </div>
         </div>

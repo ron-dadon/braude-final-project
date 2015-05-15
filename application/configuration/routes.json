@@ -22,6 +22,16 @@
             "method": "Login"
         },
         {
+            "pattern": "/Settings",
+            "controller": "Main",
+            "method": "Settings"
+        },
+        {
+            "pattern": "/Profile",
+            "controller": "Main",
+            "method": "Profile"
+        },
+        {
             "pattern": "/Clients",
             "controller": "Clients",
             "method": "Index"

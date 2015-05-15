@@ -50,16 +50,18 @@ class Debug
         $files = print_r($_FILES, true);
         $cookie = print_r($_COOKIE, true);
         $output = <<<EOT
-<pre id="trident-framework-debug">
-Processing time: $processTime [sec]
-Memory: $memory [kb]
-Server: $server
-Session: $session
-Cookie: $cookie
-Get: $get
-Post: $post
-Files: $files
-</pre>
+<div class="container-fluid">
+    <pre id="trident-framework-debug" dir="ltr">
+    Processing time: $processTime [sec]
+    Memory: $memory [kb]
+    Server: $server
+    Session: $session
+    Cookie: $cookie
+    Get: $get
+    Post: $post
+    Files: $files
+    </pre>
+</div>
 EOT;
         echo $output;
     }

@@ -76,11 +76,13 @@
     border-left: 25px solid #ffffff;
 }
 
+/* Bootstrap fixes */
 body {
     padding-top: 50px;
 }
 
-@media (min-width: 1200px)
+/* Fix body padding when side menu is on */
+@media (min-width: 768px)
 {
     body {
         padding-right: 200px;
@@ -99,6 +101,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
 
+.page-header {
+    margin-top: 2px;
+    border-bottom: solid 2px #333333;
+}
+
+/* Added classes */
+
 .invisible {
     opacity: 0;
 }
@@ -110,4 +119,21 @@ h1, h2, h3, h4, h5, h6 {
 .bootgrid-table th > .column-header-anchor > .icon {
     right: auto !important;
     left: 0 !important;
+}
+
+.bootgrid-table th > .column-header-anchor > .text {
+    margin: 0;
+}
+
+.bootgrid-table thead {
+    background: #dddddd;
+}
+
+.bootgrid-table th:hover {
+    background: #eeeeee;
+}
+
+.bootgrid-table tbody tr td:last-child {
+    width: 1%;
+    white-space: nowrap;
 }

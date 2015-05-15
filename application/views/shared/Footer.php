@@ -5,6 +5,12 @@ namespace Application\Views\Shared;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class Footer
+ *
+ * @property string $viewJS
+ * @package Application\Views\Shared
+ */
 class Footer extends AbstractView
 {
 
@@ -12,6 +18,7 @@ class Footer extends AbstractView
         $this->getSharedView('LogoutModal')->render();
         $this->getSharedView('AutoLogoutModal')->render(); ?>
     <?php $this->js('js/application.js') ?>
+    <?php $this->js('js/' . $this->viewJS . '.js') ?>
 </body>
 </html>
 <?php

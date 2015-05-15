@@ -18,7 +18,7 @@ class Login extends AbstractView
                 <h4><strong>התחברות למערכת</strong></h4>
             </div>
             <div class="panel-body">
-                <form data-toggle="validator">
+                <form data-toggle="validator" id="login-form">
                     <div class="form-group">
                         <label for="user-email">מזהה משתמש:</label>
                         <input type="email" class="form-control" id="user-email" required>
@@ -41,9 +41,16 @@ class Login extends AbstractView
         </div>
     </div>
 </div>
-<script src="<?php $this->publicPath() ?>js/login.js" type="text/javascript"></script>
+<?php $this->js("js/main/login.js"); ?>
+</body>
+</html>
 <?php
-        $this->getSharedView('Footer')->render();
+    }
+
+    public function js($file)
+    {
+        $file = $this->publicPath(true) . $file;
+        echo "<script src=\"" . $file . "\"></script>" . PHP_EOL;
     }
 
 }

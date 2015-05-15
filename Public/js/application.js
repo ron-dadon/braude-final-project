@@ -1,19 +1,33 @@
-var autoLogout;
+var autoLogoutTimer = null;
+
+function autoLogout()
+{
+    clearTimeout(autoLogoutTimer);
+    autoLogoutTimer = false;
+    $.get(appSettings.homeURI + "/Logout", {}, function(result) {
+        console.log(result);
+        if (result.substr(0,2) === "OK")
+        {
+            $('#auto-logout-modal').modal('show');
+        }
+    });
+}
 
 function resetAutoLogout()
 {
-    clearTimeout(autoLogout);
-    autoLogout = setTimeout(function() { $('#auto-logout-modal').modal('show'); }, 1000 * 60 * 60);
+    if (autoLogoutTimer !== false)
+    {
+        clearTimeout(autoLogoutTimer);
+        autoLogoutTimer = setTimeout(autoLogout, 1000 * 60 * appSettings.autoLogoutTime);
+    }
 }
 
 $(document).on('ready', function() {
-    autoLogout = setTimeout(function() { $('#auto-logout-modal').modal('show'); }, 1000 * 60 * 60);
-});
-
-$(document).on('mousemove', function(event){
-    resetAutoLogout();
-});
-
-$(document).on('keypress', function(event){
-    resetAutoLogout();
+    // Bind actions to reset auto logout
+    $(document)
+        .bind('mousemove', resetAutoLogout)
+        .bind('keydown', resetAutoLogout)
+        .bind('DOMMouseScroll', resetAutoLogout)
+        .bind('mousewheel', resetAutoLogout)
+        .bind('mousedown', resetAutoLogout);
 });

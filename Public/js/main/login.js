@@ -10,10 +10,11 @@ $(document).on('ready', function() {
             result = JSON.parse(result);
             if (result.result === true)
             {
+                $('#login-form').hide();
                 $('#login-alert').removeClass('hidden alert-danger').addClass('alert-success');
                 $('#alert-title').html("התחברת בהצלחה!");
                 $('#alert-text').html("<i class=\"fa fa-spinner fa-spin\"></i> הנך מועבר למערכת בשניות הקרובות...");
-                setTimeout(function() { window.location.href = 'http://localhost/iacs/Public'; }, 2000);
+                setTimeout(function() { window.location.href = appSettings.homeURI }, 2000);
             }
             else
             {

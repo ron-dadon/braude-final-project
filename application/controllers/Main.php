@@ -26,8 +26,21 @@ class Main extends IacsBaseController
         $this->getView()->render();
     }
 
+    public function Settings()
+    {
+        if (!$this->isUserLogged())
+        {
+            $this->redirect("/Login");
+        }
+        $this->getView()->render();
+    }
+
     public function Login()
     {
+        if ($this->isUserLogged())
+        {
+            $this->redirect("/");
+        }
         if ($this->getRequest()->isAjax())
         {
             list($email, $password) = [$this->getRequest()->getPost()->item('user_email'),
@@ -57,7 +70,14 @@ class Main extends IacsBaseController
     public function Logout()
     {
         $this->getSession()->destroy();
-        $this->redirect("/");
+        if (!$this->getRequest()->isAjax())
+        {
+            $this->redirect("/");
+        }
+        else
+        {
+            echo "OK";
+        }
     }
 
 } 
