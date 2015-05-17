@@ -13,7 +13,9 @@ class Index extends AbstractView
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
-    <h1>Invoices</h1>
+    <div class="page-head bg-main">
+        <h1><i class="fa fa-fw fa-file-text"></i> Invoices</h1>
+    </div>
 </div>
 <?php
         $this->getSharedView('Footer')->render();

@@ -1,10 +1,10 @@
 <?php
 
-namespace Application\Views\Main;
+namespace Application\Views\Administration;
 
 use \Trident\MVC\AbstractView;
 
-class Settings extends AbstractView
+class Index extends AbstractView
 {
 
     public function render()
@@ -13,10 +13,8 @@ class Settings extends AbstractView
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
-    <div class="panel">
-        <div class="panel-header bg-main">
-            <h1><i class="fa fa-fw fa-cogs"></i> Settings</h1>
-        </div>
+    <div class="page-head bg-main">
+        <h1><i class="fa fa-fw fa-cogs"></i> Settings</h1>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">

@@ -13,10 +13,10 @@ class Index extends AbstractView
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
+    <div class="page-head bg-main">
+        <h1><i class="fa fa-fw fa-users"></i> Clients</h1>
+    </div>
     <div class="panel">
-        <div class="panel-header">
-            <h1>Clients</h1>
-        </div>
         <div class="table-responsive">
             <table class="table table-bordered" id="clients-table">
                 <thead>
@@ -43,7 +43,7 @@ class Index extends AbstractView
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer text-left">
+        <div class="panel-footer text-right">
             <a href="<?php $this->publicPath() ?>Clients/Add" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New client</a>
         </div>
     </div>

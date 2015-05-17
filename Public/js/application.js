@@ -1,4 +1,5 @@
 var autoLogoutTimer = null;
+var lastReset = 0;
 
 function autoLogout()
 {
@@ -15,11 +16,13 @@ function autoLogout()
 
 function resetAutoLogout()
 {
-    if (autoLogoutTimer !== false)
+    if (autoLogoutTimer !== false && lastReset === 0)
     {
         clearTimeout(autoLogoutTimer);
+        lastReset = 100;
         autoLogoutTimer = setTimeout(autoLogout, 1000 * 60 * appSettings.autoLogoutTime);
     }
+    lastReset--;
 }
 
 $(document).on('ready', function() {

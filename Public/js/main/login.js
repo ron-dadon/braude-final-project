@@ -19,15 +19,15 @@ $(document).on('ready', function() {
             {
                 $('#login-form').hide();
                 $('#login-alert').removeClass('hidden alert-danger').addClass('alert-success');
-                $('#alert-title').html("התחברת בהצלחה!");
-                $('#alert-text').html("<i class=\"fa fa-spinner fa-spin\"></i> הנך מועבר למערכת בשניות הקרובות...");
+                $('#alert-title').html("Logged in successfully!");
+                $('#alert-text').html("<i class=\"fa fa-spinner fa-spin\"></i> You are redirected...");
                 setTimeout(function() { window.location.href = appSettings.homeURI }, 2000);
             }
             else
             {
                 $('#login-alert').removeClass('hidden');
-                $('#alert-title').html("ההתחברות נכשלה!");
-                $('#alert-text').html("שם המשתמש ו/או הסיסמא שגויים. אנא נסה שנית.");
+                $('#alert-title').html("Login failed!");
+                $('#alert-text').html("User or password are wrong. Please try again.");
                 $('#user-email').focus().select();
             }
         });

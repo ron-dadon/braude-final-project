@@ -1,0 +1,139 @@
+#side-menu {
+    position: fixed;
+    right: 0;
+    top: 50px;
+    height: 100%;
+    width: 200px;
+    background: #222222;
+    border-right: solid 5px #204d74;
+    /* border-top: solid 5px #204d74; */
+}
+
+#side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#side-menu ul li a {
+    width: 100%;
+    color: #aaaaaa;
+    padding: 15px;
+    text-decoration: none;
+    background: linear-gradient(to right, transparent 50%, #204d74 50%);
+    background-size: 200% 100%;
+    background-position:left bottom;
+    display: block;
+    transition: background .25s;
+}
+
+#side-menu ul li.active > a {
+    color: #ffffff;
+    background: #204d74;
+    text-decoration: none;
+}
+
+#side-menu ul li a:hover
+{
+    color: #ffffff;
+    background-position:right bottom;
+    text-decoration: none;
+    transition: background .25s;
+}
+
+.bg-main {
+    background: #204d74;
+}
+
+.navbar-inverse {
+    /* border-bottom: solid 5px #204d74; */
+    border-bottom: none;
+}
+
+.navbar-inverse .navbar-nav > li:hover > a {
+    background: #204d74;
+}
+
+.navbar-inverse .navbar-nav > li.danger:hover > a {
+    background: #ac2925;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-danger {
+    background: #ac2925;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#side-menu ul li.active > span.arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-left: 25px solid #ffffff;
+}
+
+/* Bootstrap fixes */
+body {
+    padding-top: 50px;
+}
+
+/* Fix body padding when side menu is on */
+@media (min-width: 768px)
+{
+    body {
+        padding-right: 200px;
+    }
+
+    #login-container {
+        margin-right: -200px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+.alert > h4 {
+    font-weight: 700;
+}
+
+.page-header {
+    margin-top: 2px;
+    border-bottom: solid 2px #333333;
+}
+
+/* Added classes */
+
+.invisible {
+    opacity: 0;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+/* Bootgrid fixes */
+.bootgrid-table th > .column-header-anchor > .icon {
+    right: auto !important;
+    left: 0 !important;
+}
+
+.bootgrid-table th > .column-header-anchor > .text {
+    margin: 0;
+}
+
+.bootgrid-table thead {
+    background: #dddddd;
+}
+
+.bootgrid-table th:hover {
+    background: #eeeeee;
+}
+
+.bootgrid-table tbody tr td:last-child {
+    width: 1%;
+    white-space: nowrap;
+}

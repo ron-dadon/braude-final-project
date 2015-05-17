@@ -153,23 +153,48 @@ class Router
     {
         if (($route = $this->_match_route($request->getURI())) !== null)
         {
-            $controller = $this->_namespace . "\\Controllers\\" . $route->getController();
-            if (!class_exists($controller))
+            try
             {
-                throw new ControllerNotFoundException("AbstractController `$controller` doesn't exists");
+                $controller = $this->_namespace . "\\Controllers\\" . $route->getController();
+                if (!class_exists($controller))
+                {
+                    throw new ControllerNotFoundException("AbstractController `$controller` doesn't exists");
+                }
+                $controller = new $controller($configuration, $log, $request, $session);
+                if (!method_exists($controller, $method = $route->getMethod()))
+                {
+                    $controller = $route->getController();
+                    throw new MethodNotFoundException("Method `$method` doesn't exists in controller `$controller`");
+                }
+                if (call_user_func_array([$controller, $route->getMethod()], $route->getParameters()) === false)
+                {
+                    $controller = $route->getController();
+                    $method = $route->getMethod();
+                    $parameters = print_r($route->getParameters(), true);
+                    throw new RouterDispatchException("Dispatch of route `$controller->$method($parameters)` failed");
+                }
             }
-            $controller = new $controller($configuration, $log, $request, $session);
-            if (!method_exists($controller, $method = $route->getMethod()))
+            catch (\Exception $e)
             {
-                $controller = $route->getController();
-                throw new MethodNotFoundException("Method `$method` doesn't exists in controller `$controller`");
-            }
-            if (call_user_func_array([$controller, $route->getMethod()], $route->getParameters()) === false)
-            {
-                $controller = $route->getController();
-                $method = $route->getMethod();
-                $parameters = print_r($route->getParameters(), true);
-                throw new RouterDispatchException("Dispatch of route `$controller->$method($parameters)` failed");
+                $route = $this->_default;
+                $controller = $this->_namespace . "\\Controllers\\" . $route->getController();
+                if (!class_exists($controller))
+                {
+                    throw new ControllerNotFoundException("AbstractController `$controller` doesn't exists");
+                }
+                $controller = new $controller($configuration, $log, $request, $session);
+                if (!method_exists($controller, $method = $route->getMethod()))
+                {
+                    $controller = $route->getController();
+                    throw new MethodNotFoundException("Method `$method` doesn't exists in controller `$controller`");
+                }
+                if (call_user_func_array([$controller, $route->getMethod()], $route->getParameters()) === false)
+                {
+                    $controller = $route->getController();
+                    $method = $route->getMethod();
+                    $parameters = print_r($route->getParameters(), true);
+                    throw new RouterDispatchException("Dispatch of route `$controller->$method($parameters)` failed");
+                }
             }
         }
         else

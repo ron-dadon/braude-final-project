@@ -17,15 +17,6 @@ class Main extends IacsBaseController
         $this->getView()->render();
     }
 
-    public function Error()
-    {
-        if (!$this->isUserLogged())
-        {
-            $this->redirect("/Login");
-        }
-        $this->getView()->render();
-    }
-
     public function Settings()
     {
         if (!$this->isUserLogged())

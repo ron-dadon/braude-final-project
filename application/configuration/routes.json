@@ -2,8 +2,8 @@
     "prefix": "/iacs/Public",
     "default": {
         "pattern": "",
-        "controller": "Main",
-        "method": "Error"
+        "controller": "Error",
+        "method": "Index"
     },
     "routes": [
         {
@@ -22,9 +22,9 @@
             "method": "Login"
         },
         {
-            "pattern": "/Settings",
-            "controller": "Main",
-            "method": "Settings"
+            "pattern": "/Administration",
+            "controller": "Administration",
+            "method": "Index"
         },
         {
             "pattern": "/Profile",

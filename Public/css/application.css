@@ -1,11 +1,15 @@
+/***********************************************************************************************************************
+ * Side menu
+ **********************************************************************************************************************/
+
 #side-menu {
     position: fixed;
-    right: 0;
+    left: 0;
     top: 50px;
     height: 100%;
     width: 200px;
     background: #222222;
-    border-right: solid 5px #204d74;
+    border-left: solid 5px #204d74;
     /* border-top: solid 5px #204d74; */
 }
 
@@ -20,11 +24,11 @@
     color: #aaaaaa;
     padding: 15px;
     text-decoration: none;
-    background: linear-gradient(to right, transparent 50%, #204d74 50%);
+    background: linear-gradient(to left, transparent 50%, #204d74 50%);
     background-size: 200% 100%;
-    background-position:left bottom;
+    background-position:right bottom;
     display: block;
-    transition: background .25s;
+    transition: background .25s, color .25s;
 }
 
 #side-menu ul li.active > a {
@@ -36,61 +40,50 @@
 #side-menu ul li a:hover
 {
     color: #ffffff;
-    background-position:right bottom;
+    background-position:left bottom;
     text-decoration: none;
-    transition: background .25s;
+    transition: background .25s, color .25s;
 }
 
-.bg-main {
-    background: #204d74;
-}
-
-.navbar-inverse {
-    /* border-bottom: solid 5px #204d74; */
-    border-bottom: none;
-}
-
-.navbar-inverse .navbar-nav > li:hover > a {
-    background: #204d74;
-}
-
-.navbar-inverse .navbar-nav > li.danger:hover > a {
-    background: #ac2925;
-}
-
-.modal .modal-dialog .modal-content .modal-header.bg-danger {
-    background: #ac2925;
-    color: #ffffff;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-#side-menu ul li.active > span.arrow-right {
+#side-menu ul li.active > span.arrow {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     width: 0;
     height: 0;
-    border-top: 25px solid transparent;
+    /*border-top: 25px solid transparent;
     border-bottom: 25px solid transparent;
-    border-left: 25px solid #ffffff;
+    border-right: 25px solid #ffffff;*/
 }
 
-/* Bootstrap fixes */
-body {
-    padding-top: 50px;
+/***********************************************************************************************************************
+ * Bootstrap fixes
+ **********************************************************************************************************************/
+
+/* Mobile */
+@media (max-width: 767px) {
+    .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+        max-height: 100%;
+    }
 }
 
-/* Fix body padding when side menu is on */
+/* Desktop */
 @media (min-width: 768px)
 {
     body {
-        padding-right: 200px;
+        padding-left: 200px;
     }
 
     #login-container {
-        margin-right: -200px;
+        margin-left: -200px;
     }
+}
+
+/* Global */
+
+body {
+    padding-top: 115px;
+    font-size: 16px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -106,24 +99,61 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: solid 2px #333333;
 }
 
-/* Added classes */
-
-.invisible {
-    opacity: 0;
+.navbar-brand {
+    padding: 5px;
 }
 
-.no-margin-bottom {
-    margin-bottom: 0;
-}
-/* Bootgrid fixes */
-.bootgrid-table th > .column-header-anchor > .icon {
-    right: auto !important;
-    left: 0 !important;
+.navbar-inverse {
+    border-bottom: none;
 }
 
-.bootgrid-table th > .column-header-anchor > .text {
-    margin: 0;
+.navbar-inverse .navbar-nav > li.active > a {
+    background: #204d74;
 }
+
+.navbar-inverse .navbar-nav > li:hover > a {
+    background: #204d74;
+    transition: background .25s, color .25s;
+}
+
+.navbar-inverse .navbar-nav > li.danger:hover > a {
+    background: #ac2925;
+    transition: background .25s, color .25s;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-danger {
+    background: #ac2925;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-primary {
+    background: #204d74;
+    color: #ffffff;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-warning {
+    background: #ee8822;
+    color: #ffffff;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-success {
+    background: #009933;
+    color: #ffffff;
+}
+
+.modal .modal-dialog .modal-content .modal-header.bg-danger,
+.modal .modal-dialog .modal-content .modal-header.bg-primary,
+.modal .modal-dialog .modal-content .modal-header.bg-warning,
+.modal .modal-dialog .modal-content .modal-header.bg-success {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+/***********************************************************************************************************************
+ * Bootgrid fixes
+ **********************************************************************************************************************/
 
 .bootgrid-table thead {
     background: #dddddd;
@@ -136,4 +166,78 @@ h1, h2, h3, h4, h5, h6 {
 .bootgrid-table tbody tr td:last-child {
     width: 1%;
     white-space: nowrap;
+}
+
+/***********************************************************************************************************************
+ * Added classes
+ **********************************************************************************************************************/
+
+.bg-main {
+    background: #204d74;
+    color: #ffffff;
+}
+
+.bg-error {
+    background: #ac2925;
+    color: #ffffff;
+}
+
+.bg-notice {
+    background: #ee8822;
+    color: #ffffff;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
+.padded-5px {
+    padding: 5px;
+}
+
+.no-pointer {
+    cursor: default;
+}
+
+.page-head {
+    width: 100%;
+    top: 50px;
+    padding: 5px;
+    position: fixed;
+    z-index: 1029;
+}
+
+.page-head.bg-main {
+    border-bottom: solid 3px #204d74;
+}
+
+.page-head.bg-error {
+    border-bottom: solid 3px #ac2925;
+}
+
+.page-head.bg-notice {
+    border-bottom: solid 3px #ee8822;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .page-head {
+        left: 0;
+    }
+}
+
+/* Desktop */
+@media (min-width: 768px)
+{
+    .page-head {
+        left: 200px;
+    }
 }

@@ -15,17 +15,17 @@ class Login extends AbstractView
         <img src="<?php $this->publicPath() ?>images/logo.png" class="img-responsive"><br>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><strong>התחברות למערכת</strong></h4>
+                <h4><strong>Login</strong></h4>
             </div>
             <div class="panel-body">
                 <form data-toggle="validator" id="login-form">
                     <div class="form-group">
-                        <label for="user-email">מזהה משתמש:</label>
-                        <input type="email" class="form-control" id="user-email" required>
+                        <label for="user-email">User:</label>
+                        <input type="email" class="form-control" id="user-email" placeholder="User E-mail" required>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <label for="user-password">סיסמא:</label>
+                        <label for="user-password">Password:</label>
                         <input type="password" class="form-control" id="user-password" required>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -35,8 +35,9 @@ class Login extends AbstractView
                     <p id="alert-text"></p>
                 </div>
             </div>
-            <div class="panel-footer text-left">
-                <button id="login-button" class="btn btn-primary"><i class="fa fa-fw fa-sign-in"></i> התחבר</button>
+            <div class="panel-footer">
+                <button id="login-button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-fw fa-sign-in"></i> Login</button>
+                <a id="forgot-password" class="btn btn-link btn-block">Forgot password?</a>
             </div>
         </div>
     </div>

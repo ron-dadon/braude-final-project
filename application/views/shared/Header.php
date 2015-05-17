@@ -15,12 +15,13 @@ class Header extends AbstractView
 <head>
     <meta charset="UTF-8">
     <title>IACS</title>
+    <?php $this->css('css/animate.min.css') ?>
     <?php $this->css('css/bootstrap.min.css') ?>
     <?php $this->css('css/bootstrap-file-input.min.css') ?>
     <?php $this->css('css/bootstrap-grid.min.css') ?>
     <?php $this->css('css/bootstrap-select.min.css') ?>
     <?php $this->css('css/bootstrap-tree.min.css') ?>
-    <?php $this->css('css/bootstrap-rtl.min.css') ?>
+    <?php // $this->css('css/bootstrap-rtl.min.css') ?>
     <?php $this->css('css/arimo.min.css') ?>
     <?php $this->css('css/font-awesome.min.css') ?>
     <?php $this->css('css/application.css') ?>
