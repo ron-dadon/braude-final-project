@@ -38,6 +38,7 @@ class License extends Entity
         $this->_primary = "id";
         $this->creationDate = date('Y-m-d');
         $this->delete = 0;
+        $this->serial = md5(bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)));
     }
 
     /**
@@ -84,6 +85,11 @@ class License extends Entity
         {
             $valid = false;
             $this->setError('invoice', "Invoice is invalid");
+        }
+        if (!$this->isPattern($this->serial, '/^[a-f0-9]{32}$/'))
+        {
+            $valid = false;
+            $this->setError('serial', "Serial is invalid");
         }
         return $valid;
     }
