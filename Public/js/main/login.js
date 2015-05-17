@@ -2,7 +2,14 @@
  * Login
  */
 
+function clearAlert()
+{
+    $('#login-alert').addClass('hidden');
+}
+
 $(document).on('ready', function() {
+    $('#user-email').on('keypress', clearAlert).on('change', clearAlert);
+    $('#user-password').on('keypress', clearAlert).on('change', clearAlert);
     $('#login-button').on('click', function() {
         var email = $('#user-email').val();
         var password = $('#user-password').val();

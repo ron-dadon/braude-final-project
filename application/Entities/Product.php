@@ -1,35 +1,37 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: פרנקו
- * Date: 12/05/2015
- * Time: 14:39
- */
 
 namespace application\Entities;
 
-
 use Trident\ORM\Entity;
 
-class Product extends Entity {
+class Product extends Entity
+{
     public $id;
     public $name;
     public $description;
     public $basePrice;
+    public $coin;
     public $type;
     public $delete;
-    /**software*/
+    /* Software */
     public $version;
+    /** @var LicenseType */
     public $license;
-    /**training*/
+    /* Training */
     public $length;
 
+    /**
+     * Initialize product entity information.
+     */
     function __construct()
     {
         $this->_table = "products";
         $this->_prefix = "product_";
         $this->_primary = "id";
+        $this->delete = 0;
+        $this->coin = "nis";
     }
+
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.
@@ -43,40 +45,54 @@ class Product extends Entity {
         if (!$this->isInteger($this->id, 1) && $this->id !== null)
         {
             $valid = false;
-            $this->_errors['id'] = "Invalid id";
+            $this->setError('id', "ID is invalid");
         }
-        if (!$this->isString($this->name, 1, 50))
+        if (!$this->isString($this->name, 1, 200))
         {
             $valid = false;
-            $this->_errors['name'] = "Name must be at least 1 character and up to 50";
+            $this->setError('name', "Name must be 1 to 50 characters in length");
         }
         if (!$this->isString($this->description, 0, 65535))
         {
             $valid = false;
-            $this->_errors['description'] = "Description must be up to 65535";
+            $this->setError('description', "Description length can't exceed 65535 characters");
         }
-        if (!$this->isFloat($this->basePrice,0))
+        if (!$this->isFloat($this->basePrice, 0))
         {
             $valid = false;
-            $this->_errors['basePrice'] = "Base Price must be in a valid format ";
+            $this->setError('basePrice', "Base Price must be in a valid format");
         }
-        if (!$this->isInteger($this->length,0))
+        if (!$this->isInList($this->coin, ['usd', 'nis']))
         {
             $valid = false;
-            $this->_errors['length'] = "length must be in a valid format ";
+            $this->setError('coin', "Coin type can be only USD or NIS");
         }
-        if (!$this->isPattern($this->version,'/^[0-9a-zA-Z\.\s]{,20}&/'))
+        if (!$this->isInList($this->type, ['software', 'training']))
         {
             $valid = false;
-            $this->_errors['version'] = "version must be in a valid format ";
+            $this->setError('type', "Product type can be only Software or Training");
         }
-        if (!$this->isBoolean($this->delete))
+        if ($this->type === 'training')
         {
-            $valid = false;
-            $this->_errors['delete'] = "Delete must be 1 or 0 only";
+            if (!$this->isInteger($this->length, 0))
+            {
+                $valid = false;
+                $this->setError('length', "Training length must be a positive number");
+            }
+        }
+        if ($this->type === 'software')
+        {
+            if (!$this->isPattern($this->version, '/^[0-9a-zA-Z\.\s]{0,20}$/'))
+            {
+                $valid = false;
+                $this->setError('version', "Version can contain only letters, numbers, dashes and periods.");
+            }
+            if (!$this->isInteger($this->license, 1) && !($this->license instanceof LicenseType))
+            {
+                $valid = false;
+                $this->setError('license', "License type is invalid");
+            }
         }
         return $valid;
     }
-
-
-} 
+}

@@ -84,6 +84,16 @@ abstract class Entity
         return $this->_errors;
     }
 
+    protected function setError($field, $error)
+    {
+        $fields = array_keys($this->toArray());
+        if (array_search($field, $fields) === false)
+        {
+            throw new \InvalidArgumentException("Can't set error to field $field. Field doesn't exists in entity");
+        }
+        $this->_errors[$field] = $error;
+    }
+
     /**
      * Convert object to an associative array.
      *
@@ -112,8 +122,9 @@ abstract class Entity
      * Array keys must contain the field prefix.
      *
      * @param array $array Data array.
+     * @param string $keyPrefix Key prefix.
      */
-    public function fromArray($array)
+    public function fromArray($array, $keyPrefix = "")
     {
         if (!is_array($array))
         {
@@ -122,6 +133,7 @@ abstract class Entity
         $fields = array_keys($this->toArray());
         foreach ($array as $field => $value)
         {
+            $field = str_replace($keyPrefix, "", $field);
             if (isset($fields[$field]))
             {
                 $this->$field = $value;

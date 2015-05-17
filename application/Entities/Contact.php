@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: פרנקו
- * Date: 12/05/2015
- * Time: 14:43
- */
 
 namespace application\Entities;
 
-
 use Trident\ORM\Entity;
 
-class Contact extends  Entity {
+class Contact extends Entity
+{
 
     public $id;
     public $firstName;
@@ -20,14 +14,21 @@ class Contact extends  Entity {
     public $fax;
     public $email;
     public $position;
+    /** @var Client */
+    public $client;
     public $delete;
 
+    /**
+     * Initialize contact entity information.
+     */
     function __construct()
     {
         $this->_table = "contacts";
         $this->_prefix = "contact_";
         $this->_primary = "id";
+        $this->delete = 0;
     }
+
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.
@@ -41,43 +42,43 @@ class Contact extends  Entity {
         if (!$this->isInteger($this->id, 1) && $this->id !== null)
         {
             $valid = false;
-            $this->_errors['id'] = "Invalid id";
+            $this->setError('id', "ID is invalid");
         }
         if (!$this->isString($this->firstName, 1, 20))
         {
             $valid = false;
-            $this->_errors['firstName'] = "First name must be at least 1 character and up to 20";
+            $this->setError('firstName', "First name must be 1 to 100 characters in length");
         }
-        if (!$this->isString($this->lastName, 1, 20))
+        if (!$this->isString($this->lastName, 0, 20))
         {
             $valid = false;
-            $this->_errors['lastName'] = "Last name must be at least 1 character and up to 20";
+            $this->setError('lastName', "Last name must not exceed 20 characters in length");
         }
-        if (!$this->isEmail($this->email))
+        if (!$this->isEmail($this->email) && !$this->email !== "")
         {
             $valid = false;
-            $this->_errors['email'] = "Email is not in a valid format";
+            $this->setError('email', "E-mail is invalid e-mail address");
         }
-        if (!$this->isPattern($this->phone,'/^[0-9]{9,10}|[0-9]{2,3}\-[0-9]{7}$/'))
-        {
-        $valid = false;
-        $this->_errors['phone'] = "Phone must be 9 or 10 digits long and can allow a -";
-        }if (!$this->isPattern($this->fax,'/^[0-9]{9,10}|[0-9]{2,3}\-[0-9]{7}$/'))
-        {
-        $valid = false;
-        $this->_errors['fax'] = "Fax must be 9 or 10 digits long and can allow a -";
-        }
-        if (!$this->isString($this->position, 1, 30))
+        if (!$this->isPattern($this->phone, '/^[0-9]{9,10}|[0-9]{2,3}\-[0-9]{7}$/') && $this->phone !== "")
         {
             $valid = false;
-            $this->_errors['position'] = "position must be at least 1 character and up to 20";
+            $this->setError('phone', "Phone is invalid. Phone can contain only digits with a single/no dash");
         }
-        if (!$this->isBoolean($this->delete))
+        if (!$this->isPattern($this->fax, '/^[0-9]{9,10}$|^[0-9]{2,3}\-[0-9]{7}$/') && $this->fax !== "")
         {
             $valid = false;
-            $this->_errors['delete'] = "Delete must be 1 or 0 only";
+            $this->setError('fax', "Fax is invalid. Fax can contain only digits with a single/no dash");
+        }
+        if (!$this->isString($this->position, 0, 100))
+        {
+            $valid = false;
+            $this->setError('position', "Position must not exceed 100 characters in length");
+        }
+        if (!$this->isInteger($this->client, 1) && !($this->client instanceof Client))
+        {
+            $valid = false;
+            $this->setError('client', "Client is invalid");
         }
         return $valid;
     }
-
-} 
+}
