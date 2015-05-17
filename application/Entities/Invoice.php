@@ -17,6 +17,10 @@ class Invoice extends Entity
     public $quote;
     /** @var Client */
     public $client;
+    /** @var Product[] */
+    public $products = [];
+    /** @var Contact[] */
+    public $contacts = [];
     public $delete;
 
     /**
@@ -70,6 +74,28 @@ class Invoice extends Entity
         {
             $valid = false;
             $this->setError('taxRate', "Tax rate must be a positive decimal number");
+        }
+        if (is_array($this->products) && count($this->products))
+        {
+            foreach ($this->products as $product)
+            {
+                if (!$this->isInteger($product, 1) && !($product instanceof Product))
+                {
+                    $valid = false;
+                    $this->setError('products', "Products list is invalid");
+                }
+            }
+        }
+        if (is_array($this->contacts) && count($this->contacts))
+        {
+            foreach ($this->contacts as $contact)
+            {
+                if (!$this->isInteger($contact, 1) && !($contact instanceof Contact))
+                {
+                    $valid = false;
+                    $this->setError('contacts', "Contacts list is invalid");
+                }
+            }
         }
         return $valid;
     }
