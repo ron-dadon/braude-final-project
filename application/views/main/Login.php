@@ -35,7 +35,7 @@ class Login extends AbstractView
                     <p id="alert-text"></p>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer" id="login-footer">
                 <button id="login-button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-fw fa-sign-in"></i> Login</button>
                 <a id="forgot-password" class="btn btn-link btn-block">Forgot password?</a>
             </div>

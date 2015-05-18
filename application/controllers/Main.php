@@ -45,14 +45,11 @@ class Main extends IacsBaseController
                 $this->jsonResponse(false);
             }
             $user = $user[0];
-            $salt = $user->salt;
-            $password = hash('sha256', $password . $salt);
-            $user = $model->search("user_email = ? AND user_password = ?", [$email, $password]);
-            if ($user === null || count($user) !== 1)
+            if (!password_verify($password, $user->password))
             {
                 $this->jsonResponse(false);
             }
-            $this->getSession()->set('iacs-logged-user', serialize($user[0]));
+            $this->getSession()->set('iacs-logged-user', serialize($user));
             $this->jsonResponse(true);
         }
         $this->getView()->render();

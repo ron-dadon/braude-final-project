@@ -31,7 +31,7 @@ class Header extends AbstractView
     <?php $this->js('js/libraries/jquery.min.js') ?>
     <?php $this->js('js/libraries/bootstrap.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-file-input.min.js') ?>
-    <?php $this->js('js/libraries/bootstrap-file-input-he.min.js') ?>
+    <?php // $this->js('js/libraries/bootstrap-file-input-he.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-grid.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-select.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-tree.min.js') ?>
