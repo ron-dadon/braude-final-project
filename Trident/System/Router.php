@@ -176,6 +176,7 @@ class Router
             }
             catch (\Exception $e)
             {
+                var_dump($e);
                 $route = $this->_default;
                 $controller = $this->_namespace . "\\Controllers\\" . $route->getController();
                 if (!class_exists($controller))

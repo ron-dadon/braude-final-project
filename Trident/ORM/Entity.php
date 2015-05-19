@@ -98,7 +98,7 @@ abstract class Entity
     protected function setError($field, $error)
     {
         $fields = array_keys($this->toArray());
-        if (array_search($field, $fields) === false)
+        if (array_search($this->getPrefix() . $field, $fields) === false)
         {
             throw new \InvalidArgumentException("Can't set error to field $field. Field doesn't exists in entity");
         }
@@ -161,6 +161,7 @@ abstract class Entity
      */
     protected function isBoolean($var)
     {
+        if ($var === null) return false;
         $var = strtolower($var);
         return $var === false || $var === true || $var == 0 || $var == 1 || $var === 'on' || $var === 'off';
     }
@@ -176,6 +177,7 @@ abstract class Entity
      */
     protected function isInteger($var, $min = null, $max = null)
     {
+        if ($var === null) return false;
         if (!preg_match('/^(\-)?[0-9]+$/', $var))
         {
             return false;
@@ -216,6 +218,7 @@ abstract class Entity
      */
     protected function isFloat($var, $min = null, $max = null)
     {
+        if ($var === null) return false;
         if (!preg_match('/^(\-)?[0-9]*(\.)?[0-9]+$/', $var))
         {
             return false;
@@ -255,6 +258,7 @@ abstract class Entity
      */
     protected function isURL($var, $forceHttp = false)
     {
+        if ($var === null) return false;
         if (!filter_var($var, FILTER_VALIDATE_URL))
         {
             return false;
@@ -278,6 +282,7 @@ abstract class Entity
      */
     protected function isEmail($var)
     {
+        if ($var === null) return false;
         return filter_var($var, FILTER_VALIDATE_EMAIL);
     }
 
@@ -292,6 +297,7 @@ abstract class Entity
      */
     protected function isString($var, $minLength = null, $maxLength = null)
     {
+        if ($var === null) return false;
         if ($minLength !== null)
         {
             if (!$this->isInteger($minLength, 0))
@@ -327,10 +333,7 @@ abstract class Entity
      */
     protected function isPattern($var, $pattern)
     {
-        if (!filter_var($pattern, FILTER_VALIDATE_REGEXP))
-        {
-            throw new \InvalidArgumentException("Can't validate pattern match. Pattern is not a valid regular expression");
-        }
+        if ($var === null) return false;
         return preg_match($pattern, $var) === 1;
     }
 
@@ -343,6 +346,7 @@ abstract class Entity
      */
     protected function isIpAddress($var)
     {
+        if ($var === null) return false;
         $parts = explode('.', $var);
         if (count($parts) !== 4)
         {
@@ -368,6 +372,7 @@ abstract class Entity
      */
     protected function isToken($var, $length = 32)
     {
+        if ($var === null) return false;
         if (!$this->isInteger($length, 1))
         {
             throw new \InvalidArgumentException("Can't validate token. Length must be an integer larger than zero");
@@ -385,6 +390,7 @@ abstract class Entity
      */
     protected function isDate($var)
     {
+        if ($var === null) return false;
         $d = \DateTime::createFromFormat("Y-m-d", $var);
         return $d !== false;
     }
@@ -398,6 +404,7 @@ abstract class Entity
      */
     protected function isDateTime($var)
     {
+        if ($var === null) return false;
         $d = \DateTime::createFromFormat("Y-m-d H:i:s", $var);
         return $d !== false;
     }
@@ -411,6 +418,7 @@ abstract class Entity
      */
     protected function isTime($var)
     {
+        if ($var === null) return false;
         $d = \DateTime::createFromFormat("H:i:s", $var);
         return $d !== false;
     }
@@ -425,6 +433,7 @@ abstract class Entity
      */
     protected function isInList($var, $list = [])
     {
+        if ($var === null) return false;
         if (!is_array($list))
         {
             throw new \InvalidArgumentException("Can't validate a value is in list. List must be an array");

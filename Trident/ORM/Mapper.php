@@ -106,7 +106,7 @@ class Mapper
         $object = new $entityClass();
         list($primary, $prefix) = [$object->getPrimary(), $object->getPrefix()];
         $result = $this->find($entity, "$where AND $prefix$primary = :id", [':id' => $id]);
-        if ($result !== null)
+        if ($result !== null && count($result) === 1)
         {
             return $result[0];
         }
