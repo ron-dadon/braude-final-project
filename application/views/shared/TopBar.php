@@ -42,7 +42,7 @@ class TopBar extends AbstractView
                     <li class="visible-xs <?php if ($this->currentMenuItem === 'Licenses'): ?>active<?php endif; ?>"><a href="<?php $this->publicPath() ?>Licenses"><i class="fa fa-fw fa-key"></i> Licenses</a></li>
                     <li class="visible-xs <?php if ($this->currentMenuItem === 'Reports'): ?>active<?php endif; ?>"><a href="<?php $this->publicPath() ?>Reports"><i class="fa fa-fw fa-line-chart"></i> Reports</a></li>
                     <li><a href="<?php $this->publicPath() ?>Profile"><i class="fa fa-fw fa-user"></i> <?php echo $this->currentUser->firstName . ' ' . $this->currentUser->lastName ?></a></li>
-                    <li<?php if ($this->currentMenuItem === 'Administration'): ?> class="active"<?php endif; ?>><a href="<?php $this->publicPath() ?>Administration"><i class="fa fa-fw fa-cog"></i> Administration</a></li>
+                    <?php if ($this->currentUser->admin): ?><li<?php if ($this->currentMenuItem === 'Administration'): ?> class="active"<?php endif; ?>><a href="<?php $this->publicPath() ?>Administration"><i class="fa fa-fw fa-cog"></i> Administration</a></li><?php endif; ?>
                     <li class="danger"><a href="#" data-toggle="modal" data-target="#logout-modal"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
                 </ul>
            </div>
