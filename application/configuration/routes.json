@@ -85,6 +85,11 @@
             "pattern": "/Reports",
             "controller": "Reports",
             "method": "Index"
+        },
+        {
+            "pattern": "/Reports/ExpiredLicenses",
+            "controller": "Reports",
+            "method": "ExpiredLicenses"
         }
     ]
 }

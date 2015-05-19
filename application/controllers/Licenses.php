@@ -55,6 +55,7 @@ class Licenses extends IacsBaseController
             try
             {
                 $id = $this->getRequest()->getPost()->item('delete_id');
+                /** @var License $license */
                 $license = $licenses->getById($id);
                 if ($license === null)
                 {
@@ -74,7 +75,7 @@ class Licenses extends IacsBaseController
                     $this->addLogEntry("License with ID " . $id . " delete successfully", "success");
                     if ($this->getRequest()->isAjax())
                     {
-                        $this->jsonResponse(true, ['license' => $license->name]);
+                        $this->jsonResponse(true, ['license' => $license->serial]);
                     }
                     else
                     {
@@ -115,6 +116,7 @@ class Licenses extends IacsBaseController
     {
         /** @var LicensesModel $licenses */
         $licenses = $this->loadModel('Licenses');
+        /** @var License $license */
         $license = $licenses->getById($id);
         if ($license === null)
         {

@@ -11,7 +11,7 @@ class Administration extends IacsBaseController
     function __construct($configuration, $log, $request, $session)
     {
         parent::__construct($configuration, $log, $request, $session);
-        if (!$this->isUserLogged() || !$this->isUserAllowed('admin'))
+        if (!$this->isUserLogged() || !$this->getLoggedUser()->admin)
         {
             $this->redirect("/Error");
         }
@@ -70,6 +70,16 @@ class Administration extends IacsBaseController
             }
         }
         $this->redirect("/Error");
+    }
+
+    public function AddUser()
+    {
+
+    }
+
+    public function UpdateUser($id)
+    {
+
     }
 
     public function Settings()

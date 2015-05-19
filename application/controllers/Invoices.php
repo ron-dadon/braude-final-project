@@ -54,6 +54,7 @@ class Invoices extends IacsBaseController
             try
             {
                 $id = $this->getRequest()->getPost()->item('delete_id');
+                /** @var Invoice $invoice */
                 $invoice = $invoices->getById($id);
                 if ($invoice === null)
                 {
@@ -73,7 +74,7 @@ class Invoices extends IacsBaseController
                     $this->addLogEntry("Invoice with ID " . $id . " delete successfully", "success");
                     if ($this->getRequest()->isAjax())
                     {
-                        $this->jsonResponse(true, ['invoice' => $invoice->name]);
+                        $this->jsonResponse(true, ['invoice' => $invoice->id]);
                     }
                     else
                     {
@@ -114,6 +115,7 @@ class Invoices extends IacsBaseController
     {
         /** @var InvoicesModel $invoices */
         $invoices = $this->loadModel('Invoices');
+        /** @var Invoice $invoice */
         $invoice = $invoices->getById($id);
         if ($invoice === null)
         {

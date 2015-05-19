@@ -99,18 +99,15 @@ class IacsBaseController extends AbstractController
     }
 
     /**
-     * Check if user have a privilege.
+     * Get the logged user.
      *
-     * @param string $privilege Privilege name.
-     *
-     * @return bool True if user have privilege, false otherwise.
+     * @return User The loggged user entity.
      */
-    protected function isUserAllowed($privilege)
+    protected function getLoggedUser()
     {
         /** @var User $user */
         $user = unserialize($this->getSession()->item('iacs-logged-user'));
-        $data = $user->toArray();
-        return isset($data[$privilege]) && $data[$privilege] == 1;
+        return $user;
     }
 
     protected function jsonResponse($result, $details = [])
