@@ -34,7 +34,7 @@ $(document).on('ready', function() {
         formatters: {
             "userActions": function (column, row) {
                 return '<button class="btn btn-xs btn-danger btn-user-delete" data-delete-id="' + row.id + '" data-delete-name="' + row.firstName + ' ' + row.lastName + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                ' <button class="btn btn-xs btn-default btn-user-edit" data-edit-id="' + row.id + '"><i class="fa fa-fw fa-edit"></i></button>';
+                ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Administration/Users/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
             }
         }
     }).on('loaded.rs.jquery.bootgrid', function() {

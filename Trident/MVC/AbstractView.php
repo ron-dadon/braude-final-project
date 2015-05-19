@@ -162,6 +162,10 @@ abstract class AbstractView
      */
     public function formatSqlDateTime($sqlDateTime, $source = "Y-m-d H:i:s", $format = "d/m/Y H:i:s")
     {
+        if ($sqlDateTime === "0000-00-00 00:00:00")
+        {
+            return "n/a";
+        }
         $datetime = \DateTime::createFromFormat($source, $sqlDateTime);
         return $datetime->format($format);
     }

@@ -142,12 +142,12 @@ abstract class Entity
             throw new \InvalidArgumentException("Entity from array method requires an array as argument");
         }
         $fields = array_keys($this->toArray());
-        foreach ($array as $field => $value)
+        foreach ($fields as $field)
         {
-            $field = str_replace($keyPrefix, "", $field);
-            if (isset($fields[$field]))
+            if (isset($array[$field]))
             {
-                $this->$field = $value;
+                $shortField = str_replace($keyPrefix, "", $field);
+                $this->$shortField = $array[$field];
             }
         }
     }

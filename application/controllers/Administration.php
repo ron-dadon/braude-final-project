@@ -2,6 +2,7 @@
 
 namespace Application\Controllers;
 
+use Application\Entities\User;
 use Application\Models\Logs;
 use Application\Models\Users;
 
@@ -74,7 +75,31 @@ class Administration extends IacsBaseController
 
     public function AddUser()
     {
-
+        $user = new User();
+        if ($this->getRequest()->isPost())
+        {
+            $data = $this->getRequest()->getPost()->toArray();
+            $user->fromArray($data, "user_");
+            if (!$user->isValid() || $user->password !== $this->getRequest()->getPost()->item('user_confirm_password'))
+            {
+                $viewData['error'] = "Can not add user. The following fields are invalid:";
+            }
+            else
+            {
+                $user->password = password_hash($user->password, PASSWORD_BCRYPT);
+                $result = $this->getORM()->save($user);
+                if ($result->isSuccess())
+                {
+                    $this->redirect("/Administration/Users");
+                }
+                else
+                {
+                    $viewData['error'] = "Can not add user. The following fields are invalid:";
+                }
+            }
+        }
+        $viewData['user'] = $user;
+        $this->getView($viewData)->render();
     }
 
     public function UpdateUser($id)

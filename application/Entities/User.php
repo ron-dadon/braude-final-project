@@ -25,6 +25,9 @@ class User extends Entity
         $this->_table = "users";
         $this->_prefix = "user_";
         $this->_primary = "id";
+        $this->delete = 0;
+        $this->admin = 0;
+        $this->lastActive = '0000-00-00 00:00:00';
     }
 
     /**
@@ -45,7 +48,7 @@ class User extends Entity
         if (!$this->isString($this->firstName, 1, 20))
         {
             $valid = false;
-            $this->setError('firstName', "First name must be 1 to 100 characters in length");
+            $this->setError('firstName', "First name must be 1 to 20 characters in length");
         }
         if (!$this->isString($this->lastName, 0, 20))
         {
@@ -57,7 +60,7 @@ class User extends Entity
             $valid = false;
             $this->setError('email', "E-mail is invalid e-mail address");
         }
-        if (!$this->isPattern($this->password, '/^[.]{6,20}$/'))
+        if (!$this->isPattern($this->password, '/^.{6,20}$/'))
         {
             $valid = false;
             $this->setError('password', "Password must be 6 to 20 characters in length");
@@ -65,7 +68,7 @@ class User extends Entity
         if (!$this->isBoolean($this->admin))
         {
             $valid = false;
-            $this->_errors['admin'] = "Administrator must be set to Yes or No";
+            $this->setError('admin', "Administrator must be set to Yes or No");
         }
         return $valid;
     }

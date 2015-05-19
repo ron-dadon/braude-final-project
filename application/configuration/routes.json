@@ -52,6 +52,11 @@
             "method": "DeleteUser"
         },
         {
+            "pattern": "/Administration/Users/New",
+            "controller": "Administration",
+            "method": "AddUser"
+        },
+        {
             "pattern": "/Profile",
             "controller": "Main",
             "method": "Profile"
