@@ -7,10 +7,10 @@ use Application\Entities\License;
 
 class Licenses extends AbstractModel
 {
-    /**add non deleted find**/
+
     public function getById($id)
     {
-        return $this->getORM()->findById('License', $id);
+        return $this->getORM()->findById('License', $id, "license_delete = 0");
     }
 
     public function getAll()

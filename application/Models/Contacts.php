@@ -8,10 +8,10 @@ use Trident\MVC\AbstractModel;
 use Application\Entities\Contact;
 
 class Contacts extends AbstractModel{
-    /**add non deleted find**/
+
     public function getById($id)
     {
-        return $this->getORM()->findById('Contact', $id);
+        return $this->getORM()->findById('Contact', $id, "contact_delete = 0");
     }
 
     public function getAll()

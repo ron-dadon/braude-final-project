@@ -7,10 +7,10 @@ use Application\Entities\Product;
 
 class Products extends AbstractModel
 {
-    /**add non deleted find**/
+
     public function getById($id)
     {
-        return $this->getORM()->findById('Product', $id);
+        return $this->getORM()->findById('Product', $id,"product_delete = 0");
     }
 
     public function getAll()

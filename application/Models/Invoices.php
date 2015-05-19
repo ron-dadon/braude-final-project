@@ -7,10 +7,10 @@ use Application\Entities\Invoice;
 
 class Invoices extends AbstractModel
 {
-    /**add non deleted find**/
+
     public function getById($id)
     {
-        return $this->getORM()->findById('Invoice', $id);
+        return $this->getORM()->findById('Invoice', $id, "invoice_delete = 0");
     }
 
     public function getAll()

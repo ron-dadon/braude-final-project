@@ -10,7 +10,7 @@ class Users extends AbstractModel
 
     public function getById($id)
     {
-        return $this->getORM()->findById('User', $id);
+        return $this->getORM()->findById('User', $id, "user_delete = 0");
     }
 
     public function getAll()

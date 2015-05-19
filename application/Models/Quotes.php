@@ -7,10 +7,9 @@ use Application\Entities\Quote;
 
 class Quotes extends AbstractModel
 {
-    /**add non deleted find**/
     public function getById($id)
     {
-        return $this->getORM()->findById('Quote', $id);
+        return $this->getORM()->findById('Quote', $id, "quote_delete = 0");
     }
 
     public function getAll()

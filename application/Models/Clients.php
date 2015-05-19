@@ -7,10 +7,9 @@ use Application\Entities\Client;
 
 class Clients extends AbstractModel
 {
-    /**add non deleted find**/
     public function getById($id)
     {
-        return $this->getORM()->findById('Client', $id);
+        return $this->getORM()->findById('Client', $id, "client_delete = 0");
     }
 
     public function getAll()
