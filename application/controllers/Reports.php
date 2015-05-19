@@ -61,4 +61,84 @@ class Reports extends IacsBaseController
         }
         var_dump($list, $this->getLoggedUser());
     }
+
+    public function QuotesByStatus ($status)
+    {
+        /** @var Quotes $quotes */
+        $quotes = $this->loadModel('Quotes');
+
+        $list = $quotes->search("quote_status = :status", [':status' =>$status ]);
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve quotes from the database", "database");
+            // Go to reports
+        }
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
+        /** @var Clients $clients */
+        $clients = $this->loadModel('Clients');
+        /**
+         * @var Quote $quote
+         */
+        foreach ($list as $key => $quote)
+        {
+            if ($quote->client !== null)
+            {
+                $quote->client = $clients->getById($quote->client);
+            }
+            if ($quote->product !== null)
+            {
+                $quote->product = $products->getById($quote->product);
+            }
+
+            $list[$key] = $quote;
+        }
+        var_dump($list);
+
+    }
+
+    public function OpenInvoices ()
+    {
+        /** @var Invoices $invoices */
+        $invoices = $this->loadModel('Invoices');
+
+        $list = $invoices->search("invoice_tax = ''",[]);
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve invoices from the database", "database");
+            // Go to reports
+        }
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
+        /** @var Clients $clients */
+        $clients = $this->loadModel('Clients');
+        /** @var Quotes $quotes */
+        $quotes = $this->loadModel('Quotes');
+
+        /**
+         * @var Invoice $invoice
+         */
+        foreach ($list as $key => $invoice)
+        {
+            if ($invoice->client !== null)
+            {
+                $invoice->client = $clients->getById($invoice->client);
+            }
+            if ($invoice->product !== null)
+            {
+                $invoice->products = $products->getById($invoice->product);
+            }
+            if ($invoice->quote !== null)
+            {
+                $invoice->quote = $products->getById($invoice->quote);
+            }
+
+            $list[$key] = $invoice;
+        }
+        var_dump($list);
+    }
+
+    /*public function ExpieredLicense ($status)
+    {
+*/
 }
