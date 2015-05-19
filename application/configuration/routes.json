@@ -12,6 +12,11 @@
             "method": "Index"
         },
         {
+            "pattern": "/Error",
+            "controller": "Error",
+            "method": "Index"
+        },
+        {
             "pattern": "/Logout",
             "controller": "Main",
             "method": "Logout"
@@ -40,6 +45,11 @@
             "pattern": "/Administration/Users",
             "controller": "Administration",
             "method": "Users"
+        },
+        {
+            "pattern": "/Administration/Users/Delete",
+            "controller": "Administration",
+            "method": "DeleteUser"
         },
         {
             "pattern": "/Profile",

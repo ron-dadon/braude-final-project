@@ -24,7 +24,7 @@ class Users extends AbstractView
             <table class="table table-bordered" id="users-table">
                 <thead>
                     <tr>
-                        <th data-column-id="id">#</th>
+                        <th data-column-id="id" data-identifier="true">#</th>
                         <th data-column-id="email">E-Mail</th>
                         <th data-column-id="firstName">First name</th>
                         <th data-column-id="lastName">Last name</th>
@@ -35,7 +35,7 @@ class Users extends AbstractView
                 </thead>
                 <tbody>
 <?php foreach ($users as $user): ?>
-                    <tr>
+                    <tr data-user-id="<?php echo $user->id ?>">
                         <td><?php echo $user->id ?></td>
                         <td><?php echo $user->email ?></td>
                         <td><?php echo $user->firstName ?></td>
@@ -56,7 +56,10 @@ class Users extends AbstractView
 </div>
 <script src="<?php $this->publicPath() ?>js/administration/users.js?<?php echo date('YmdHis') ?>"></script>
 <?php
+        $this->getSharedView('ConfirmModal')->render();
+        $this->getSharedView('MessageModal')->render();
         $this->getSharedView('Footer')->render();
+
     }
 
 }

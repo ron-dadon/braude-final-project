@@ -40,6 +40,38 @@ class Administration extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    public function DeleteUser()
+    {
+        if ($this->getRequest()->isAjax())
+        {
+            /** @var Users $users */
+            $users = $this->loadModel('Users');
+            try
+            {
+                $id = $this->getRequest()->getPost()->item('delete_id');
+                $user = $users->getById($id);
+                if ($user === null)
+                {
+                    $this->jsonResponse(false);
+                }
+                $result = $users->delete($user);
+                if ($result->isSuccess())
+                {
+                    $this->jsonResponse(true, ['user' => $user->firstName . ' ' . $user->lastName]);
+                }
+                else
+                {
+                    $this->jsonResponse(false, ['user' => $user->firstName . ' ' . $user->lastName]);
+                }
+            }
+            catch (\InvalidArgumentException $e)
+            {
+                $this->jsonResponse(false);
+            }
+        }
+        $this->redirect("/Error");
+    }
+
     public function Settings()
     {
         if ($this->getRequest()->isAjax())

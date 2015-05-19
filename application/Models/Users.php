@@ -8,6 +8,12 @@ use Application\Entities\User;
 class Users extends AbstractModel
 {
 
+    /**
+     * @param $id
+     *
+     * @return null|\Application\Entities\User
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
     public function getById($id)
     {
         return $this->getORM()->findById('User', $id, "user_delete = 0");
