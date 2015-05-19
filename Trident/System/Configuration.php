@@ -107,7 +107,7 @@ class Configuration
         {
             throw new IOException();
         }
-        $json = json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json = json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         if ($json === false)
         {
             throw new JsonParseException();

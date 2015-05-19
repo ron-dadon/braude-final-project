@@ -14,49 +14,28 @@ class Index extends AbstractView
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
     <div class="page-head bg-main">
-        <h1><i class="fa fa-fw fa-cogs"></i> Settings</h1>
+        <h1><i class="fa fa-fw fa-cog"></i> Administration</h1>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4><i class="fa fa-fw fa-shield"></i> Security</h4>
+    <div class="row">
+        <div class="col-xs-12 col-lg-4">
+            <a href="<?php $this->publicPath() ?>Administration/Settings" class="btn btn-block btn-default btn-big">
+                <h1><i class="fa fa-fw fa-cogs"></i></h1>
+                <h2>Settings</h2>
+            </a>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-12 col-lg-4">
-                    <form data-toggle="validator" id="security-form">
-                        <div class="form-group">
-                            <label for="security-idle-logout">Idle time to auto logout:</label>
-                            <input type="number" class="form-control" id="security-idle-logout" value="60" required>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="alert alert-danger no-margin-bottom">
-                <p><i class="fa fa-fw fa-info-circle"></i> Notice: changes in those settings have a security effect.</p>
-            </div>
+        <div class="col-xs-12 col-lg-4">
+            <a href="<?php $this->publicPath() ?>Administration/Users" class="btn btn-block btn-default btn-big">
+                <h1><i class="fa fa-fw fa-users"></i></h1>
+                <h2>Users</h2>
+            </a>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4><i class="fa fa-fw fa-envelope"></i> Email</h4>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-12 col-lg-4">
-                    <form data-toggle="validator" id="email-form">
-                        <div class="form-group">
-                            <label for="email-host">Host:</label>
-                            <input type="text" class="form-control" id="email-host" value="" pattern="^[a-z0-9A-Z\:\/\.]{1,255}">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="alert alert-warning no-margin-bottom">
-                <p><i class="fa fa-fw fa-info-circle"></i> Notice: Changes in those settings affect password recovery option.</p>
-            </div>
+        <div class="col-xs-12 col-lg-4">
+            <a href="<?php $this->publicPath() ?>Administration/Log" class="btn btn-block btn-default btn-big">
+                <h1><i class="fa fa-fw fa-th-list"></i></h1>
+                <h2>Log</h2>
+            </a>
         </div>
     </div>
-
 </div>
 <?php
         $this->getSharedView('Footer')->render();

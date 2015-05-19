@@ -347,6 +347,14 @@ class AbstractController
     }
 
     /**
+     * @return null|Mapper
+     */
+    public function getORM()
+    {
+        return $this->_orm;
+    }
+
+    /**
      * @return Request
      */
     public function getRequest()

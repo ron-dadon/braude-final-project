@@ -68,15 +68,23 @@ class MySql extends PDO
         {
             throw new MySqlException("Can't prepare statement from query `" . $query->getQuery() . "`");
         }
-        if ($statement->execute($query->getParameters()))
+        try
         {
-            $result = new Result(true, 0, '', $this->lastInsertId(), $statement->fetchAll(PDO::FETCH_ASSOC));
+            if ($statement->execute($query->getParameters()))
+            {
+                $result = new Result(true, 0, '', $this->lastInsertId(), $statement->fetchAll(PDO::FETCH_ASSOC));
+            }
+            else
+            {
+                $result = new Result(false, $statement->errorInfo()[1], $statement->errorInfo()[2]);
+            }
+            return $result;
         }
-        else
+        catch (PDOException $e)
         {
-            $result = new Result(false, $statement->errorInfo()[1], $statement->errorInfo()[2]);
+            error_log($e->getMessage() . ": Error executing query " . $query->getQuery() . " with parameters " . implode(', ', $query->getParameters()));
+            die();
         }
-        return $result;
     }
 
     /**

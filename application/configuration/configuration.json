@@ -1,20 +1,24 @@
 {
     "environment.production": false,
     "environment.zone": "israel",
-
     "system.debug": false,
     "system.routes": "../Application/Configuration/routes.json",
-
     "application.path": "../",
     "application.namespace": "Application",
-
     "paths.public": "http://localhost/iacs/Public",
     "paths.application": "../Application/",
     "paths.data": "../Application/Data/",
     "paths.logs": "../Application/Logs/",
-
     "database.host": "localhost",
     "database.user": "iacs",
     "database.password": "123456",
-    "database.name": "iacs_dev"
+    "database.name": "iacs_dev",
+    "user.security.allow-auto-logout": true,
+    "user.security.auto-logout-time": 5,
+    "user.security.allow-password-reset": true,
+    "user.email.host": "smtp.gmail.com",
+    "user.email.port": 587,
+    "user.email.security": "tls",
+    "user.email.user": "design@obu.co.il",
+    "user.email.password": "12345678"
 }

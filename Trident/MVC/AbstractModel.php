@@ -10,6 +10,7 @@ use \Trident\System\Session;
 use \Trident\Database\MySql;
 use \Trident\ORM\Mapper;
 use \Trident\Libraries\Libraries;
+use \Trident\Exceptions\ModelNotFoundException;
 
 abstract class AbstractModel
 {
@@ -88,7 +89,7 @@ abstract class AbstractModel
     /**
      * @return Configuration
      */
-    public function getConfiguration()
+    protected function getConfiguration()
     {
         return $this->_configuration;
     }
@@ -96,7 +97,7 @@ abstract class AbstractModel
     /**
      * @return Log
      */
-    public function getLog()
+    protected function getLog()
     {
         return $this->_log;
     }
@@ -104,7 +105,7 @@ abstract class AbstractModel
     /**
      * @return Mapper
      */
-    public function getORM()
+    protected function getORM()
     {
         return $this->_orm;
     }
@@ -112,7 +113,7 @@ abstract class AbstractModel
     /**
      * @return null|MySql
      */
-    public function getMysql()
+    protected function getMysql()
     {
         return $this->_mysql;
     }
@@ -120,7 +121,7 @@ abstract class AbstractModel
     /**
      * @return Request
      */
-    public function getRequest()
+    protected function getRequest()
     {
         return $this->_request;
     }
@@ -128,7 +129,7 @@ abstract class AbstractModel
     /**
      * @return Session
      */
-    public function getSession()
+    protected function getSession()
     {
         return $this->_session;
     }
@@ -136,9 +137,36 @@ abstract class AbstractModel
     /**
      * @return Libraries
      */
-    public function getLibraries()
+    protected  function getLibraries()
     {
         return $this->_libraries;
+    }
+
+    /**
+     * Creates a Model object.
+     *
+     * @param string $model Model to create.
+     *
+     * @return AbstractModel
+     * @throws ModelNotFoundException
+     */
+    protected function loadModel($model)
+    {
+        try
+        {
+            $namespace = $this->_configuration->item('application.namespace');
+        }
+        catch (\InvalidArgumentException $e)
+        {
+            $namespace = "";
+        }
+        $modelName = $namespace . "\\Models\\$model";
+        if (!class_exists($modelName))
+        {
+            throw new ModelNotFoundException("Can't load model `$modelName`");
+        }
+        return new $modelName($this->_configuration, $this->_mysql, $this->_orm, $this->_log, $this->_request,
+            $this->_session, $this->_libraries);
     }
 
 }

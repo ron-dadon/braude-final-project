@@ -8,7 +8,6 @@ use \Trident\MVC\AbstractView;
 /**
  * Class Footer
  *
- * @property string $viewJS
  * @package Application\Views\Shared
  */
 class Footer extends AbstractView
@@ -18,15 +17,9 @@ class Footer extends AbstractView
         $this->getSharedView('LogoutModal')->render();
         $this->getSharedView('AutoLogoutModal')->render(); ?>
     <?php $this->js('js/application.js') ?>
-    <?php $this->js('js/' . $this->viewJS . '.js') ?>
 </body>
 </html>
 <?php
     }
 
-    public function js($file)
-    {
-        $file = $this->publicPath(true) . $file;
-        echo "<script src=\"" . $file . "\"></script>" . PHP_EOL;
-    }
-} 
+}

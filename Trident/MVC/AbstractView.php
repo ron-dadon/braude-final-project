@@ -140,4 +140,29 @@ abstract class AbstractView
         return new $viewName($this->configuration, $this->data);
     }
 
+    /**
+     * Include Javascript file from external source (relative to public path)
+     *
+     * @param string $file File path
+     */
+    public function js($file)
+    {
+        $file = $this->publicPath(true) . $file;
+        echo "<script src=\"" . $file . "\"></script>" . PHP_EOL;
+    }
+
+    /**
+     * Format SQL DateTime field.
+     *
+     * @param string $sqlDateTime SQL DateTime field data.
+     * @param string $source
+     * @param string $format
+     *
+     * @return string
+     */
+    public function formatSqlDateTime($sqlDateTime, $source = "Y-m-d H:i:s", $format = "d/m/Y H:i:s")
+    {
+        $datetime = \DateTime::createFromFormat($source, $sqlDateTime);
+        return $datetime->format($format);
+    }
 }

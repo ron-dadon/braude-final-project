@@ -35,6 +35,17 @@ abstract class Entity
     protected $_errors;
 
     /**
+     * Return primary key value when entity is converted to string.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        $primary = $this->_primary;
+        return $this->$primary;
+    }
+
+    /**
      * Select properties to be serialized.
      *
      * @return array Properties array.

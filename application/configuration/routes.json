@@ -27,6 +27,21 @@
             "method": "Index"
         },
         {
+            "pattern": "/Administration/Settings",
+            "controller": "Administration",
+            "method": "Settings"
+        },
+        {
+            "pattern": "/Administration/Log",
+            "controller": "Administration",
+            "method": "Log"
+        },
+        {
+            "pattern": "/Administration/Users",
+            "controller": "Administration",
+            "method": "Users"
+        },
+        {
             "pattern": "/Profile",
             "controller": "Main",
             "method": "Profile"

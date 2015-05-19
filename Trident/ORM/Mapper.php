@@ -97,13 +97,13 @@ class Mapper
      */
     public function findById($entity, $id, $where = "")
     {
-        $entity = "\\" . $this->_namespace . "\\Entities\\" . $entity;
-        if (!class_exists($entity))
+        $entityClass = "\\" . $this->_namespace . "\\Entities\\" . $entity;
+        if (!class_exists($entityClass))
         {
             throw new EntityNotFoundException("Can't create instance of entity `$entity`");
         }
         /** @var Entity $object */
-        $object = new $entity();
+        $object = new $entityClass();
         list($primary, $prefix) = [$object->getPrimary(), $object->getPrefix()];
         $result = $this->find($entity, "$where AND $prefix$primary = :id", [':id' => $id]);
         if ($result !== null)

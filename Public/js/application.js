@@ -6,9 +6,14 @@ function autoLogout()
     clearTimeout(autoLogoutTimer);
     autoLogoutTimer = false;
     $.get(appSettings.homeURI + "/Logout", {}, function(result) {
-        console.log(result);
         if (result.substr(0,2) === "OK")
         {
+            $(document)
+                .unbind('mousemove')
+                .unbind('keydown')
+                .unbind('DOMMouseScroll')
+                .unbind('mousewheel')
+                .unbind('mousedown');
             $('#auto-logout-modal').modal('show');
         }
     });
@@ -19,7 +24,7 @@ function resetAutoLogout()
     if (autoLogoutTimer !== false && lastReset === 0)
     {
         clearTimeout(autoLogoutTimer);
-        lastReset = 100;
+        lastReset = 200;
         autoLogoutTimer = setTimeout(autoLogout, 1000 * 60 * appSettings.autoLogoutTime);
     }
     lastReset--;

@@ -90,13 +90,74 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+label {
+    font-weight: normal;
+}
+
+.btn {
+    font-size: 16px;
+}
+
 .alert > h4 {
     font-weight: 700;
+}
+
+.alert {
+    background: #f3f3f3;
+    border: none;
+}
+
+.alert.alert-danger {
+    border-left: solid 5px #ac2925 !important;
+}
+
+.alert.alert-success {
+    border-left: solid 5px #009933 !important;
+}
+
+.alert.alert-info {
+    border-left: solid 5px #204d74 !important;
+}
+
+.alert.alert-warning {
+    border-left: solid 5px #ee8822 !important;
 }
 
 .page-header {
     margin-top: 2px;
     border-bottom: solid 2px #333333;
+}
+
+.panel.panel-primary {
+    border-color: #204d74;
+}
+
+.panel.panel-primary > .panel-heading {
+    background: #204d74;
+}
+
+.panel.panel-success {
+    border-color: #009933;
+}
+
+.panel.panel-success > .panel-heading {
+    background: #009933;
+}
+
+.panel.panel-danger {
+    border-color: #ac2925;
+}
+
+.panel.panel-danger > .panel-heading {
+    background: #ac2925;
+}
+
+.panel.panel-warning {
+    border-color: #ee8822;
+}
+
+.panel.panel-warning > .panel-heading {
+    background: #ee8822;
 }
 
 .navbar-brand {
@@ -111,7 +172,8 @@ h1, h2, h3, h4, h5, h6 {
     background: #204d74;
 }
 
-.navbar-inverse .navbar-nav > li:hover > a {
+.navbar-inverse .navbar-nav > li:hover > a,
+.navbar-inverse .navbar-nav > li.active:hover > a{
     background: #204d74;
     transition: background .25s, color .25s;
 }
@@ -147,6 +209,27 @@ h1, h2, h3, h4, h5, h6 {
 .modal .modal-dialog .modal-content .modal-header.bg-primary,
 .modal .modal-dialog .modal-content .modal-header.bg-warning,
 .modal .modal-dialog .modal-content .modal-header.bg-success {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal.modal-success > .modal-dialog > .modal-content > .modal-header {
+    background: #009933;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal.modal-danger > .modal-dialog > .modal-content > .modal-header {
+    background: #ac2925;
+    color: #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modal.modal-primary > .modal-dialog > .modal-content > .modal-header {
+    background: #204d74;
+    color: #ffffff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -225,6 +308,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .page-head.bg-notice {
     border-bottom: solid 3px #ee8822;
+}
+
+.btn-big {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 5px 0;
 }
 
 /* Mobile */

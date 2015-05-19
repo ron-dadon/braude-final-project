@@ -18,8 +18,15 @@ class Index extends AbstractView
     </div>
     <div class="panel">
         <div class="panel-body">
-            <h3 class="margin-bottom">Oops! Something went wrong!</h3>
-            <p>For further information please check the errors log, or contact your system administrator.</p>
+            <div class="media">
+                <div class="media-object media-left">
+                    <i class="fa fa-fw fa-4x fa-exclamation-circle"></i>
+                </div>
+                <div class="media-body media-right">
+                    <h3 class="margin-bottom">Oops! Something went wrong!</h3>
+                    <p>For further information please check the errors log, or contact your system administrator.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

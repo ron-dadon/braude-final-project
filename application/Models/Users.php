@@ -7,7 +7,7 @@ use Application\Entities\User;
 
 class Users extends AbstractModel
 {
-/**add non deleted find**/
+
     public function getById($id)
     {
         return $this->getORM()->findById('User', $id);
@@ -34,6 +34,10 @@ class Users extends AbstractModel
      */
     public function add($user)
     {
+        if (!$user instanceof User)
+        {
+            throw new \InvalidArgumentException("Add user argument must be a valid User entity");
+        }
         return $this->getORM()->save($user);
     }
     /**
@@ -43,10 +47,12 @@ class Users extends AbstractModel
      */
     public function delete($user)
     {
+        if (!$user instanceof User)
+        {
+            throw new \InvalidArgumentException("Add user argument must be a valid User entity");
+        }
         $user->delete = 1;
         return $this->getORM()->save($user);
-
     }
-
 
 } 
