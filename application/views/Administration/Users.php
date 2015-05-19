@@ -50,10 +50,11 @@ class Users extends AbstractView
         </div>
         <div class="panel-footer text-right">
             <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
+            <a href="<?php $this->publicPath() ?>Administration/Users/New" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New user</a>
         </div>
     </div>
 </div>
-<script src="<?php $this->publicPath() ?>js/administration/users.js"></script>
+<script src="<?php $this->publicPath() ?>js/administration/users.js?<?php echo date('YmdHis') ?>"></script>
 <?php
         $this->getSharedView('Footer')->render();
     }

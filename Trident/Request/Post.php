@@ -22,4 +22,8 @@ class Post
         return $_POST[$key];
     }
 
+    public function toArray()
+    {
+        return $_POST;
+    }
 } 

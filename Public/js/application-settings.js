@@ -1,4 +1,4 @@
 var appSettings = {
-    "autoLogoutTime": 10,
+    "autoLogoutTime": 60,
     "homeURI": "http://localhost/iacs/Public"
 };

@@ -14,7 +14,7 @@
     "database.password": "123456",
     "database.name": "iacs_dev",
     "user.security.allow-auto-logout": true,
-    "user.security.auto-logout-time": 5,
+    "user.security.auto-logout-time": 60,
     "user.security.allow-password-reset": true,
     "user.email.host": "smtp.gmail.com",
     "user.email.port": 587,

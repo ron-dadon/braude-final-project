@@ -7,6 +7,13 @@ use Application\Entities\Client;
 
 class Clients extends AbstractModel
 {
+
+    /**
+     * @param $id
+     *
+     * @return null|\Application\Entities\Client
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
     public function getById($id)
     {
         return $this->getORM()->findById('Client', $id, "client_delete = 0");

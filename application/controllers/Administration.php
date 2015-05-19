@@ -3,6 +3,7 @@
 namespace Application\Controllers;
 
 use Application\Models\Logs;
+use Application\Models\Users;
 
 class Administration extends IacsBaseController
 {

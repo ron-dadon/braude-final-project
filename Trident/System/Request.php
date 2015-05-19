@@ -383,6 +383,14 @@ class Request
     }
 
     /**
+     * @return boolean
+     */
+    public function isPost()
+    {
+        return $this->_type === 'POST';
+    }
+
+    /**
      * @return string
      */
     public function getBrowser()
