@@ -47,6 +47,11 @@
             "method": "Users"
         },
         {
+            "pattern": "/Administration/Users/CheckExists",
+            "controller": "Administration",
+            "method": "IsUserExists"
+        },
+        {
             "pattern": "/Administration/Users/Delete",
             "controller": "Administration",
             "method": "DeleteUser"
@@ -54,12 +59,17 @@
         {
             "pattern": "/Administration/Users/New",
             "controller": "Administration",
-            "method": "AddUser"
+            "method": "NewUser"
+        },
+        {
+            "pattern": "/Administration/Users/Update/(id)",
+            "controller": "Administration",
+            "method": "UpdateUser"
         },
         {
             "pattern": "/Profile",
-            "controller": "Main",
-            "method": "Profile"
+            "controller": "Profile",
+            "method": "Index"
         },
         {
             "pattern": "/Clients",

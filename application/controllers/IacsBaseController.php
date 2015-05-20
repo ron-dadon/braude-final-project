@@ -31,17 +31,22 @@ class IacsBaseController extends AbstractController
             $idleTime = $this->getConfiguration()->item('user.security.auto-logout-time');
             $lastActive = \DateTime::createFromFormat("Y-m-d H:i:s", $user->lastActive);
             $now = new \DateTime();
-            if ($now->diff($lastActive, true)->i > $autoLogout)
+            if ($autoLogout && ($now->diff($lastActive, true)->i > $idleTime))
             {
                 $this->getSession()->destroy();
                 $this->redirect("/login");
             }
             $user->lastActive = $now->format('Y-m-d H:i:s');
-            $this->getORM()->save($user);
+            $result = $this->getORM()->save($user);
+            if (!$result->isSuccess())
+            {
+                $this->getLog()->newEntry($result->getErrorString(), "database");
+                $this->redirect("/Error");
+            }
         }
         catch (\InvalidArgumentException $e)
         {
-            // Do nothing
+            $this->getLog()->newEntry($e->getMessage(), "general");
         }
     }
 

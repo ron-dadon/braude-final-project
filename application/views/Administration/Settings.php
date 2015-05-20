@@ -16,6 +16,7 @@ class Settings extends AbstractView
     <div class="page-head bg-main">
         <h1><i class="fa fa-fw fa-cogs"></i> Settings</h1>
     </div>
+    <div id="alerts-container"></div>
     <div class="row">
         <form data-toggle="validator" id="settings-form">
             <div class="col-xs-12">
@@ -118,7 +119,7 @@ class Settings extends AbstractView
         </div>
     </div>
 
-    <?php $this->js("js/administration/settings.js"); ?>
+    <?php $this->js("js/administration/settings.js?" . date('YmdHis')); ?>
 </div>
 <?php
         $this->getSharedView('MessageModal')->render();

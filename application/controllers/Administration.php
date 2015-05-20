@@ -14,6 +14,7 @@ class Administration extends IacsBaseController
         parent::__construct($configuration, $log, $request, $session);
         if (!$this->isUserLogged() || !$this->getLoggedUser()->admin)
         {
+            $this->getLog()->newEntry("User tried to access Administration area without having the right privilege", "danger");
             $this->redirect("/Error");
         }
     }
@@ -53,27 +54,42 @@ class Administration extends IacsBaseController
                 $user = $users->getById($id);
                 if ($user === null)
                 {
+                    $this->addLogEntry("Delete of user with the ID $id failed. No user with this ID was found", "danger");
                     $this->jsonResponse(false);
                 }
                 $result = $users->delete($user);
                 if ($result->isSuccess())
                 {
+                    $this->addLogEntry("Successfully deleted user with the ID $id", "success");
                     $this->jsonResponse(true, ['user' => $user->firstName . ' ' . $user->lastName]);
                 }
                 else
                 {
+                    $this->addLogEntry("Delete of user with the ID $id failed", "danger");
+                    $this->getLog()->newEntry($result->getErrorString(), "database");
                     $this->jsonResponse(false, ['user' => $user->firstName . ' ' . $user->lastName]);
                 }
             }
             catch (\InvalidArgumentException $e)
             {
+                $this->getLog()->newEntry($e->getMessage(), "administration");
                 $this->jsonResponse(false);
             }
         }
         $this->redirect("/Error");
     }
 
-    public function AddUser()
+    public function IsUserExists($email)
+    {
+        $result = $this->getORM()->find('User', 'user_email = :email AND user_delete = 0', [':email' => $email]);
+        if ($result === null || count($result) === 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public function NewUser()
     {
         $user = new User();
         if ($this->getRequest()->isPost())
@@ -84,17 +100,24 @@ class Administration extends IacsBaseController
             {
                 $viewData['error'] = "Can not add user. The following fields are invalid:";
             }
+            elseif ($this->IsUserExists($user->email))
+            {
+                $viewData['error'] = "Can not add user. User email already exists.";
+            }
             else
             {
                 $user->password = password_hash($user->password, PASSWORD_BCRYPT);
                 $result = $this->getORM()->save($user);
                 if ($result->isSuccess())
                 {
+                    $this->addLogEntry("Successfully created a new user with the ID " . $result->getLastId(), "success");
                     $this->redirect("/Administration/Users");
                 }
                 else
                 {
-                    $viewData['error'] = "Can not add user. The following fields are invalid:";
+                    $this->addLogEntry("Creation of new user failed", "danger");
+                    $this->getLog()->newEntry($result->getErrorString(), "database");
+                    $viewData['error'] = "Can not add user.";
                 }
             }
         }
@@ -104,7 +127,58 @@ class Administration extends IacsBaseController
 
     public function UpdateUser($id)
     {
-
+        /** @var Users $users */
+        $users = $this->loadModel('Users');
+        $user = $users->getById($id);
+        if ($this->getRequest()->isPost())
+        {
+            if ($this->getRequest()->getPost()->item('user_password') !== $this->getRequest()->getPost()->item('user_confirm_password'))
+            {
+                $viewData['error'] = "Can not update user. Passwords don't match.";
+            }
+            else
+            {
+                $oldPassword = '';
+                $data = $this->getRequest()->getPost()->toArray();
+                if ($this->getRequest()->getPost()->item('user_password') === '')
+                {
+                    unset($data['user_password']);
+                    $oldPassword = $user->password;
+                    $user->password = '123456';
+                }
+                $user->fromArray($data, "user_");
+                if (!$user->isValid())
+                {
+                    $viewData['error'] = "Can not update user. The following fields are invalid:";
+                    $user = $users->getById($id);
+                }
+                else
+                {
+                    if ($this->getRequest()->getPost()->item('user_password') !== '')
+                    {
+                        $user->password = password_hash($user->password, PASSWORD_BCRYPT);
+                    }
+                    else
+                    {
+                        $user->password = $oldPassword;
+                    }
+                    $result = $this->getORM()->save($user);
+                    if ($result->isSuccess())
+                    {
+                        $this->addLogEntry("Successfully updated user with the ID $id", "success");
+                        $viewData['success'] = "User updated successfully!";
+                    }
+                    else
+                    {
+                        $this->addLogEntry("Update of user with ID $id failed", "danger");
+                        $this->getLog()->newEntry($result->getErrorString(), "database");
+                        $viewData['error'] = "Can not update user.";
+                    }
+                }
+            }
+        }
+        $viewData['user'] = $user;
+        $this->getView($viewData)->render();
     }
 
     public function Settings()
@@ -171,6 +245,7 @@ class Administration extends IacsBaseController
             catch (\Exception $e)
             {
                 $this->addLogEntry("Failed system settings update", "danger");
+                $this->getLog()->newEntry($e->getMessage(), "administration");
                 $this->jsonResponse(false);
             }
         }

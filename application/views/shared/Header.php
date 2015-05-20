@@ -40,7 +40,8 @@ class Header extends AbstractView
     <?php $this->js('js/libraries/bootstrap-select.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-tree.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-validator.min.js') ?>
-    <?php $this->js('js/application-settings.js') ?>
+    <?php $this->js('js/application-settings.js?'. date('YmdHis')) ?>
+    <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->
 </head>
 <body>

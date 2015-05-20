@@ -19,12 +19,13 @@ class Users extends AbstractView
     <div class="page-head bg-main">
         <h1><i class="fa fa-fw fa-users"></i> Users</h1>
     </div>
+    <div id="alerts-container"></div>
     <div class="panel">
         <div class="table-responsive">
             <table class="table table-bordered" id="users-table">
                 <thead>
                     <tr>
-                        <th data-column-id="id" data-identifier="true">#</th>
+                        <th data-column-id="id" data-identifier="true" data-order="asc">ID</th>
                         <th data-column-id="email">E-Mail</th>
                         <th data-column-id="firstName">First name</th>
                         <th data-column-id="lastName">Last name</th>
@@ -57,7 +58,6 @@ class Users extends AbstractView
 <script src="<?php $this->publicPath() ?>js/administration/users.js?<?php echo date('YmdHis') ?>"></script>
 <?php
         $this->getSharedView('ConfirmModal')->render();
-        $this->getSharedView('MessageModal')->render();
         $this->getSharedView('Footer')->render();
 
     }

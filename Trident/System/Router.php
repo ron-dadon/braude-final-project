@@ -176,7 +176,6 @@ class Router
             }
             catch (\Exception $e)
             {
-                var_dump($e);
                 $route = $this->_default;
                 $controller = $this->_namespace . "\\Controllers\\" . $route->getController();
                 if (!class_exists($controller))
@@ -195,6 +194,10 @@ class Router
                     $method = $route->getMethod();
                     $parameters = print_r($route->getParameters(), true);
                     throw new RouterDispatchException("Dispatch of route `$controller->$method($parameters)` failed");
+                }
+                if ($configuration->item('system.debug'))
+                {
+                    var_dump($e->getMessage());
                 }
             }
         }

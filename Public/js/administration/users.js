@@ -11,22 +11,14 @@ function deleteUser(id)
         $('#confirm-modal').modal('hide');
         if (result.result === true)
         {
+            showMessageAlert('<i class="fa fa-fw fa-check-circle"></i>', 'User deleted successfully!', 'The user <strong>' + userName + '</strong> was deleted.', 'success', true);
             $('#users-table').bootgrid("remove", [id]);
-            $('#message-modal-title').html('<i class="fa fa-fw fa-check"></i> User deleted successfully!');
-            $('#message-modal-body').html('The user <strong>' + userName + '</strong> was deleted.<br><small>This message will be closed within 3 seconds...</small>');
-            $('#message-modal-button').removeClass('btn-danger').addClass('btn-success');
-            $('#message-modal').removeClass('modal-danger').addClass('modal-success').modal('show');
         }
         else
         {
-            $('#message-modal-title').html('<i class="fa fa-fw fa-times"></i> Failed to delete user!');
-            $('#message-modal-body').html('The user <strong>' + userName + '</strong> was not deleted.<br><small>This message will be closed within 3 seconds...</small>');
-            $('#message-modal-button').removeClass('btn-success').addClass('btn-danger');
-            $('#message-modal').removeClass('modal-success').addClass('modal-danger').modal('show');
+            showMessageAlert('<i class="fa fa-fw fa-times-circle"></i>', 'User deletion failed!', 'The user <strong>' + userName + '</strong> was not deleted.', 'danger', true);
         }
-        setTimeout(function() { $('#message-modal').modal('hide'); }, 3000);
     });
-
 }
 
 $(document).on('ready', function() {

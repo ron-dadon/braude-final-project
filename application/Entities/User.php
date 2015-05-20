@@ -27,6 +27,7 @@ class User extends Entity
         $this->_primary = "id";
         $this->delete = 0;
         $this->admin = 0;
+        $this->token = '';
         $this->lastActive = '0000-00-00 00:00:00';
     }
 

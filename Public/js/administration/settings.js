@@ -19,11 +19,7 @@ $(document).on('ready', function() {
     $('#settings-form').validator().on('submit', function(e) {
         if (e.isDefaultPrevented())
         {
-            $('#message-modal-title').html('<i class="fa fa-fw fa-times"></i> Your settings contain errors!');
-            $('#message-modal-body').html('Please check for red marked fields and fix the errors. This message will be closed within 3 seconds.');
-            $('#message-modal-button').removeClass('btn-success').addClass('btn-danger');
-            $('#message-modal').removeClass('modal-success').addClass('modal-danger').modal('show');
-            setTimeout(function() { $('#message-modal').modal('hide'); }, 3000);
+            showMessageAlert('<i class="fa fa-fw fa-2x fa-times-circle"></i>', 'Failed to save settings!', 'One or more of your settings are invalid. Please try again.', 'danger', true);
         }
         else
         {
@@ -43,19 +39,12 @@ $(document).on('ready', function() {
                 result = JSON.parse(result);
                 if (result.result === true)
                 {
-                    $('#message-modal-title').html('<i class="fa fa-fw fa-check"></i> Settings saved successfully!');
-                    $('#message-modal-body').html('Your settings were updated.<br><small>This message will be closed within 3 seconds...</small>');
-                    $('#message-modal-button').removeClass('btn-danger').addClass('btn-success');
-                    $('#message-modal').removeClass('modal-danger').addClass('modal-success').modal('show');
+                    showMessageAlert('<i class="fa fa-fw fa-2x fa-check-circle"></i>', 'Settings saved successfully!', 'Your settings were updated.', 'success', true);
                 }
                 else
                 {
-                    $('#message-modal-title').html('<i class="fa fa-fw fa-times"></i> Error saving settings!');
-                    $('#message-modal-body').html('Your settings were not updated.<br><small>This message will be closed within 3 seconds...</small>');
-                    $('#message-modal-button').removeClass('btn-success').addClass('btn-danger');
-                    $('#message-modal').removeClass('modal-success').addClass('modal-danger').modal('show');
+                    showMessageAlert('<i class="fa fa-fw fa-2x fa-times-circle"></i>', 'Failed to save settings!', 'Your settings were not updated.', 'danger', true);
                 }
-                setTimeout(function() { $('#message-modal').modal('hide'); }, 3000);
                 $('#save-button').html('<i class="fa fa-fw fa-check"></i> Save').prop('disabled', false);
             });
         }

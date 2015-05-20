@@ -28,6 +28,60 @@ class Main extends IacsBaseController
         $this->getView()->render();
     }
 
+    public function Profile()
+    {
+        $user = $this->getLoggedUser();
+        if ($this->getRequest()->isPost())
+        {
+            if ($this->getRequest()->getPost()->item('user_password') !== $this->getRequest()->getPost()->item('user_confirm_password'))
+            {
+                $viewData['error'] = "Can not update user profile. Passwords don't match.";
+            }
+            else
+            {
+                $oldPassword = '';
+                $data = $this->getRequest()->getPost()->toArray();
+                if ($this->getRequest()->getPost()->item('user_password') === '')
+                {
+                    unset($data['user_password']);
+                    $oldPassword = $user->password;
+                    $user->password = '123456';
+                }
+                $user->fromArray($data, "user_");
+                if (!$user->isValid())
+                {
+                    $viewData['error'] = "Can not update user profile. The following fields are invalid:";
+                    $user = $this->getLoggedUser();
+                }
+                else
+                {
+                    if ($this->getRequest()->getPost()->item('user_password') !== '')
+                    {
+                        $user->password = password_hash($user->password, PASSWORD_BCRYPT);
+                    }
+                    else
+                    {
+                        $user->password = $oldPassword;
+                    }
+                    $result = $this->getORM()->save($user);
+                    if ($result->isSuccess())
+                    {
+                        $this->addLogEntry("Successfully updated user profile", "success");
+                        $viewData['success'] = "User updated successfully!";
+                    }
+                    else
+                    {
+                        $this->addLogEntry("Update of user profile failed", "danger");
+                        $this->getLog()->newEntry($result->getErrorString(), "database");
+                        $viewData['error'] = "Can not update user profile";
+                    }
+                }
+            }
+        }
+        $viewData['user'] = $user;
+        $this->getView($viewData)->render();
+    }
+
     public function Login()
     {
         if ($this->isUserLogged())

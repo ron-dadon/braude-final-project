@@ -32,7 +32,7 @@ class Logs extends AbstractModel
     public function getAll()
     {
         /** @var LogEntry[] $logs */
-        $logs = $this->getORM()->find('LogEntry');
+        $logs = $this->getORM()->find('LogEntry', '1', [], 'log_id DESC');
         /** @var Users $users */
         $users = $this->loadModel('Users');
         foreach ($logs as $key => $log)
