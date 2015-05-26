@@ -58,7 +58,7 @@ class Log
         $day = date('d');
         $time = date('H:i:s');
         $line = "\"$date\",\"$time\",\"$entry\"";
-        $path = $this->path . '/' . ($log !== '' ? $log : '') . '/' . $year . '/' . $month;
+        $path = $this->path . ($log !== '' ? $log : '') . '/' . $year . '/' . $month;
         if (!file_exists($path))
         {
             if (mkdir($path, 0777, true) === false)
@@ -73,7 +73,7 @@ class Log
             {
                 throw new IOException();
             }
-            if (file_put_contents($path, PHP_EOL . $line, LOCK_EX | FILE_APPEND))
+            if (file_put_contents($path, PHP_EOL . $line, LOCK_EX | FILE_APPEND) === false)
             {
                 throw new IOException();
             }
