@@ -135,4 +135,20 @@ class IacsBaseController extends AbstractController
         $logEntry->level = $level;
         $this->getORM()->save($logEntry);
     }
+
+    protected function setSessionAlertMessage($message, $type = "success")
+    {
+        $_SESSION['alert-message'] = ['type' => $type, 'message' => $message];
+    }
+
+    protected function pullSessionAlertMessage()
+    {
+        if (isset($_SESSION['alert-message']))
+        {
+            $message = $_SESSION['alert-message'];
+            unset($_SESSION['alert-message']);
+            return $message;
+        }
+        return null;
+    }
 }

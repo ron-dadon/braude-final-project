@@ -8,11 +8,11 @@ function clearAlert()
 }
 
 $(document).on('ready', function() {
-    $('#user-email').on('keypress', clearAlert).on('change', clearAlert);
+    $('#client-name').on('keypress', clearAlert).on('change', clearAlert);
     $('#user-password').on('keypress', clearAlert).on('change', clearAlert);
     $('#login-button').on('click', function() {
         clearAlert();
-        var email = $('#user-email').val();
+        var email = $('#client-name').val();
         var password = $('#user-password').val();
         $.post("", { user_email: email, user_password: password }, function(result) {
             result = JSON.parse(result);
@@ -30,7 +30,7 @@ $(document).on('ready', function() {
                 $('#login-alert').removeClass('hidden');
                 $('#alert-title').html("Login failed!");
                 $('#alert-text').html("User or password are wrong. Please try again.");
-                $('#user-email').focus().select();
+                $('#client-name').focus().select();
             }
         });
     });

@@ -57,7 +57,7 @@ class Client extends Entity
             $valid = false;
             $this->setError('address', "Address length can't exceed 200 characters");
         }
-        if (!$this->isEmail($this->email) && !$this->email !== "")
+        if (!$this->isEmail($this->email) && $this->email !== "")
         {
             $valid = false;
             $this->setError('email', "E-mail is invalid e-mail address");
@@ -67,7 +67,7 @@ class Client extends Entity
             $valid = false;
             $this->setError('phone', "Phone is invalid. phone can contain only digits with a single/no dash");
         }
-        if (!$this->isURL($this->website) && $this->website !== "")
+        if (!$this->isURL($this->webSite) && $this->webSite !== "" && $this->webSite !== null)
         {
             $valid = false;
             $this->setError('website', "Web site must be a valid address");

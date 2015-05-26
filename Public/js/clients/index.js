@@ -27,10 +27,13 @@ $(document).on('ready', function() {
                return '<a href="' + row.website + '" target="_blank">' + row.website + '</a>';
            },
            "telLink": function (column, row) {
-               return '<a href="tel:' + row.phone + '">' + row.phone + '</a>';
+               return '<a class="visible-xs" href="tel:' + row.phone + '">' + row.phone + '</a><span class="hidden-xs">' + row.phone + '</span>';
            },
            "emailLink": function (column, row) {
                return '<a href="mailto:' + row.email + '">' + row.email + '</a>';
+           },
+           "addressLink": function (column, row) {
+               return '<a  class="visible-xs" href="waze://?q=' + row.address + '">' + row.address + '</a><span class="hidden-xs">' + row.address + '</span>';
            },
            "clientActions": function (column, row) {
                return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + row.clientName + '"><i class="fa fa-fw fa-trash"></i></button>' +

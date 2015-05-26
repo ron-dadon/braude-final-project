@@ -19,6 +19,16 @@ class Index extends AbstractView
     <div class="page-head bg-main">
         <h1><i class="fa fa-fw fa-users"></i> Clients</h1>
     </div>
+<?php if (isset($this->data['error'])): ?>
+    <div class="alert alert-danger alert-dismissable">
+        <h4><i class="fa fa-fw fa-times-circle"></i><?php echo $this->data['error'] ?></h4>
+    </div>
+<?php endif; ?>
+<?php if (isset($this->data['success'])): ?>
+    <div class="alert alert-success alert-dismissable">
+        <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+    </div>
+<?php endif; ?>
     <div id="alerts-container"></div>
     <div class="panel">
         <div class="table-responsive">
@@ -27,7 +37,7 @@ class Index extends AbstractView
                     <tr>
                         <th data-column-id="id" data-identifier="true" data-visible="false">ID</th>
                         <th data-column-id="clientName" data-order="asc">Name</th>
-                        <th data-column-id="address">Address</th>
+                        <th data-column-id="address" data-formatter="addressLink">Address</th>
                         <th data-column-id="phone" data-formatter="telLink">Phone</th>
                         <th data-column-id="email" data-formatter="emailLink">E-Mail</th>
                         <th data-column-id="website" data-formatter="webLink">Website</th>
@@ -50,7 +60,7 @@ class Index extends AbstractView
             </table>
         </div>
         <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Clients/Add" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New client</a>
+            <a href="<?php $this->publicPath() ?>Clients/New" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New client</a>
         </div>
     </div>
 </div>

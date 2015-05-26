@@ -13,25 +13,43 @@ class Clients extends IacsBaseController
         /** @var ClientsModel $clients */
         $clients = $this->loadModel('Clients');
         $list = $clients->getAll();
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $viewData['clients'] = $list;
         $this->getView($viewData)->render();
     }
 
-    public function NewClient()
+    public function Add()
     {
         $client = new Client();
         if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
             $client->fromArray($data, "client_");
+            try
+            {
+                $goToEdit = $this->getRequest()->getPost()->item('redirect_update');
+            }
+            catch (\InvalidArgumentException $e)
+            {
+                $goToEdit = false;
+            }
             if ($client->isValid())
             {
                 $result = $this->getORM()->save($client);
+
                 if ($result->isSuccess())
                 {
                     $client->id = $result->getLastId();
                     $this->addLogEntry("Created client with ID: " . $client->id, "success");
-                    // Add go to show client
+                    $this->setSessionAlertMessage("Client " . $client->name . " created successfully.");
+                    if ($goToEdit)
+                    {
+                        $this->redirect("/Clients/Update/" . $client->id);
+                    }
+                    $this->redirect("/Clients");
                 }
                 else
                 {
@@ -121,6 +139,7 @@ class Clients extends IacsBaseController
         $client = $clients->getById($id);
         if ($client === null)
         {
+            $this->setSessionAlertMessage("Can't edit client with ID $id. Client was not found.", "error");
             $this->redirect("/Clients");
         }
         if ($this->getRequest()->isAjax())
@@ -152,6 +171,10 @@ class Clients extends IacsBaseController
             }
         }
         $viewData['client'] = $client;
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $this->getView($viewData)->render();
     }
 

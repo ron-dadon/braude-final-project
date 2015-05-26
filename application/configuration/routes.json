@@ -84,7 +84,7 @@
         {
             "pattern": "/Clients/New",
             "controller": "Clients",
-            "method": "NewClient"
+            "method": "Add"
         },
         {
             "pattern": "/Products",

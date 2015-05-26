@@ -265,7 +265,11 @@ abstract class Entity
         }
         if ($forceHttp)
         {
-            if (substr(strtolower($var), 0, 7) !== 'http://' && substr(strtolower($var), 0, 8) !== 'https://')
+            if (mb_strlen($var) > 7 && substr(strtolower($var), 0, 7) !== 'http://')
+            {
+                return false;
+            }
+            if (mb_strlen($var) > 8 && substr(strtolower($var), 0, 8) !== 'https://')
             {
                 return false;
             }
