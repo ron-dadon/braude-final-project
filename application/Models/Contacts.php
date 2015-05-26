@@ -9,6 +9,12 @@ use Application\Entities\Contact;
 
 class Contacts extends AbstractModel{
 
+    /**
+     * @param $id
+     *
+     * @return null|\Application\Entities\Contact
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
     public function getById($id)
     {
         return $this->getORM()->findById('Contact', $id, "contact_delete = 0");

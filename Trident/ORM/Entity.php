@@ -259,7 +259,7 @@ abstract class Entity
     protected function isURL($var, $forceHttp = false)
     {
         if ($var === null) return false;
-        if (!filter_var($var, FILTER_VALIDATE_URL))
+        if (!$this->isPattern($var, '/^[a-zA-Z0-9\&\%\#\@\{\}\(\)\-\_\.\:\/]*$/'))
         {
             return false;
         }

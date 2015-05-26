@@ -36,7 +36,7 @@ class Index extends AbstractView
                 <thead>
                     <tr>
                         <th data-column-id="id" data-identifier="true" data-visible="false">ID</th>
-                        <th data-column-id="clientName" data-order="asc">Name</th>
+                        <th data-column-id="clientName" data-formatter="clientLink" data-order="asc">Name</th>
                         <th data-column-id="address" data-formatter="addressLink">Address</th>
                         <th data-column-id="phone" data-formatter="telLink">Phone</th>
                         <th data-column-id="email" data-formatter="emailLink">E-Mail</th>

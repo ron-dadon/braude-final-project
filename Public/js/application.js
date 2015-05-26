@@ -1,6 +1,14 @@
 var autoLogoutTimer = null;
 var lastReset = 0;
 
+function addslashes( str ) {
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+}
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function autoLogout()
 {
     clearTimeout(autoLogoutTimer);

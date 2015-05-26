@@ -82,9 +82,24 @@
             "method": "Delete"
         },
         {
+            "pattern": "/Clients/Show/(id)",
+            "controller": "Clients",
+            "method": "Show"
+        },
+        {
+            "pattern": "/Clients/Update/(id)",
+            "controller": "Clients",
+            "method": "Update"
+        },
+        {
             "pattern": "/Clients/New",
             "controller": "Clients",
             "method": "Add"
+        },
+        {
+            "pattern": "/Clients/Contacts/Delete",
+            "controller": "Clients",
+            "method": "DeleteContact"
         },
         {
             "pattern": "/Products",

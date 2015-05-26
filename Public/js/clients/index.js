@@ -23,6 +23,9 @@ function deleteClient(id)
 $(document).on('ready', function() {
     $('#clients-table').bootgrid({
        formatters: {
+           "clientLink": function (column, row) {
+               return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.id + '">' + row.clientName + '</a>';
+           },
            "webLink": function (column, row) {
                return '<a href="' + row.website + '" target="_blank">' + row.website + '</a>';
            },
@@ -36,7 +39,7 @@ $(document).on('ready', function() {
                return '<a  class="visible-xs" href="waze://?q=' + row.address + '">' + row.address + '</a><span class="hidden-xs">' + row.address + '</span>';
            },
            "clientActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + row.clientName + '"><i class="fa fa-fw fa-trash"></i></button>' +
+               return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.clientName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
                       ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Clients/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }

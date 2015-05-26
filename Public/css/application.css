@@ -338,3 +338,7 @@ label {
         left: 200px;
     }
 }
+
+#client-map > iframe {
+    pointer-events: none;
+}
