@@ -22,7 +22,7 @@ class Reports extends IacsBaseController
         /** @var Licenses $licenses */
         $licenses = $this->loadModel('Licenses');
         $now = date('Y-m-d');
-        $list = $licenses->search("license_expire < '$now'", []);
+        $list = $licenses->search("license_expire < :todate", [':todate'=>$now]);
         if ($list === null)
         {
             $this->getLog()->newEntry("Failed to retrieve licenses from the database", "database");
@@ -138,7 +138,51 @@ class Reports extends IacsBaseController
         var_dump($list);
     }
 
-    /*public function ExpieredLicense ($status)
+    public function ExpiredLicensesByDays($numOfDays)
     {
-*/
+        /** @var Licenses $licenses */
+        $licenses = $this->loadModel('Licenses');
+        $now = new \DateTime();
+        $now->add(new \DateInterval("P$numOfDays" . "D"));
+        $now = $now->format("Y-m-d");
+        $list = $licenses->search("license_expire >= NOW() AND license_expire <= :todate", [':todate' => $now]);
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve licenses from the database", "database");
+            // Go to reports
+        }
+        /** @var Clients $clients */
+        $clients = $this->loadModel('Clients');
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
+        /** @var LicenseTypes $licenseTypes */
+        $licenseTypes = $this->loadModel('LicenseTypes');
+        /** @var Invoices $invoices */
+        $invoices = $this->loadModel('Invoices');
+        /**
+         * @var License $license
+         */
+        foreach ($list as $key => $license)
+        {
+            if ($license->client !== null)
+            {
+                $license->client = $clients->getById($license->client);
+            }
+            if ($license->product !== null)
+            {
+                $license->product = $products->getById($license->product);
+            }
+            if ($license->type !== null)
+            {
+                $license->type = $licenseTypes->getById($license->type);
+            }
+            if ($license->invoice !== null)
+            {
+                $license->invoice = $invoices->getById($license->invoice);
+            }
+            $list[$key] = $license;
+        }
+        var_dump($list, $this->getLoggedUser());
+    }
+
 }
