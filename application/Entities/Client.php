@@ -18,7 +18,7 @@ class Client extends Entity
     public $address;
     public $phone;
     public $email;
-    public $website;
+    public $webSite;
     public $delete;
 
     /**

@@ -10,10 +10,14 @@ class Clients extends IacsBaseController
 
     public function Index()
     {
-        $this->getView()->render();
+        /** @var ClientsModel $clients */
+        $clients = $this->loadModel('Clients');
+        $list = $clients->getAll();
+        $viewData['clients'] = $list;
+        $this->getView($viewData)->render();
     }
 
-    public function Add()
+    public function NewClient()
     {
         $client = new Client();
         if ($this->getRequest()->isPost())
@@ -74,7 +78,7 @@ class Clients extends IacsBaseController
                     $this->addLogEntry("Client with ID " . $id . " delete successfully", "success");
                     if ($this->getRequest()->isAjax())
                     {
-                        $this->jsonResponse(true, ['client' => $client->name]);
+                        $this->jsonResponse(true, ['client' => addslashes(htmlspecialchars($client->name, ENT_NOQUOTES))]);
                     }
                     else
                     {
@@ -108,7 +112,6 @@ class Clients extends IacsBaseController
                 }
             }
         }
-        $this->getView()->render();
     }
 
     public function Update($id)

@@ -77,6 +77,16 @@
             "method": "Index"
         },
         {
+            "pattern": "/Clients/Delete",
+            "controller": "Clients",
+            "method": "Delete"
+        },
+        {
+            "pattern": "/Clients/New",
+            "controller": "Clients",
+            "method": "NewClient"
+        },
+        {
             "pattern": "/Products",
             "controller": "Products",
             "method": "Index"

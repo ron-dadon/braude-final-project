@@ -15,6 +15,7 @@ class Administration extends IacsBaseController
         if (!$this->isUserLogged() || !$this->getLoggedUser()->admin)
         {
             $this->getLog()->newEntry("User tried to access Administration area without having the right privilege", "danger");
+            $this->addLogEntry("Access to administration denied", "danger");
             $this->redirect("/Error");
         }
     }

@@ -38,9 +38,9 @@ class Users extends AbstractView
 <?php foreach ($users as $user): ?>
                     <tr data-user-id="<?php echo $user->id ?>">
                         <td><?php echo $user->id ?></td>
-                        <td><?php echo $user->email ?></td>
-                        <td><?php echo $user->firstName ?></td>
-                        <td><?php echo $user->lastName ?></td>
+                        <td><?php echo $this->escape($user->email) ?></td>
+                        <td><?php echo $this->escape($user->firstName) ?></td>
+                        <td><?php echo $this->escape($user->lastName) ?></td>
                         <td><?php echo $this->formatSqlDateTime($user->lastActive) ?></td>
                         <td><?php echo $user->admin ? 'Yes' : 'No' ?></td>
                         <td>Actions</td>

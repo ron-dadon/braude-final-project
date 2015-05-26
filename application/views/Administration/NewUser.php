@@ -44,21 +44,21 @@ class NewUser extends AbstractView
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-email">EMail:</label>
-                        <input type="email" id="user-email" name="user_email" class="form-control" value="<?php echo $user->email ?>" required autofocus data-error="Please enter a valid e-mail address">
+                        <input type="email" id="user-email" name="user_email" class="form-control" value="<?php echo $this->escape($user->email) ?>" required autofocus data-error="Please enter a valid e-mail address">
                         <div class="help-block with-errors" id="email-error"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-firstName">First name:</label>
-                        <input type="text" id="user-firstName" name="user_firstName" class="form-control" value="<?php echo $user->firstName ?>" required maxlength="20" data-error="Please fill in first name">
+                        <input type="text" id="user-firstName" name="user_firstName" class="form-control" value="<?php echo $this->escape($user->firstName) ?>" required maxlength="20" data-error="Please fill in first name">
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-lastName">Last name:</label>
-                        <input type="text" id="user-lastName" name="user_lastName" class="form-control" value="<?php echo $user->lastName ?>" required maxlength="20" data-error="Please fill in last name">
+                        <input type="text" id="user-lastName" name="user_lastName" class="form-control" value="<?php echo $this->escape($user->lastName) ?>" required maxlength="20" data-error="Please fill in last name">
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ class NewUser extends AbstractView
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-password">Password:</label>
-                        <input type="text" id="user-password" name="user_password" class="form-control" value="<?php echo $user->password ?>" required pattern="^.{6,20}$" data-error="Password must be at least 6 characters long and not exceed 20 characters">
+                        <input type="text" id="user-password" name="user_password" class="form-control" value="<?php echo $this->escape($user->password) ?>" required pattern="^.{6,20}$" data-error="Password must be at least 6 characters long and not exceed 20 characters">
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>

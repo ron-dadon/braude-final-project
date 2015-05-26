@@ -39,11 +39,11 @@ class Log extends AbstractView
                     <tr>
                         <td><?php echo $entry->id ?></td>
                         <td><?php echo $this->formatSqlDateTime($entry->ts) ?></td>
-                        <td><?php if ($entry->user !== null) { echo $entry->user->firstName . ' ' . $entry->user->lastName; } else { echo 'n/a'; } ?></td>
+                        <td><?php if ($entry->user !== null) { echo $this->escape($entry->user->firstName . ' ' . $entry->user->lastName); } else { echo 'n/a'; } ?></td>
                         <td><?php echo $entry->browser ?></td>
                         <td><?php echo $entry->platform ?></td>
-                        <td><?php echo $entry->ip ?></td>
-                        <td><?php echo $entry->entry ?></td>
+                        <td><?php echo $this->escape($entry->ip) ?></td>
+                        <td><?php echo $this->escape($entry->entry) ?></td>
                         <td><?php echo $entry->level ?></td>
                     </tr>
 <?php endforeach; ?>

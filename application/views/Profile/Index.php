@@ -17,7 +17,7 @@ class Index extends AbstractView
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
     <div class="page-head bg-main">
-        <h1><i class="fa fa-fw fa-user"></i> Profile: <?php echo $user->firstName . ' ' . $user->lastName ?></h1>
+        <h1><i class="fa fa-fw fa-user"></i> Profile: <?php echo $this->escape($user->firstName . ' ' . $user->lastName) ?></h1>
     </div>
 <?php if (isset($this->data['error'])): ?>
     <div class="alert alert-danger alert-dismissable">
@@ -46,19 +46,19 @@ class Index extends AbstractView
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-email">EMail:</label>
-                        <p class="form-control-static" id="user-email"><strong><?php echo $user->email ?></strong></p>
+                        <p class="form-control-static" id="user-email"><strong><?php echo $this->escape($user->email) ?></strong></p>
                     </div>
                 </div>
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-firstName">First name:</label>
-                        <p class="form-control-static" id="user-firstName"><strong><?php echo $user->firstName ?></strong></p>
+                        <p class="form-control-static" id="user-firstName"><strong><?php echo $this->escape($user->firstName) ?></strong></p>
                     </div>
                 </div>
                 <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="user-lastName">Last name:</label>
-                        <p class="form-control-static" id="user-lastName"><strong><?php echo $user->lastName ?></strong></p>
+                        <p class="form-control-static" id="user-lastName"><strong><?php echo $this->escape($user->lastName) ?></strong></p>
                     </div>
                 </div>
             </div>
