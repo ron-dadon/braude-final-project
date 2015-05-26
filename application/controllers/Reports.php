@@ -184,5 +184,11 @@ class Reports extends IacsBaseController
         }
         var_dump($list, $this->getLoggedUser());
     }
+   /**  public function DeterminedRevenue()
+    {
+        /** @var Invoices $invoices **/
+        /**$invoices = $this->loadModel('Invoices');
 
+        $list = $invoices->search(");
+    }**/
 }

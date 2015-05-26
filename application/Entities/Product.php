@@ -19,6 +19,11 @@ class Product extends Entity
     public $license;
     /* Training */
     public $length;
+    /*add ons*/
+    public $discount;
+    public $date;
+    public $finalPrice;
+
 
     /**
      * Initialize product entity information.
@@ -72,6 +77,11 @@ class Product extends Entity
             $valid = false;
             $this->setError('type', "Product type can be only Software or Training");
         }
+        if ((!$this->isDate($this->date))&&($this->date!== null))
+        {
+            $valid = false;
+            $this->setError('date', "Date must be a valid date");
+        }
         if ($this->type === 'training')
         {
             if (!$this->isInteger($this->length, 0))
@@ -92,6 +102,16 @@ class Product extends Entity
                 $valid = false;
                 $this->setError('license', "License type is invalid");
             }
+        }
+        if (!$this->isFloat($this->discount, 0,100))
+        {
+            $valid = false;
+            $this->setError('discount', "Discount must be a positive decimal number up to 100");
+        }
+        if (!$this->isFloat($this->finalPrice, 0))
+        {
+            $valid = false;
+            $this->setError('finalPrice', "Final Price must be a positive decimal number");
         }
         return $valid;
     }
