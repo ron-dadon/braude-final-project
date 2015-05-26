@@ -8,6 +8,7 @@ use \Application\Models\Products;
 use \Application\Models\Invoices;
 use \Application\Models\LicenseTypes;
 use \Application\Entities\License;
+use Trident\Database\Query;
 
 class Reports extends IacsBaseController
 {
@@ -191,4 +192,29 @@ class Reports extends IacsBaseController
 
         $list = $invoices->search(");
     }**/
+    public function futureTraining()
+    {
+        /** @var Products $products * */
+        $products = $this->loadModel('Products');
+        $query = new Query("SELECT invoice_products_product FROM invoice_products WHERE invoice_product_date > NOW()");
+        $result = $this->getMysql()->executeQuery($query);
+        if(!$result->isSuccess())
+        {
+            $this->getLog()->newEntry("Failed to retrieve products from the database", "database");
+        }
+        $productsList = $result->getResultSet();
+        $idList = [];
+        foreach ($productsList as $productInfo)
+        {
+            $idList[] = $productInfo['invoice_products_product'];
+        }
+        $idList = implode(",", $idList);
+        $list = $products->search("product_id IN ($idList)",[]);
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve products from the database", "database");
+            // Go to reports
+        }
+
+    }
 }
