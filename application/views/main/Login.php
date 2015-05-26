@@ -50,7 +50,7 @@ class Login extends AbstractView
         </div>
     </div>
 </div>
-<?php $this->js("js/main/login.js"); ?>
+<?php $this->js("js/main/login.js?" . date("Ymdhis")); ?>
 </body>
 </html>
 <?php

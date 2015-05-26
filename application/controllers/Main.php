@@ -122,6 +122,8 @@ class Main extends IacsBaseController
             $logEntry->level = 'success';
             $logEntry->entry = "User logged in successfully";
             $log->saveLogEntry($logEntry);
+            $user->lastActive = date("Y-m-d H:i:s");
+            $this->getORM()->save($user);
             $this->getSession()->set('iacs-logged-user', serialize($user));
             $this->jsonResponse(true);
         }

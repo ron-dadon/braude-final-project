@@ -44,7 +44,7 @@ class IacsBaseController extends AbstractController
                 $this->redirect("/Error");
             }
         }
-        catch (\InvalidArgumentException $e)
+        catch (\Exception $e)
         {
             $this->getLog()->newEntry($e->getMessage(), "general");
         }
