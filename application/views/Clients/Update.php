@@ -36,6 +36,11 @@ class Update extends AbstractView
 <?php endif; ?>
     </div>
 <?php endif; ?>
+<?php if (isset($this->data['success'])): ?>
+    <div class="alert alert-success alert-dismissable">
+        <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+    </div>
+<?php endif; ?>
     <form method="post" id="update-client-form" data-toggle="validator">
         <div class="panel">
             <div class="panel-heading bg-main padded-5px">

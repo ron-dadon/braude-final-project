@@ -170,10 +170,8 @@ class Clients extends IacsBaseController
             if ($client->isValid())
             {
                 $result = $this->getORM()->save($client);
-                var_dump($result);
                 if ($result->isSuccess())
                 {
-                    $client->id = $result->getLastId();
                     $this->addLogEntry("Updated client with ID: " . $client->id, "success");
                     $this->setSessionAlertMessage("Client {$client->name} updated.", "success");
                 }

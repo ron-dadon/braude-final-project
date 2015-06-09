@@ -10,7 +10,15 @@ class Products extends IacsBaseController
 
     public function Index()
     {
-        $this->getView()->render();
+        /** @var ProductsModel $products */
+        $products = $this->loadModel('Products');
+        $list = $products->getAll();
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
+        $viewData['products'] = $list;
+        $this->getView($viewData)->render();
     }
 
     public function Add()
