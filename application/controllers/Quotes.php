@@ -10,6 +10,9 @@ class Quotes extends IacsBaseController
 
     public function Index()
     {
+        /** @var QuotesModel $quotes */
+        $quotes = $this->loadModel("Quotes");
+        var_dump($quotes->getById(1));
         $this->getView()->render();
     }
 

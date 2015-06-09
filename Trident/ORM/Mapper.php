@@ -95,7 +95,7 @@ class Mapper
      * @throws EntityNotFoundException
      * @throws MySqlException
      */
-    public function findById($entity, $id, $where = "")
+    public function findById($entity, $id, $where = "1")
     {
         $entityClass = "\\" . $this->_namespace . "\\Entities\\" . $entity;
         if (!class_exists($entityClass))

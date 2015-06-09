@@ -2,6 +2,8 @@
 
 namespace Application\Models;
 
+use Application\Entities\QuoteProduct;
+use Trident\Database\Query;
 use Trident\MVC\AbstractModel;
 use Application\Entities\Quote;
 
@@ -9,7 +11,25 @@ class Quotes extends AbstractModel
 {
     public function getById($id)
     {
-        return $this->getORM()->findById('Quote', $id, "quote_delete = 0");
+        /** @var Quote $quote */
+        $quote = $this->getORM()->findById('Quote', $id, "quote_delete = 0");
+        $quote->client = $this->getORM()->findById('Client', $quote->client, "client_delete = 0");
+        $quote->status = $this->getORM()->findById('QuoteStatus', $quote->status, "quote_status_delete = 0");
+        $quote->products = [];
+        $query = new Query("SELECT * FROM quote_products WHERE quote_product_quote = :id", [":id" => $quote->id]);
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess())
+        {
+            return $quote;
+        }
+        foreach ($query->getResultSet() as $productData)
+        {
+            $quoteProduct = new QuoteProduct();
+            $quoteProduct->fromArray($productData, "quote_product_");
+            $quoteProduct->product = $this->getORM()->findById('Product', $quoteProduct->product);
+            $quote->products[] = $quoteProduct;
+        }
+        return $quote;
     }
 
     public function getAll()
