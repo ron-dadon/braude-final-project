@@ -4,6 +4,7 @@ namespace Application\Controllers;
 
 use Application\Entities\Product;
 use Application\Models\Products as ProductsModel;
+use Trident\Database\Query;
 
 class Products extends IacsBaseController
 {
@@ -73,7 +74,7 @@ class Products extends IacsBaseController
                     }
                     else
                     {
-                        // Go to product show
+                        $this->redirect("/Products");
                     }
                 }
                 $result = $products->delete($product);
@@ -86,8 +87,8 @@ class Products extends IacsBaseController
                     }
                     else
                     {
-                        // Go to product list
-                    }
+                        $this->setSessionAlertMessage("Product " . $product->name . " deleted successfully.");
+                        $this->redirect("/Products");                    }
                 }
                 else
                 {
@@ -99,8 +100,9 @@ class Products extends IacsBaseController
                     }
                     else
                     {
-                        // Go to product show
+                        $this->redirect("/Products");
                     }
+
                 }
             }
             catch (\InvalidArgumentException $e)
@@ -112,7 +114,7 @@ class Products extends IacsBaseController
                 }
                 else
                 {
-                    // Go to product show
+                    $this->redirect("/Products");
                 }
             }
         }
@@ -126,9 +128,10 @@ class Products extends IacsBaseController
         $product = $products->getById($id);
         if ($product === null)
         {
+            $this->setSessionAlertMessage("Can't edit Product with ID $id. Product was not found.", "error");
             $this->redirect("/Products");
         }
-        if ($this->getRequest()->isAjax())
+        if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
             $product->fromArray($data, "product_");
@@ -137,26 +140,27 @@ class Products extends IacsBaseController
                 $result = $this->getORM()->save($product);
                 if ($result->isSuccess())
                 {
-                    $product->id = $result->getLastId();
                     $this->addLogEntry("Updated product with ID: " . $product->id, "success");
-                    $this->jsonResponse(true);
+                    $this->setSessionAlertMessage("Product {$product->name} updated.", "success");
                 }
                 else
                 {
                     $viewData['error'] = "Error updating product to the database. Check the errors log for further information, or contact your system administrator.";
                     $this->getLog()->newEntry("Error updating product in the database: " . $result->getErrorString(), "Database");
                     $this->addLogEntry("Failed to update product", "danger");
-                    $this->jsonResponse(false);
                 }
             }
             else
             {
                 $viewData['error'] = "Error updating product";
                 $this->addLogEntry("Failed to update product - invalid data", "danger");
-                $this->jsonResponse(false);
             }
         }
         $viewData['product'] = $product;
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $this->getView($viewData)->render();
     }
 
