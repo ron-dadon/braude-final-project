@@ -13,6 +13,8 @@ class QuoteProduct extends Entity
     public $comment;
     /** @var  Product */
     public $product;
+    public $discount;
+    public $finalPrice;
 
     /**
      * Initialize product entity information.

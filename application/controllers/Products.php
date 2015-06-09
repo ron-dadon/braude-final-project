@@ -3,6 +3,7 @@
 namespace Application\Controllers;
 
 use Application\Entities\Product;
+use Application\Models\LicenseTypes;
 use Application\Models\Products as ProductsModel;
 use Trident\Database\Query;
 
@@ -25,6 +26,9 @@ class Products extends IacsBaseController
     public function Add()
     {
         $product = new Product();
+        /** @var LicenseTypes $licenseTypes */
+        $licenseTypes = $this->loadModel('LicenseTypes');
+        $viewData['license-types'] = $licenseTypes->getAll();
         if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
@@ -36,7 +40,8 @@ class Products extends IacsBaseController
                 {
                     $product->id = $result->getLastId();
                     $this->addLogEntry("Created product with ID: " . $product->id, "success");
-                    // Add go to show product
+                    $this->setSessionAlertMessage("Product {$product->name} added!", "success");
+                    $this->redirect("/Products");
                 }
                 else
                 {

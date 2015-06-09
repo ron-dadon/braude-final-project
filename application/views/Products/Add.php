@@ -4,6 +4,7 @@
 namespace Application\Views\Products;
 
 use Application\Entities\Product;
+use Application\Entities\LicenseType;
 use Trident\MVC\AbstractView;
 
 class Add extends AbstractView
@@ -12,6 +13,8 @@ class Add extends AbstractView
     {
         /** @var Product $product */
         $product = $this->data['product'];
+        /** @var LicenseType[] $licenseTypes */
+        $licenseTypes = $this->data['license-types'];
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
@@ -80,6 +83,34 @@ class Add extends AbstractView
                         <div class="form-group">
                             <label for="product-description">Description:</label>
                             <textarea id="product-description" name="product_description" class="form-control"><?php echo $this->escape($product->description) ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row <?php if ($product->type !== "software"): ?>hidden<?php endif; ?>" id="software-details">
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="product-license-type">License type:</label>
+                            <select id="product-license-type" name="product_license_type" class="form-control" autofocus>
+<?php foreach ($licenseTypes as $licenseType): ?>
+                                <option value="<?php echo $licenseType->id ?>" <?php if ($product->license !== null && $product->license->id === $licenseType->id): ?>selected<?php endif; ?>><?php echo $this->escape($licenseType->name) ?></option>
+<?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="product-version">Version:</label>
+                            <input type="text" id="product-version" name="product_version" class="form-control" value="<?php echo $this->escape($product->version) ?>" data-error="Please enter the product version">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row <?php if ($product->type !== "training"): ?>hidden<?php endif; ?>" id="training-details">
+                    <div class="col-xs-12 col-lg-3">
+                        <div class="form-group">
+                            <label for="product-length">Training length:</label>
+                            <input type="number" id="product-length" name="product_length" class="form-control" value="<?php echo $this->escape($product->length) ?>" min="1" data-error="Please enter training length in hours. Minimum 1 hour.">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </div>
