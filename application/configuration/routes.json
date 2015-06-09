@@ -107,6 +107,21 @@
             "method": "Index"
         },
         {
+            "pattern": "/Products/New",
+            "controller": "Products",
+            "method": "Add"
+        },
+        {
+            "pattern": "/Products/Update/(id)",
+            "controller": "Products",
+            "method": "Update"
+        },
+        {
+            "pattern": "/Products/Delete/(id)",
+            "controller": "Products",
+            "method": "Delete"
+        },
+        {
             "pattern": "/Quotes",
             "controller": "Quotes",
             "method": "Index"

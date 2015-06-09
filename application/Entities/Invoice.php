@@ -19,8 +19,6 @@ class Invoice extends Entity
     public $client;
     /** @var Product[] */
     public $products = [];
-    /** @var Contact[] */
-    public $contacts = [];
     public $delete;
 
     /**
