@@ -22,8 +22,8 @@ class Quote extends Entity {
     public $status;
     /** @var  Client */
     public $client;
-    /** @var Product[] */
-    public $products = [];
+    /** @var QuoteProduct[] */
+    public $products;
     public $delete;
 
     /**
@@ -35,7 +35,7 @@ class Quote extends Entity {
         $this->_prefix = "quote_";
         $this->_primary = "id";
         $this->delete = 0;
-        $this->date = date('Y-m-d');
+        $this->date = date('Y-m-d H:i:s');
     }
     /**
      * Implement validation rules.

@@ -1,3 +1,8 @@
 "Date","Time","Entry"
 "09-06-2015","15:37:52","Error adding product to database: Champ 'product_license' inconnu dans field list"
 "09-06-2015","15:38:08","Error adding product to database: Champ 'product_license' inconnu dans field list"
+"09-06-2015","17:56:09","Failed to delete quote with ID 1: "
+"09-06-2015","17:57:17","Failed to delete quote with ID 1: "
+"09-06-2015","17:59:43","Failed to delete quote with ID 1: "
+"09-06-2015","18:00:39","Failed to delete quote with ID 1: "
+"09-06-2015","18:00:46","Failed to delete quote with ID 1: "

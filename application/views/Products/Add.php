@@ -90,7 +90,7 @@ class Add extends AbstractView
                     <div class="col-xs-12 col-lg-2">
                         <div class="form-group">
                             <label for="product-license-type">License type:</label>
-                            <select id="product-license-type" name="product_license_type" class="form-control" autofocus>
+                            <select id="product-license-type" name="product_license" class="form-control" autofocus>
 <?php foreach ($licenseTypes as $licenseType): ?>
                                 <option value="<?php echo $licenseType->id ?>" <?php if ($product->license !== null && $product->license->id === $licenseType->id): ?>selected<?php endif; ?>><?php echo $this->escape($licenseType->name) ?></option>
 <?php endforeach; ?>
@@ -100,7 +100,7 @@ class Add extends AbstractView
                     <div class="col-xs-12 col-lg-2">
                         <div class="form-group">
                             <label for="product-version">Version:</label>
-                            <input type="text" id="product-version" name="product_version" class="form-control" value="<?php echo $this->escape($product->version) ?>" data-error="Please enter the product version">
+                            <input type="text" id="product-version" name="product_version" class="form-control" value="<?php echo $this->escape($product->version) ?>" pattern="^[0-9a-zA-Z\.\s]{0,20}$" data-error="Please enter a valid product version">
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>

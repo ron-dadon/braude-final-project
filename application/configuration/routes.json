@@ -112,12 +112,17 @@
             "method": "Add"
         },
         {
+            "pattern": "/Products/Show/(id)",
+            "controller": "Products",
+            "method": "Show"
+        },
+        {
             "pattern": "/Products/Update/(id)",
             "controller": "Products",
             "method": "Update"
         },
         {
-            "pattern": "/Products/Delete/(id)",
+            "pattern": "/Products/Delete",
             "controller": "Products",
             "method": "Delete"
         },
@@ -125,6 +130,21 @@
             "pattern": "/Quotes",
             "controller": "Quotes",
             "method": "Index"
+        },
+        {
+            "pattern": "/Quotes/Delete",
+            "controller": "Quotes",
+            "method": "Delete"
+        },
+        {
+            "pattern": "/Quotes/New",
+            "controller": "Quotes",
+            "method": "Add"
+        },
+        {
+            "pattern": "/Quotes/New/(client)",
+            "controller": "Quotes",
+            "method": "Add"
         },
         {
             "pattern": "/Invoices",

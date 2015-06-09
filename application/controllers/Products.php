@@ -23,6 +23,24 @@ class Products extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    public function show($id)
+    {
+        /** @var ProductsModel $products */
+        $products = $this->loadModel('Products');
+        /** @var LicenseTypes $licenseTypes */
+        $licenseTypes = $this->loadModel("LicenseTypes");
+        /** @var Product $product */
+        $product = $products->getById($id);
+        $product->license = $licenseTypes->getById($product->license);
+        if ($product === null)
+        {
+            $this->setSessionAlertMessage("Can't show product with ID $id. Product was not found.", "error");
+            $this->redirect("/Products");
+        }
+        $viewData['product'] = $product;
+        $this->getView($viewData)->render();
+    }
+
     public function Add()
     {
         $product = new Product();
@@ -69,6 +87,7 @@ class Products extends IacsBaseController
             try
             {
                 $id = $this->getRequest()->getPost()->item('delete_id');
+                /** @var Product $product */
                 $product = $products->getById($id);
                 if ($product === null)
                 {
@@ -93,7 +112,8 @@ class Products extends IacsBaseController
                     else
                     {
                         $this->setSessionAlertMessage("Product " . $product->name . " deleted successfully.");
-                        $this->redirect("/Products");                    }
+                        $this->redirect("/Products");
+                    }
                 }
                 else
                 {
@@ -107,7 +127,6 @@ class Products extends IacsBaseController
                     {
                         $this->redirect("/Products");
                     }
-
                 }
             }
             catch (\InvalidArgumentException $e)
@@ -130,7 +149,12 @@ class Products extends IacsBaseController
     {
         /** @var ProductsModel $products */
         $products = $this->loadModel('Products');
+        /** @var Product $product */
         $product = $products->getById($id);
+        /** @var LicenseTypes $licenseTypes */
+        $licenseTypes = $this->loadModel('LicenseTypes');
+        $product->license = $licenseTypes->getById($product->license);
+        $viewData['license-types'] = $licenseTypes->getAll();
         if ($product === null)
         {
             $this->setSessionAlertMessage("Can't edit Product with ID $id. Product was not found.", "error");

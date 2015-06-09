@@ -37,7 +37,7 @@ class Index extends AbstractView
                 <tr>
                     <th data-column-id="id" data-identifier="true">ID</th>
                     <th data-column-id="productType">Type</th>
-                    <th data-column-id="productName" data-order="asc">Name</th>
+                    <th data-column-id="productName" data-order="asc" data-formatter="productLink">Name</th>
                     <th data-column-id="basePrice">Base price</th>
                     <th data-column-id="coin">Coin</th>
                     <th data-column-id="actions" data-sortable="false" data-formatter="productActions">Actions</th>
@@ -50,7 +50,7 @@ class Index extends AbstractView
                         <td><?php echo $product->type === "software" ? "Software" : "Training" ?></td>
                         <td><?php echo $this->escape($product->name) ?></td>
                         <td><?php echo number_format($product->basePrice, 0) ?></td>
-                        <td><?php echo $product->coin === "usd" ? "$" : "&#8362;" ?></td>
+                        <td><?php echo $product->coin === "usd" ? "USD $" : "NIS &#8362;" ?></td>
                         <td>Actions</td>
                     </tr>
                 <?php endforeach; ?>

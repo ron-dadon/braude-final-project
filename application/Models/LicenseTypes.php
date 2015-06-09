@@ -10,6 +10,7 @@ class LicenseTypes extends AbstractModel
 
     public function getById($id)
     {
+        if ($id === null) return null;
         return $this->getORM()->findById('LicenseType', $id, "license_type_delete = 0");
     }
 

@@ -32,6 +32,9 @@ class Product extends Entity
         $this->delete = 0;
         $this->coin = "nis";
         $this->type = "software";
+        $this->basePrice = 0;
+        $this->version = "1.00";
+        $this->length = 0;
     }
 
     /**
@@ -89,7 +92,7 @@ class Product extends Entity
                 $valid = false;
                 $this->setError('version', "Version can contain only letters, numbers, dashes and periods.");
             }
-            if (!$this->isInteger($this->license, 1) && !($this->license instanceof LicenseType))
+            if (!$this->isInteger($this->license, 1))
             {
                 $valid = false;
                 $this->setError('license', "License type is invalid");

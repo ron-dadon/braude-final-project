@@ -3,6 +3,7 @@
 namespace Application\Controllers;
 
 use Application\Entities\Quote;
+use Application\Models\Clients;
 use Application\Models\Quotes as QuotesModel;
 
 class Quotes extends IacsBaseController
@@ -12,13 +13,27 @@ class Quotes extends IacsBaseController
     {
         /** @var QuotesModel $quotes */
         $quotes = $this->loadModel("Quotes");
-        var_dump($quotes->getById(1));
-        $this->getView()->render();
+        $viewData['quotes'] = $quotes->getAll();
+        $this->getView($viewData)->render();
     }
 
-    public function Add()
+    public function Add($clientId = null)
     {
         $quote = new Quote();
+        /** @var Clients $clients */
+        $clients = $this->loadModel("Clients");
+        /** @var QuotesModel $quotes */
+        $quotes = $this->loadModel("Quotes");
+        if ($clientId !== null)
+        {
+            $client = $clients->getById($clientId);
+            if ($client === null)
+            {
+                $this->setSessionAlertMessage("Can't create quote for client with ID {$clientId}. Client was not found.", "error");
+                $this->redirect("/Clients");
+            }
+            $quote->client = $client;
+        }
         if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
@@ -46,6 +61,7 @@ class Quotes extends IacsBaseController
             }
         }
         $viewData['quote'] = $quote;
+        $viewData['statuses'] = $quotes->getAllStatuses();
         $this->getView($viewData)->render();
     }
 
@@ -54,10 +70,11 @@ class Quotes extends IacsBaseController
         if ($this->getRequest()->isPost())
         {
             /** @var QuotesModel $quotes */
-            $quote = $this->loadModel('Quotes');
+            $quotes = $this->loadModel('Quotes');
             try
             {
                 $id = $this->getRequest()->getPost()->item('delete_id');
+                /** @var Quote $quote */
                 $quote = $quotes->getById($id);
                 if ($quote === null)
                 {
@@ -68,20 +85,20 @@ class Quotes extends IacsBaseController
                     }
                     else
                     {
-                        // Go to quote show
+                        $this->redirect("/Quotes");
                     }
                 }
-                $result = $quotes->delete($quotes);
+                $result = $quotes->delete($quote);
                 if ($result->isSuccess())
                 {
                     $this->addLogEntry("Quote with ID " . $id . " delete successfully", "success");
                     if ($this->getRequest()->isAjax())
                     {
-                        $this->jsonResponse(true, ['quote' => $quote->name]);
+                        $this->jsonResponse(true, ['quote' => $quote->id]);
                     }
                     else
                     {
-                        // Go to quote list
+                        $this->redirect("/Quotes");
                     }
                 }
                 else
@@ -94,7 +111,7 @@ class Quotes extends IacsBaseController
                     }
                     else
                     {
-                        // Go to quote show
+                        $this->redirect("/Quotes");
                     }
                 }
             }
@@ -107,7 +124,7 @@ class Quotes extends IacsBaseController
                 }
                 else
                 {
-                    // Go to quote show
+                    $this->redirect("/Quotes");
                 }
             }
         }

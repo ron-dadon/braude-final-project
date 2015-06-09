@@ -34,7 +34,22 @@ class Quotes extends AbstractModel
 
     public function getAll()
     {
-        return $this->getORM()->find('Quote', "quote_delete = 0");
+        /** @var Quote[] $quotes */
+        $quotes = $this->getORM()->find('Quote', "quote_delete = 0");
+        foreach ($quotes as $key => $quote)
+        {
+            $quotes[$key] = $this->getById($quote->id);
+        }
+        return $quotes;
+    }
+
+    /**
+     * @return \Application\Entities\QuoteStatus[]
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
+    public function getAllStatuses()
+    {
+        return $this->getORM()->find("QuoteStatus", "quote_status_delete = 0");
     }
 
     public function search($term, $values)
@@ -63,7 +78,6 @@ class Quotes extends AbstractModel
     public function delete($quote)
     {
         $quote->delete = 1;
-        return $this->getORM()->save($quote);
-
+        return $this->getMysql()->executeQuery(new Query("UPDATE " . $quote->getTable() . " SET quote_delete = 1 WHERE quote_id = ?", [$quote->id]));
     }
 }

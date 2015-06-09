@@ -22,6 +22,9 @@ function deleteProduct(id)
 $(document).on('ready', function() {
     $('#products-table').bootgrid({
        formatters: {
+           "productLink": function (column, row) {
+               return '<a href="' + appSettings.homeURI + '/Products/Show/' + row.id + '">' + row.productName + '</a>';
+           },
            "productActions": function (column, row) {
                return '<button class="btn btn-xs btn-danger btn-product-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.productName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
                       ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Products/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
