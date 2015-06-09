@@ -13,8 +13,6 @@ class Update extends AbstractView
     {
         /** @var Client $client */
         $client = $this->data['client'];
-        /** @var Contact[] $contacts */
-        $contacts = $this->data['contacts'];
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
@@ -92,38 +90,6 @@ class Update extends AbstractView
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-heading bg-main padded-5px">
-                <h3><i class="fa fa-fw fa-users"></i> Contacts:</h3>
-            </div>
-            <div id="alerts-container"></div>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="contacts-table">
-                    <thead>
-                        <tr>
-                            <th data-column-id="id" data-identifier="true" data-visible="false">ID</th>
-                            <th data-column-id="firstName" data-formatter="clientLink" data-order="asc">First name</th>
-                            <th data-column-id="lastName" data-formatter="addressLink">Last name</th>
-                            <th data-column-id="phone" data-formatter="telLink">Phone</th>
-                            <th data-column-id="fax" data-formatter="emailLink">Fax</th>
-                            <th data-column-id="email" data-formatter="webLink">E-mail</th>
-                            <th data-column-id="actions" data-sortable="false" data-formatter="contactActions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-<?php foreach ($contacts as $contact): ?>
-                        <tr>
-                            <td><?php echo $this->escape($contact->id) ?></td>
-                            <td><?php echo $this->escape($contact->firstName) ?></td>
-                            <td><?php echo $this->escape($contact->lastName) ?></td>
-                            <td><?php echo $this->escape($contact->phone) ?></td>
-                            <td><?php echo $this->escape($contact->fax) ?></td>
-                            <td><?php echo $this->escape($contact->email) ?></td>
-                            <td></td>
-                        </tr>
-<?php endforeach; ?>
-                    </tbody>
-                </table>
             </div>
         </div>
         <div class="panel">

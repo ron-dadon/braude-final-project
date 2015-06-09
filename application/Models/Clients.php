@@ -42,6 +42,16 @@ class Clients extends AbstractModel
     {
         return $this->getORM()->save($client);
     }
+
+    /**
+     * @param $client
+     * @return \Trident\Database\Result
+     */
+    public function update($client)
+    {
+        return $this->getORM()->save($client);
+    }
+
     /**
      * @param Client $client
      *

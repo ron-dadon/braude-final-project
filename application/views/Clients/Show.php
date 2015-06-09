@@ -13,8 +13,6 @@ class Show extends AbstractView
     {
         /** @var Client $client */
         $client = $this->data['client'];
-        /** @var Contact[] $contacts */
-        $contacts = $this->data['contacts'];
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
@@ -43,32 +41,6 @@ class Show extends AbstractView
                 <div class="embed-responsive embed-responsive-16by9" id="client-map">
                     <iframe class="embed-responsive-item" src="https://maps.google.com/maps?q=<?php echo str_replace(' ', '+', $client->address)?>&output=embed"></iframe>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <h3 class="bg-main margin-bottom padded-5px"><i class="fa fa-fw fa-users"></i> Contacts:</h3>
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-<?php foreach ($contacts as $contact): ?>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#contact<?php echo $contact->id?>" aria-expanded="false" aria-controls="collapseOne">
-                                    <i class="fa fa-fw fa-user"></i> <?php echo $contact->firstName . ' ' . $contact->lastName ?>
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="contact<?php echo $contact->id?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                Email: <?php echo $contact->email ?> | Phone: <?php echo $contact->phone ?>
-                            </div>
-                        </div>
-                    </div>
-<?php endforeach; ?>
-                </div>
-<?php if (count($contacts) === 0): ?>
-                <h4>No contacts</h4>
-<?php endif;?>
             </div>
         </div>
     </div>

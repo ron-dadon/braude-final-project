@@ -89,14 +89,12 @@ class Clients extends IacsBaseController
                     }
                     else
                     {
-                        // Go to client show
+                        $this->redirect("/Clients");
                     }
                 }
                 $result = $clients->delete($client);
                 if ($result->isSuccess())
                 {
-                    $query = new Query("UPDATE contacts SET contact_delete = 1 WHERE contact_client = :cid", [':cid' => $client->id]);
-                    $this->getMysql()->executeQuery($query);
                     $this->addLogEntry("Client with ID " . $id . " deleted successfully", "success");
                     if ($this->getRequest()->isAjax())
                     {
@@ -118,7 +116,7 @@ class Clients extends IacsBaseController
                     }
                     else
                     {
-                        // Go to client show
+                        $this->redirect("/Clients");
                     }
                 }
             }
@@ -131,7 +129,7 @@ class Clients extends IacsBaseController
                 }
                 else
                 {
-                    // Go to client show
+                    $this->redirect("/Clients");
                 }
             }
         }
@@ -141,22 +139,12 @@ class Clients extends IacsBaseController
     {
         /** @var ClientsModel $clients */
         $clients = $this->loadModel('Clients');
-        /** @var Contacts $contacts */
-        $contacts = $this->loadModel('Contacts');
         $client = $clients->getById($id);
         if ($client === null)
         {
             $this->setSessionAlertMessage("Can't show client with ID $id. Client was not found.", "error");
             $this->redirect("/Clients");
         }
-        $contactsList = $contacts->search("contact_client = :cid", [':cid' => $client->id]);
-        if ($contactsList === null)
-        {
-            $name = $client->name;
-            $this->setSessionAlertMessage("Can't show client $name. Error reading clients contacts information.", "error");
-            $this->redirect("/Clients");
-        }
-        $viewData['contacts'] = $contactsList;
         $viewData['client'] = $client;
         if (($message = $this->pullSessionAlertMessage()) !== null)
         {
@@ -169,51 +157,40 @@ class Clients extends IacsBaseController
     {
         /** @var ClientsModel $clients */
         $clients = $this->loadModel('Clients');
-        /** @var Contacts $contacts */
-        $contacts = $this->loadModel('Contacts');
         $client = $clients->getById($id);
         if ($client === null)
         {
             $this->setSessionAlertMessage("Can't edit client with ID $id. Client was not found.", "error");
             $this->redirect("/Clients");
         }
-        $contactsList = $contacts->search("contact_client = :cid", [':cid' => $client->id]);
-        if ($contactsList === null)
-        {
-            $name = $client->name;
-            $this->setSessionAlertMessage("Can't show client $name. Error reading clients contacts information.", "error");
-            $this->redirect("/Clients");
-        }
-        if ($this->getRequest()->isAjax())
+        if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
             $client->fromArray($data, "client_");
             if ($client->isValid())
             {
                 $result = $this->getORM()->save($client);
+                var_dump($result);
                 if ($result->isSuccess())
                 {
                     $client->id = $result->getLastId();
                     $this->addLogEntry("Updated client with ID: " . $client->id, "success");
-                    $this->jsonResponse(true);
+                    $this->setSessionAlertMessage("Client {$client->name} updated.", "success");
                 }
                 else
                 {
                     $viewData['error'] = "Error updating client to the database. Check the errors log for further information, or contact your system administrator.";
                     $this->getLog()->newEntry("Error updating client in the database: " . $result->getErrorString(), "Database");
                     $this->addLogEntry("Failed to update client", "danger");
-                    $this->jsonResponse(false);
                 }
             }
             else
             {
                 $viewData['error'] = "Error updating client";
                 $this->addLogEntry("Failed to update client - invalid data", "danger");
-                $this->jsonResponse(false);
             }
         }
         $viewData['client'] = $client;
-        $viewData['contacts'] = $contactsList;
         if (($message = $this->pullSessionAlertMessage()) !== null)
         {
             $viewData[$message['type']] = $message['message'];
@@ -221,50 +198,4 @@ class Clients extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
-    public function AddContact()
-    {
-        $this->getView()->render();
-    }
-
-    public function DeleteContact()
-    {
-        if ($this->getRequest()->isAjax())
-        {
-            /** @var Contacts $contacts */
-            $contacts = $this->loadModel('Contacts');
-            try
-            {
-                $id = $this->getRequest()->getPost()->item('delete_id');
-                $contact = $contacts->getById($id);
-                if ($contact === null)
-                {
-                    $this->addLogEntry("Delete of contact with the ID $id failed. No contact with this ID was found", "danger");
-                    $this->jsonResponse(false);
-                }
-                $result = $contacts->delete($contact);
-                if ($result->isSuccess())
-                {
-                    $this->addLogEntry("Successfully deleted contact with the ID $id", "success");
-                    $this->jsonResponse(true, ['contact' => $contact->firstName . ' ' . $contact->lastName]);
-                }
-                else
-                {
-                    $this->addLogEntry("Delete of contact with the ID $id failed", "danger");
-                    $this->getLog()->newEntry($result->getErrorString(), "database");
-                    $this->jsonResponse(false, ['user' => $contact->firstName . ' ' . $contact->lastName]);
-                }
-            }
-            catch (\InvalidArgumentException $e)
-            {
-                $this->getLog()->newEntry($e->getMessage(), "clients");
-                $this->jsonResponse(false);
-            }
-        }
-        $this->redirect("/Error");
-    }
-
-    public function UpdateContact()
-    {
-        $this->getView()->render();
-    }
 }

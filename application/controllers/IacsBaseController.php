@@ -9,7 +9,7 @@ use Trident\Exceptions\ViewNotFoundException;
 use Trident\MVC\AbstractView;
 use Application\Entities\User;
 
-class IacsBaseController extends AbstractController
+abstract class IacsBaseController extends AbstractController
 {
 
     /**
