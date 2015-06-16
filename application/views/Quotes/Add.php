@@ -82,31 +82,42 @@ class Add extends AbstractView
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="bg-main">
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Base price</th>
-                                    <th>Currency</th>
-                                    <th>Discount %</th>
-                                    <th>Discount</th>
-                                    <th>Price</th>
-                                    <th>Actions</th>
+                                    <th>Product</th>
+                                    <th width="1%">Price</th>
+                                    <th width="1%" style="white-space: nowrap;">Currency</th>
+                                    <th width="1%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="quote-products-table">
-                            </tbody>
-                            <tfoot>
                                 <tr>
-                                    <td>Products: <span id="products-count">0</span></td>
-                                    <td>Total (NIS): <span id="products-total">0</span></td>
-                                    <td>Total (USD): <span id="products-total">0</span></td>
-                                    <td colspan="4">
-                                        <select class="selectpicker" data-live-search="true" data-width="100%" id="quote-product-to-add">
-                                            <?php foreach ($products as $product): ?>
-                                                <option value="<?php echo $product->id ?>"><?php echo $this->escape($product->name) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td colspan="1" class="text-right"><button id="add-product" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
+                                    <td colspan="4" class="text-right"><button id="add-product" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="bg-info">
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Discount(%):</td>
+                                    <td><input type="number" name="quote_discount" min="0" max="100" step="0.05" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Tax(%):</td>
+                                    <td><input type="hidden" name="quote_tax" value="<?php echo $this->data['tax'] ?>"><?php echo $this->data['tax'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total (NIS):</td>
+                                    <td id="quote-total-nis">0</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total (USD):</td>
+                                    <td id="quote-total-usd">0</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total+Tax:</td>
+                                    <td id="quote-total-tax">0</td>
                                 </tr>
                             </tfoot>
                         </table>

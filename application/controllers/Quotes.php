@@ -67,6 +67,7 @@ class Quotes extends IacsBaseController
         $viewData['statuses'] = $quotes->getAllStatuses();
         $viewData['clients'] = $clients->getAll();
         $viewData['products'] = $products->getAll();
+        $viewData['tax'] = $this->getConfiguration()->item('user.general.tax');
         $this->getView($viewData)->render();
     }
 

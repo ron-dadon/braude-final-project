@@ -107,6 +107,11 @@
             "method": "Index"
         },
         {
+            "pattern": "/Ajax/Products/All",
+            "controller": "Products",
+            "method": "ajaxGetAll"
+        },
+        {
             "pattern": "/Products/New",
             "controller": "Products",
             "method": "Add"
