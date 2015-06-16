@@ -62,7 +62,7 @@ class Index extends AbstractView
         </div>
     </div>
 </div>
-<script src="<?php $this->publicPath() ?>js/products/index.js"></script>
+<script src="<?php $this->publicPath() ?>js/products/index.js?<?php echo date('YmdHis'); ?>"></script>
 <?php
         $this->getSharedView('ConfirmModal')->render();
         $this->getSharedView('Footer')->render();
