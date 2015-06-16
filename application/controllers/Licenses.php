@@ -3,6 +3,7 @@
 namespace Application\Controllers;
 
 use Application\Entities\License;
+use Application\Models\Clients;
 use Application\Models\Licenses as LicensesModel;
 use Application\Models\LicenseTypes;
 class Licenses extends IacsBaseController
@@ -17,6 +18,8 @@ class Licenses extends IacsBaseController
     {
         /** @var LicenseTypes $licenseTypes */
         $licenseTypes = $this->loadModel('LicenseTypes');
+        /** @var Clients $clients */
+        $clients= $this->loadModel('Clients');
         $license = new License();
         if ($this->getRequest()->isPost())
         {
@@ -45,7 +48,8 @@ class Licenses extends IacsBaseController
             }
         }
         $viewData['license'] = $license;
-        $viewData['license-types']=$licenseTypes->getAll();
+        $viewData['license-types']= $licenseTypes->getAll();
+        $viewData['client']= $clients->getAll();
         $this->getView($viewData)->render();
     }
 

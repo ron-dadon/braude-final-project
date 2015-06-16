@@ -15,6 +15,8 @@ class Add extends AbstractView
         $license = $this->data['license'];
         /** @var LicenseType[] $licenseTypes */
         $licenseTypes = $this->data['license-types'];
+        /** @var Clients[] $clients */
+        $clients = $this->data['client'];
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
@@ -41,7 +43,7 @@ class Add extends AbstractView
     <form method="post" id="new-client-form" data-toggle="validator">
         <div class="panel">
             <div class="panel-heading">
-                <h3>$license details:</h3>
+                <h3>License details:</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -59,6 +61,25 @@ class Add extends AbstractView
                         <div class="form-group">
                             <label for="license-name">Name:</label>
                             <input type="text" id="license-name" name="license_name" class="form-control" value="<?php echo $this->escape($license->name) ?>" required data-error="Please enter the license name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="client-name">Clients:</label>
+                                    <select id="client-name" name="client-name" class="form-control" autofocus>
+                                        <?php foreach ($clients as $client): ?>
+                                            <option value="<?php echo $client->id?>"><?php echo $client->name ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="license-expire">Expiration date:</label>
+                            <input type="date" id="license-expire" name="quote_expire" class="form-control" value="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" min="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" required>
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
