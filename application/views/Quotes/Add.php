@@ -89,11 +89,11 @@ class Add extends AbstractView
                                 </tr>
                             </thead>
                             <tbody id="quote-products-table">
-                                <tr>
-                                    <td colspan="4" class="text-right"><button id="add-product" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
-                                </tr>
                             </tbody>
                             <tfoot class="bg-info">
+                                <tr>
+                                    <td colspan="4" class="text-right"><button type="button" id="add-product" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
+                                </tr>
                                 <tr>
                                     <td colspan="2"></td>
                                     <td>Discount(%):</td>
@@ -101,22 +101,27 @@ class Add extends AbstractView
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td>Tax(%):</td>
+                                    <td>Tax rate(%):</td>
                                     <td><input type="hidden" name="quote_tax" value="<?php echo $this->data['tax'] ?>"><?php echo $this->data['tax'] ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td>Total (NIS):</td>
-                                    <td id="quote-total-nis">0</td>
+                                    <td>USD rate:</td>
+                                    <td><input type="hidden" name="quote_usd_rate" value="<?php echo $this->data['exchange-rate'] ?>"><?php echo $this->data['exchange-rate'] ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td>Total (USD):</td>
-                                    <td id="quote-total-usd">0</td>
+                                    <td>Total:</td>
+                                    <td id="quote-total">0</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td>Total+Tax:</td>
+                                    <td>Tax:</td>
+                                    <td id="quote-tax">0</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total + Tax:</td>
                                     <td id="quote-total-tax">0</td>
                                 </tr>
                             </tfoot>

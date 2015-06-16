@@ -66,6 +66,7 @@ abstract class IacsBaseController extends AbstractController
         $reflect = new \ReflectionClass($this);
         $class = $reflect->getShortName();
         $viewData['currentMenuItem'] = $class;
+        $viewData['exchange-rate'] = $this->getUSDRate();
         try
         {
             $user = $this->getSession()->item('iacs-logged-user');

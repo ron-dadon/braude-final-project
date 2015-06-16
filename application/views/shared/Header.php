@@ -42,7 +42,10 @@ class Header extends AbstractView
     <?php $this->js('js/libraries/bootstrap-tree.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-validator.min.js') ?>
     <?php $this->js('js/application-settings.js?'. date('YmdHis')) ?>
-    <script>appSettings.autoLogoutTime = <?php echo $autoLogoutTime ?>;</script>
+    <script>
+        appSettings.autoLogoutTime = <?php echo $autoLogoutTime ?>;
+        appSettings.exchangeRate = <?php echo $this->data['exchange-rate'] ?>;
+    </script>
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->
 </head>

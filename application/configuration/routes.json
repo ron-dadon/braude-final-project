@@ -162,6 +162,11 @@
             "method": "Index"
         },
         {
+            "pattern": "/Licenses/New",
+            "controller": "Licenses",
+            "method": "Add"
+        },
+        {
             "pattern": "/Reports",
             "controller": "Reports",
             "method": "Index"
