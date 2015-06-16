@@ -32,7 +32,7 @@ class Index extends AbstractView
         <div id="alerts-container"></div>
             <div class="panel">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="products-table">
+                    <table class="table table-bordered" id="licenses-table">
                         <thead>
                         <tr>
                             <th data-column-id="productName" data-order="asc" data-formatter="productLink">Product</th>
@@ -40,7 +40,7 @@ class Index extends AbstractView
                             <th data-column-id="licenseType">Type</th>
                             <th data-column-id="expirationDate">Expiration Date</th>
                             <th data-column-id="serial" data-identifier="true" data-visible="false">Serial</th>
-                            <th data-column-id="actions" data-sortable="false" data-formatter="productActions">Actions</th>
+                            <th data-column-id="actions" data-sortable="false" data-formatter="licenseActions">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,7 +61,7 @@ class Index extends AbstractView
                 </div>
             </div>
         </div>
-        <script src="<?php $this->publicPath() ?>js/licenses/index.js"></script>
+        <script src="<?php $this->publicPath() ?>js/licenses/index.js?<?php echo date('YmdHis');?>"></script>
         <?php
         $this->getSharedView('Footer')->render();
     }
