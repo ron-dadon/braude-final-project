@@ -49,16 +49,6 @@ class Add extends AbstractView
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-2">
-                        <div class="form-group">
-                            <label for="license-type">Type:</label>
-                            <select id="license-type" name="license_type" class="form-control" autofocus>
-<?php foreach ($licenseTypes as $licenseType): ?>
-                                <option value="<?php echo $licenseType->id?>"><?php echo $licenseType->name ?></option>
-<?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
                             <div class="col-xs-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="client-name">Client:</label>
@@ -69,7 +59,6 @@ class Add extends AbstractView
                                     </select>
                                 </div>
                             </div>
-
                                     <div class="col-xs-12 col-lg-2">
                                         <div class="form-group">
                                             <label for="product-name">Product:</label>
