@@ -57,13 +57,6 @@ class Add extends AbstractView
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-lg-6">
-                        <div class="form-group">
-                            <label for="license-name">Name:</label>
-                            <input type="text" id="license-name" name="license_name" class="form-control" value="<?php echo $this->escape($license->name) ?>" required data-error="Please enter the license name">
-                            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-lg-2">

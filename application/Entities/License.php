@@ -37,6 +37,7 @@ class License extends Entity
         $this->_prefix = "license_";
         $this->_primary = "id";
         $this->creationDate = date('Y-m-d');
+        $this->expire = date('Y-m-d');
         $this->delete = 0;
         $this->serial = md5(bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)));
     }
