@@ -12,6 +12,12 @@ class Licenses extends IacsBaseController
 
     public function Index()
     {
+        $clients = $this->loadModel('Clients');
+        $licenses = $this->loadModel('Licenses');
+        $products = $this->loadModel('Products');
+        $licenseTypes = $this->loadModel('LicenseTypes');
+        $invoices = $this->loadModel('Invoices');
+
         $this->getView()->render();
     }
 
