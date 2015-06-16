@@ -69,21 +69,13 @@ class Add extends AbstractView
                                     </select>
                                 </div>
                             </div>
-                    <div class="col-xs-12 col-lg-2">
-                        <div class="form-group">
-                            <label for="license-expire">Expiration date:</label>
-                            <input type="date" id="license-expire" name="quote_expire" class="form-control" value="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" min="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                <div class="row <?php if ($license->type !== "software"): ?>hidden<?php endif; ?>" id="software-details">
-                    <div class="col-xs-12 col-lg-2">
-                        <div class="form-group">
-                            <label for="license-type">License type:</label>
-                            <select id="license-type" name="license" class="form-control" autofocus>
-<?php foreach ($licenseTypes as $licenseType): ?>
-<?php endforeach; ?>
-                            </select>
+                            <div class="col-xs-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="license-expire">Expiration date:</label>
+                                    <input type="date" id="license-expire" name="quote_expire" class="form-control" value="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" min="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
