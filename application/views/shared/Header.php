@@ -45,6 +45,7 @@ class Header extends AbstractView
     <script>
         appSettings.autoLogoutTime = <?php echo $autoLogoutTime ?>;
         appSettings.exchangeRate = <?php echo $this->data['exchange-rate'] ?>;
+        appSettings.tax = <?php echo $this->configuration->item('user.general.tax') ?>;
     </script>
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->

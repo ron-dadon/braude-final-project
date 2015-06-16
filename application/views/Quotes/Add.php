@@ -84,7 +84,8 @@ class Add extends AbstractView
                                 <tr class="bg-main">
                                     <th>Product</th>
                                     <th width="1%">Price</th>
-                                    <th width="1%" style="white-space: nowrap;">Currency</th>
+                                    <th width="1%">Currency</th>
+                                    <th width="1%">Quantity</th>
                                     <th width="1%">Actions</th>
                                 </tr>
                             </thead>
@@ -92,40 +93,50 @@ class Add extends AbstractView
                             </tbody>
                             <tfoot class="bg-info">
                                 <tr>
-                                    <td colspan="4" class="text-right"><button type="button" id="add-product" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
+                                    <td colspan="5" class="text-right"><button type="button" id="add-product" class="btn btn-default"><i class="fa fa-fw fa-plus"></i> Add product</button></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
                                     <td>Discount(%):</td>
-                                    <td><input type="number" name="quote_discount" min="0" max="100" step="0.05" value="0"></td>
+                                    <td><input type="number" name="quote_discount" id="quote-discount" min="0" max="100" step="0.5" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
                                     <td>Tax rate(%):</td>
                                     <td><input type="hidden" name="quote_tax" value="<?php echo $this->data['tax'] ?>"><?php echo $this->data['tax'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
                                     <td>USD rate:</td>
                                     <td><input type="hidden" name="quote_usd_rate" value="<?php echo $this->data['exchange-rate'] ?>"><?php echo $this->data['exchange-rate'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
-                                    <td>Total:</td>
+                                    <td colspan="3"></td>
+                                    <td>Total (NIS):</td>
                                     <td id="quote-total">0</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
-                                    <td>Tax:</td>
+                                    <td colspan="3"></td>
+                                    <td>Tax (NIS):</td>
                                     <td id="quote-tax">0</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
-                                    <td>Total + Tax:</td>
+                                    <td colspan="3"></td>
+                                    <td>Total + Tax (NIS):</td>
                                     <td id="quote-total-tax">0</td>
                                 </tr>
                             </tfoot>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-heading">
+                <h3 class="bg-main padded-5px">Notes:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea name="quote_note" class="form-control" style="resize: vertical"></textarea>
                     </div>
                 </div>
             </div>
