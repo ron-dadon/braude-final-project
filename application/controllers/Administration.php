@@ -200,12 +200,6 @@ class Administration extends IacsBaseController
                     $this->addLogEntry("Failed system settings update", "danger");
                     $this->jsonResponse(false);
                 }
-                $securityAllowReset = $this->getRequest()->getPost()->item('securityAllowReset');
-                if ($securityAllowReset !== '0' && $securityAllowReset !== '1')
-                {
-                    $this->addLogEntry("Failed system settings update", "danger");
-                    $this->jsonResponse(false);
-                }
                 $emailHost = $this->getRequest()->getPost()->item('emailHost');
                 if (!preg_match('/^[a-z0-9A-Z\:\/\.\-]{0,}$/', $emailHost))
                 {
@@ -230,15 +224,21 @@ class Administration extends IacsBaseController
                     $this->addLogEntry("Failed system settings update", "danger");
                     $this->jsonResponse(false);
                 }
+                $tax = $this->getRequest()->getPost()->item('tax');
+                if (!preg_match('/^[0-9]+(\.[0-9]{1,2})?$/', $tax))
+                {
+                    $this->addLogEntry("Failed system settings update", "danger");
+                    $this->jsonResponse(false);
+                }
                 $emailPassword = $this->getRequest()->getPost()->item('emailPassword');
                 $this->getConfiguration()->set('user.security.allow-auto-logout', $securityAllowIdle === '1');
                 $this->getConfiguration()->set('user.security.auto-logout-time', intval($securityIdleTime));
-                $this->getConfiguration()->set('user.security.allow-password-reset', $securityAllowReset === '1');
                 $this->getConfiguration()->set('user.email.host', $emailHost);
                 $this->getConfiguration()->set('user.email.port', intval($emailPort));
                 $this->getConfiguration()->set('user.email.security', $emailSecurity);
                 $this->getConfiguration()->set('user.email.user', $emailUser);
                 $this->getConfiguration()->set('user.email.password', stripslashes($emailPassword));
+                $this->getConfiguration()->set('user.general.tax', $tax);
                 $this->getConfiguration()->save(CONFIGURATION_FILE);
                 $this->addLogEntry("Successful system settings update", "success");
                 $this->jsonResponse(true);
@@ -252,12 +252,12 @@ class Administration extends IacsBaseController
         }
         $viewData['security-idle-logout'] = $this->getConfiguration()->item('user.security.allow-auto-logout');
         $viewData['security-idle-logout-time'] = $this->getConfiguration()->item('user.security.auto-logout-time');
-        $viewData['security-password-reset'] = $this->getConfiguration()->item('user.security.allow-password-reset');
         $viewData['email-host'] = $this->getConfiguration()->item('user.email.host');
         $viewData['email-port'] = $this->getConfiguration()->item('user.email.port');
         $viewData['email-security'] = $this->getConfiguration()->item('user.email.security');
         $viewData['email-user'] = $this->getConfiguration()->item('user.email.user');
         $viewData['email-password'] = $this->getConfiguration()->item('user.email.password');
+        $viewData['tax'] = $this->getConfiguration()->item('user.general.tax');
         $this->getView($viewData)->render();
     }
 

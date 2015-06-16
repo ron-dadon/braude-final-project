@@ -3,6 +3,7 @@
 namespace Application\Controllers;
 
 use application\Entities\LogEntry;
+use Application\Libraries\CUrl;
 use Application\Models\Users;
 use Application\Entities\User;
 use Application\Models\Logs;

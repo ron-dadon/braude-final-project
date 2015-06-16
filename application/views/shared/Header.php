@@ -7,7 +7,8 @@ use \Trident\MVC\AbstractView;
 class Header extends AbstractView
 {
 
-    public function render() { ?>
+    public function render() {
+        $autoLogoutTime = $this->configuration->item('user.security.auto-logout-time'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +42,7 @@ class Header extends AbstractView
     <?php $this->js('js/libraries/bootstrap-tree.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-validator.min.js') ?>
     <?php $this->js('js/application-settings.js?'. date('YmdHis')) ?>
+    <script>appSettings.autoLogoutTime = <?php echo $autoLogoutTime ?>;</script>
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->
 </head>

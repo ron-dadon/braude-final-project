@@ -54,6 +54,12 @@ class Show extends AbstractView
                         <p class="form-control-static" id="product-coin"><strong><?php echo $product->coin === "usd" ? "USD $" : "NIS &#8362;" ?></strong></p>
                     </div>
                 </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="product-coin">Description:</label>
+                        <p class="form-control-static" id="product-description"><strong><?php echo $this->escape(str_replace(PHP_EOL, "<br>", $product->description)); ?></strong></p>
+                    </div>
+                </div>
 <?php if ($product->type === "software"): ?>
                 <div class="col-xs-12 col-lg-2">
                     <div class="form-group">

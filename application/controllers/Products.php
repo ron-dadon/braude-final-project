@@ -171,6 +171,7 @@ class Products extends IacsBaseController
                 {
                     $this->addLogEntry("Updated product with ID: " . $product->id, "success");
                     $this->setSessionAlertMessage("Product {$product->name} updated.", "success");
+                    $this->redirect("/Products/Update/{$product->id}");
                 }
                 else
                 {

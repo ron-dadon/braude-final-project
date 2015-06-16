@@ -51,6 +51,7 @@ $(document).on('ready', function() {
     {
         setTimeout(function() { alerts.alert('close'); }, 3000);
     }
+    $('.selectpicker').selectpicker();
 });
 
 function showMessageModal(titleIcon, msgTitle, msgBody, type, autoHide)

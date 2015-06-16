@@ -36,7 +36,6 @@ class Index extends AbstractView
         {
             $welcomeMessage = "Good evening";
         }
-
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>

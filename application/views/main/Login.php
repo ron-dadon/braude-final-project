@@ -9,14 +9,6 @@ class Login extends AbstractView
 
     public function render()
     {
-        try
-        {
-            $passwordReset = $this->configuration->item('user.security.allow-password-reset');
-        }
-        catch (\InvalidArgumentException $e)
-        {
-            $passwordReset = false;
-        }
         $this->getSharedView('Header')->render(); ?>
 <div class="container-fluid" id="login-container">
     <div class="col-xs-12 col-lg-4 col-lg-offset-4">
@@ -45,7 +37,6 @@ class Login extends AbstractView
             </div>
             <div class="panel-footer" id="login-footer">
                 <button id="login-button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-fw fa-sign-in"></i> Login</button>
-                <?php if ($passwordReset): ?><a id="forgot-password" class="btn btn-link btn-block">Forgot password?</a><?php endif; ?>
             </div>
         </div>
     </div>

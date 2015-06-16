@@ -4,6 +4,7 @@ namespace Application\Controllers;
 
 use Application\Entities\Quote;
 use Application\Models\Clients;
+use Application\Models\Products;
 use Application\Models\Quotes as QuotesModel;
 
 class Quotes extends IacsBaseController
@@ -22,6 +23,8 @@ class Quotes extends IacsBaseController
         $quote = new Quote();
         /** @var Clients $clients */
         $clients = $this->loadModel("Clients");
+        /** @var Products $products */
+        $products = $this->loadModel("Products");
         /** @var QuotesModel $quotes */
         $quotes = $this->loadModel("Quotes");
         if ($clientId !== null)
@@ -62,6 +65,8 @@ class Quotes extends IacsBaseController
         }
         $viewData['quote'] = $quote;
         $viewData['statuses'] = $quotes->getAllStatuses();
+        $viewData['clients'] = $clients->getAll();
+        $viewData['products'] = $products->getAll();
         $this->getView($viewData)->render();
     }
 

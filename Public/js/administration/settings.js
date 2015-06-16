@@ -32,7 +32,8 @@ $(document).on('ready', function() {
                 emailPort: $('#email-port').val(),
                 emailSecurity: $('#email-security').val(),
                 emailUser: $('#email-user').val(),
-                emailPassword: $('#email-password').val()
+                emailPassword: $('#email-password').val(),
+                tax: $('#general-tax').val()
             };
             $.post("", postData , function(result) {
                 console.log(result);

@@ -1,5 +1,5 @@
 var appSettings = {
     "autoLogoutTime": 60,
     "homeURI": "http://localhost/iacs/Public",
-    "messageDismissTime": 5000
+    "messageDismissTime": 6000
 };

@@ -4,6 +4,7 @@
 namespace Application\Controllers;
 
 use application\Entities\LogEntry;
+use Application\Libraries\CUrl;
 use Trident\MVC\AbstractController;
 use Trident\Exceptions\ViewNotFoundException;
 use Trident\MVC\AbstractView;
@@ -150,5 +151,16 @@ abstract class IacsBaseController extends AbstractController
             return $message;
         }
         return null;
+    }
+
+    protected function getUSDRate()
+    {
+        $curl = new CUrl($this->getConfiguration(), $this->getLog(), $this->getRequest(), $this->getSession());
+        $data = $curl->getUrl($this->getConfiguration()->item('api.currency'));
+        preg_match('/\<rate\>([0-9\.]+)\<\/rate\>/i', $data, $rate);
+        if (isset($rate[1])) {
+            return $rate[1];
+        }
+        return 0;
     }
 }
