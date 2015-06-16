@@ -62,7 +62,7 @@ class Add extends AbstractView
                             <div class="col-xs-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="client-name">Client:</label>
-                                    <select id="client-name" name="client-name" class="form-control" autofocus>
+                                    <select id="client-name" name="client-name" class="selectpicker" data-live-search="true" data-width="100%" autofocus>
                                         <?php foreach ($clients as $client): ?>
                                             <option value="<?php echo $client->id?>"><?php echo $client->name ?></option>
                                         <?php endforeach; ?>
@@ -73,7 +73,7 @@ class Add extends AbstractView
                                     <div class="col-xs-12 col-lg-2">
                                         <div class="form-group">
                                             <label for="product-name">Product:</label>
-                                            <select id="product-name" name="product-name" class="form-control" autofocus>
+                                            <select id="product-name" name="product-name" class="selectpicker" data-live-search="true" data-width="100%" autofocus>
                                                 <?php foreach ($products as $product): ?>
                                                     <option value="<?php echo $product->id?>"><?php echo $product->name ?></option>
                                                 <?php endforeach; ?>
