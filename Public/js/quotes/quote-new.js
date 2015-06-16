@@ -32,7 +32,7 @@ function addProductToTable() {
     productLines++;
     $('#quote-products-table').append(
         '<tr id="product-line-row-' + productLines + '"><td>' + getProductSelect() + '</td><td class="products-prices" data-coin="' + products[0].coin + '" data-quantity="1" id="product-line-price-' + productLines + '">' + products[0].basePrice +'</td><td id="product-line-coin-' + productLines + '">' + products[0].coin +'</td>' +
-        '<td><input type="number" name="product_quantity[]" id="product-quantity-' + productLines + '" value="1" data-id="' + productLines + '"></td><td><button type="button" id="delete-row-' + productLines + '" data-delete-id="' + productLines + '" class="btn btn-xs btn-danger"><i class="fa fa-fw fa-times"></i></button></td></tr>'
+        '<td><input type="number" class="form-control" name="product_quantity[]" id="product-quantity-' + productLines + '" value="1" min="1" data-id="' + productLines + '"></td><td><button type="button" id="delete-row-' + productLines + '" data-delete-id="' + productLines + '" class="btn btn-xs btn-danger"><i class="fa fa-fw fa-times"></i></button></td></tr>'
     );
     $('#product-line-' + productLines).selectpicker()
         .on('change', function() {

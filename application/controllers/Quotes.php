@@ -40,6 +40,7 @@ class Quotes extends IacsBaseController
         if ($this->getRequest()->isPost())
         {
             $data = $this->getRequest()->getPost()->toArray();
+            var_dump($data); die();
             $quote->fromArray($data, "quote_");
             if ($quote->isValid())
             {
