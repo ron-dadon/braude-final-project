@@ -19,6 +19,15 @@ class Licenses extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    public function Show($id)
+    {
+        /** @var LicensesModel $licenses */
+        $licenses = $this->loadModel('Licenses');
+        $viewData['license'] = $licenses->getById($id);
+        $this->getView($viewData)->render();
+    }
+
+
     public function Add()
     {
         /** @var LicenseTypes $licenseTypes */

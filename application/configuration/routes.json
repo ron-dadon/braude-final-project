@@ -167,6 +167,11 @@
             "method": "Add"
         },
         {
+            "pattern": "/Licenses/Show/(id)",
+            "controller": "Licenses",
+            "method": "Show"
+        },
+        {
             "pattern": "/Reports",
             "controller": "Reports",
             "method": "Index"

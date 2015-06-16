@@ -22,9 +22,12 @@ function deleteLicense(id)
 $(document).on('ready', function() {
     $('#licenses-table').bootgrid({
        formatters: {
+           "licenseLink": function (column, row) {
+               return '<a href="' + appSettings.homeURI + '/Licenses/Show/' + row.licenseId + '">' + row.serial + '</a>';
+           },
            "licenseActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-license-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.serial) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Licenses/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-license-delete" data-delete-id="' + row.licenseId + '" data-delete-name="' + htmlEntities(row.serial) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Licenses/Update/' + row.licenseId + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {
@@ -39,4 +42,5 @@ $(document).on('ready', function() {
             });
         })
     });
+
 });

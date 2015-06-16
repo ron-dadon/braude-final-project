@@ -45,7 +45,7 @@ class Show extends AbstractView
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <a href="<?php $this->publicPath() ?>/Quotes/New/<?php echo $client->id ?>" class="btn btn-default"><i class="fa fa-fw fa-file-text"></i>Create quote</a>
+                <a href="<?php $this->publicPath() ?>Quotes/New/<?php echo $client->id ?>" class="btn btn-default"><i class="fa fa-fw fa-file-text"></i>Create quote</a>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Views\Products;
+namespace Application\Views\Licenses;
 
 use Trident\MVC\AbstractView;
 use Application\Entities\License;
@@ -29,82 +29,93 @@ class Show extends AbstractView
             <?php endif; ?>
             <div class="panel">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-2">
+                    <div class="col-xs-12">
+                        <h3 class="bg-main padded-5px margin-bottom">Product information:</h3>
+                    </div>
+                    <div class="col-xs-12 col-lg-8">
                         <div class="form-group">
                             <label for="product-name">Product Name: </label>
-
                             <p class="form-control-static" id="product-name">
-                                <strong><?php echo $this->escape($license->product->name) ?> hours</strong></p>
+                                <strong><?php echo $this->escape($license->product->name) ?> hours</strong>
+                            </p>
                         </div>
                     </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="product-version">Version:</label>
+                            <p class="form-control-static" id="product-version">
+                            <strong><?php echo $this->escape($license->product->version) ?></strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12">
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="product-version">Version:</label>
-
-                                <p class="form-control-static" id="product-version">
-                                    <strong><?php echo $this->escape($license->product->version) ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="client-name">Client Name:</label>
-
-                                <p class="form-control-static" id="client-name">
-                                    <strong><?php echo $this->escape($license->client->name) ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="client-address">Client Address:</label>
-
-                                <p class="form-control-static" id="client-address">
-                                    <strong><?php echo($license->client->address) ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="client-email">Client Email:</label>
-
-                                <p class="form-control-static" id="client-email">
-                                    <strong><?php echo $license->client->email ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="license-type">License Type:</label>
-
-                                <p class="form-control-static" id="license-type">
-                                    <strong><?php echo $this->escape($license->type); ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="creation-date">Creation Date:</label>
-
-                                <p class="form-control-static" id="creation-date">
-                                    <strong><?php echo $this->escape($license->creationDate) ?></strong></p>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="expiration-date">Expiration Date:</label>
-
-                                <p class="form-control-static" id="expiration-date">
-                                    <strong><?php echo $this->escape($license->expire) ?></strong></p>
-                            </div>
-                        </div>
-                        <?php if ($license->invoice !== null): ?>
-                        <div class="col-xs-12 col-lg-2">
-                            <div class="form-group">
-                                <label for="license-invoice">Invoice:</label>
-
-                                <p class="form-control-static" id="license-invoice">
-                                    <strong><?php echo $this->escape($license->invoice) ?></strong></p>
-                            </div>
-                        </div>
-                        <?php endif; ?>
+                        <h3 class="bg-main padded-5px margin-bottom">Client information:</h3>
                     </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="client-name">Client Name:</label>
+                            <p class="form-control-static" id="client-name">
+                                <strong><?php echo $this->escape($license->client->name) ?></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="client-address">Client Address:</label>
+
+                            <p class="form-control-static" id="client-address">
+                                <strong><?php echo($license->client->address) ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="client-email">Client Email:</label>
+
+                            <p class="form-control-static" id="client-email">
+                                <strong><?php echo $license->client->email ?></strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 class="bg-main padded-5px margin-bottom">License information:</h3>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="license-type">License Type:</label>
+                            <p class="form-control-static" id="license-type">
+                                <strong><?php echo $this->escape($license->type->name); ?></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="creation-date">Creation Date:</label>
+                            <p class="form-control-static" id="creation-date">
+                                <strong><?php echo $this->formatSqlDateTime($license->creationDate, 'Y-m-d H:i:s', 'd/m/Y') ?></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="expiration-date">Expiration Date:</label>
+                            <p class="form-control-static" id="expiration-date">
+                                <strong><?php echo $this->formatSqlDateTime($license->expire, 'Y-m-d H:i:s', 'd/m/Y') ?></strong>
+                            </p>
+                        </div>
+                    </div>
+<?php if ($license->invoice !== null): ?>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="license-invoice">Invoice:</label>
+                            <p class="form-control-static" id="license-invoice">
+                                <strong><?php echo $this->escape($license->invoice->id) ?></strong>
+                            </p>
+                        </div>
+                    </div>
+<?php endif; ?>
                 </div>
             </div>
             <div class="panel">
@@ -116,11 +127,9 @@ class Show extends AbstractView
             </div>
         </div>
         <script src="<?php $this->publicPath() ?>js/Licenses/License-show.js?<?php echo date('YmdHis') ?>"></script>
-        <?php
+<?php
         $this->getSharedView('ConfirmModal')->render();
         $this->getSharedView('MessageModal')->render();
         $this->getSharedView('Footer')->render();
-
-
     }
 } 

@@ -35,17 +35,19 @@ class Index extends AbstractView
                     <table class="table table-bordered" id="licenses-table">
                         <thead>
                         <tr>
+                            <th data-column-id="licenseId" data-identifier="true" data-visible="false">ID</th>
                             <th data-column-id="productName" data-order="asc" data-formatter="productLink">Product</th>
                             <th data-column-id="clientName" data-formatter="clientLink" data-order="asc">Client</th>
                             <th data-column-id="licenseType">Type</th>
                             <th data-column-id="expirationDate">Expiration Date</th>
-                            <th data-column-id="serial" data-identifier="true" data-visible="false">Serial</th>
+                            <th data-column-id="serial" data-formatter="licenseLink">Serial</th>
                             <th data-column-id="actions" data-sortable="false" data-formatter="licenseActions">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($licenses as $license): ?>
                             <tr data-license-id="<?php echo $license->id ?>">
+                                <td><?php echo $license->id ?></td>
                                 <td><?php echo $license->product->name ?></td>
                                 <td><?php echo $license->client->name ?></td>
                                 <td><?php echo $license->type->name ?></td>
