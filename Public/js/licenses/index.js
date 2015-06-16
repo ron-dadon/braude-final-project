@@ -9,12 +9,12 @@ function deleteLicense(id)
         $('#confirm-modal').modal('hide');
         if (result.result === true)
         {
-            showMessageAlert('<i class="fa fa-fw fa-check-circle"></i>', 'License deleted successfully!', 'The client <strong>' + serial + '</strong> was deleted.', 'success', true);
-            $('#clients-table').bootgrid("remove", [id]);
+            showMessageAlert('<i class="fa fa-fw fa-check-circle"></i>', 'License deleted successfully!', 'The license <strong>' + serial + '</strong> was deleted.', 'success', true);
+            $('#licenses-table').bootgrid("remove", [id]);
         }
         else
         {
-            showMessageAlert('<i class="fa fa-fw fa-times-circle"></i>', 'License deletion failed!', 'The client <strong>' + serial + '</strong> was not deleted.', 'danger', true);
+            showMessageAlert('<i class="fa fa-fw fa-times-circle"></i>', 'License deletion failed!', 'The license <strong>' + serial + '</strong> was not deleted.', 'danger', true);
         }
     });
 }
@@ -23,12 +23,12 @@ $(document).on('ready', function() {
     $('#licenses-table').bootgrid({
        formatters: {
            "licenseActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.serial) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Clients/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-license-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.serial) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Licenses/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {
-        $('.btn-client-delete').each(function() {
+        $('.btn-license-delete').each(function() {
             $(this).off('click');
             $(this).on('click', function() {
                 var deleteId = $(this).data('delete-id');

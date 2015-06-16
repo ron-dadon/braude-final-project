@@ -16,7 +16,9 @@ class License extends Entity
 
     public $id;
     public $serial;
+    public $pcid;
     public $creationDate;
+    public $hash;
     public $expire;
     /** @var LicenseType */
     public $type;
@@ -42,6 +44,35 @@ class License extends Entity
         $this->serial = md5(bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)));
     }
 
+    public function generateLicenseHash()
+    {
+        $validTo = $this->timeStampToDate($this->expire);
+        $toHash = $this->serial . $this->product->name . $this->client->name . ($this->type->name === 'Trial' ? '1' : '0') . $validTo . $this->pcid;
+        $this->hash = hash('sha512', $toHash);
+        return $this->hash;
+    }
+
+    public function toFile()
+    {
+        $line = '<?xml version="1.0" encoding="UTF-8"?><license>';
+        $line .= '<serial>' . $this->serial . '</serial>';
+        $line .= '<valid>' . $this->timeStampToDate($this->expire) . '</valid>';
+        $line .= '<client>' . $this->client->name . '</client>';
+        $line .= '<pcid>' . $this->pcid . '</pcid>' . PHP_EOL;
+        $line .= '<app>' . $this->product->name . '</app>';
+        $line .= '<trial>' . ($this->type->name === 'Trial' ? '1' : '0') . '</trial>';
+        $line .= '<hash>' . $this->generateLicenseHash() . '</hash></license>';
+        return $line;
+    }
+
+    /**
+     * @param $ts
+     * @return string
+     */
+    private function timeStampToDate($ts)
+    {
+        return substr($ts, 8, 2) . '/' . substr($ts, 5, 2) . '/' . substr($ts, 0, 4);
+    }
     /**
      * Implement validation rules.
      * Return true if valid, or false otherwise.

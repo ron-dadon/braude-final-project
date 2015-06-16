@@ -82,4 +82,33 @@ class Licenses extends AbstractModel
         return $this->getORM()->save($license);
 
     }
+
+    /**
+     * Add a new license from request file.
+     *
+     * @param $file
+     *
+     * @return \Trident\Database\Result
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
+    public function fromRequest($file, $licenseType, $client)
+    {
+        $file = simplexml_load_file($file);
+        if (count(get_object_vars($file)) == 2 &&
+            array_key_exists('app', get_object_vars($file)) !== false &&
+            array_key_exists('pcid', get_object_vars($file)) !== false) {
+            $license = new License();
+            $license->pcid = $file['pcid'];
+            $product = $this->getORM()->find('Product', 'product_name = :n', [':n' => $file['app']]);
+            if ($product === null || count($product) !== 1) {
+                return false;
+            }
+            $license->product = $product->id;
+            $license->client = $client->id;
+            $license->type = $licenseType->id;
+            return $this->add($license);
+        }
+        return false;
+    }
+
 } 

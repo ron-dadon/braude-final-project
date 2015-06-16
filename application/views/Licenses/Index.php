@@ -45,10 +45,11 @@ class Index extends AbstractView
                         </thead>
                         <tbody>
                         <?php foreach ($licenses as $license): ?>
-                            <tr data-user-id="<?php echo $license->product->name ?>">
+                            <tr data-license-id="<?php echo $license->id ?>">
+                                <td><?php echo $license->product->name ?></td>
                                 <td><?php echo $license->client->name ?></td>
-                                <td><?php echo $license->type ?></td>
-                                <td><?php echo $license->expire ?></td>
+                                <td><?php echo $license->type->name ?></td>
+                                <td><?php echo (new \DateTime($license->expire))->format('d/m/Y') ?></td>
                                 <td><?php echo $license->serial ?></td>
                                 <td>Actions</td>
                             </tr>
@@ -62,7 +63,8 @@ class Index extends AbstractView
             </div>
         </div>
         <script src="<?php $this->publicPath() ?>js/licenses/index.js?<?php echo date('YmdHis');?>"></script>
-        <?php
+<?php
+        $this->getSharedView('ConfirmModal')->render();
         $this->getSharedView('Footer')->render();
     }
 
