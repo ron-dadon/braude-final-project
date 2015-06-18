@@ -84,6 +84,7 @@ abstract class IacsBaseController extends AbstractController
             $viewName = debug_backtrace()[1]['function'];
             $viewName = "$class\\$viewName";
         }
+		$viewData['viewName'] = $viewName;
         return parent::getView($viewData, $viewName);
     }
 
@@ -160,8 +161,10 @@ abstract class IacsBaseController extends AbstractController
         $data = $curl->getUrl($this->getConfiguration()->item('api.currency'));
         preg_match('/\<rate\>([0-9\.]+)\<\/rate\>/i', $data, $rate);
         if (isset($rate[1])) {
+            $this->getConfiguration()->set('api.last', $rate[1]);
+            $this->getConfiguration()->save(CONFIGURATION_FILE);
             return $rate[1];
         }
-        return 0;
+        return $this->getConfiguration()->item('api.last');
     }
 }

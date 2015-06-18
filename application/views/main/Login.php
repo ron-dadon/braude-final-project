@@ -13,7 +13,7 @@ class Login extends AbstractView
 <div class="container-fluid" id="login-container">
     <div class="col-xs-12 col-lg-4 col-lg-offset-4">
         <img src="<?php $this->publicPath() ?>images/logo.png" class="img-responsive"><br>
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4><strong>Login</strong></h4>
             </div>

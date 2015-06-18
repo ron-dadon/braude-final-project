@@ -9,7 +9,14 @@ class Invoices extends IacsBaseController
 {
     public function Index()
     {
-        $this->getView()->render();
+        /** @var InvoicesModel $invoices */
+        $invoices = $this->loadModel("Invoices");
+        $viewData['invoices'] = $invoices->getAll();
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
+        $this->getView($viewData)->render();
     }
 
     public function Add()

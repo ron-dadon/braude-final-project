@@ -36,7 +36,6 @@ $(document).on('ready', function() {
                 tax: $('#general-tax').val()
             };
             $.post("", postData , function(result) {
-                console.log(result);
                 result = JSON.parse(result);
                 if (result.result === true)
                 {

@@ -54,4 +54,37 @@ class AbstractLibrary
         $this->_session = $session;
     }
 
+    /**
+     * @return Configuration
+     */
+    public function getConfiguration()
+    {
+        return $this->_configuration;
+    }
+
+    /**
+     * @return Log
+     */
+    public function getLog()
+    {
+        return $this->_log;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
+     * @return Session
+     */
+    public function getSession()
+    {
+        return $this->_session;
+    }
+
+
 }

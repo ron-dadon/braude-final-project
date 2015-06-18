@@ -5,7 +5,6 @@
 var products = [];
 
 var total;
-var productLines = 0;
 
 function getAllProducts(data)
 {
@@ -120,6 +119,35 @@ $(document).on('ready', function() {
             e.preventDefault();
         }
     });
+    for (var j = 1; j <= productLines; j++)
+    {
+        $('#product-line-' + j).selectpicker().on('change', function () {
+            var value = $(this).val();
+            var currentId = $(this).data('id');
+            for (var i = 0; i < products.length; i++)
+            {
+                if (products[i].id == value)
+                {
+                    $('#product-line-price-' + currentId).html(formatNumber(products[i].basePrice)).data('coin', products[i].coin).data('quantity', 1);
+                    $('#product-line-coin-' + currentId).html(products[i].coin);
+                    $('#product-quantity-' + currentId).val(1);
+                }
+            }
+            calcTotals();
+        });
+        $('#product-quantity-' + j).on('change', function() {
+            var value = $(this).val();
+            var currentId = $(this).data('id');
+            $('#product-line-price-' + currentId).data('quantity',value);
+            calcTotals();
+        });
+        $('#delete-row-' + j).on('click', function(){
+            var id = $(this).data('delete-id');
+            $('#product-line-row-' + id).remove();
+            calcTotals();
+        });
+    }
+    calcTotals();
     $('#new-quote-form').on('submit', function() {
         return $(this).find('.products-prices').length > 0;
     });

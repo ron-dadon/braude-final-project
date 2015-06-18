@@ -86,6 +86,17 @@ body {
     font-size: 16px;
 }
 
+body.dark {
+	background: #202023;
+	background: -moz-radial-gradient(center, ellipse cover,  #202023 0%, #000000 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#202023), color-stop(100%,#000000));
+	background: -webkit-radial-gradient(center, ellipse cover,  #202023 0%,#000000 100%);
+	background: -o-radial-gradient(center, ellipse cover,  #202023 0%,#000000 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  #202023 0%,#000000 100%);
+	background: radial-gradient(ellipse at center,  #202023 0%,#000000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#202023', endColorstr='#000000',GradientType=1 );
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
@@ -126,6 +137,10 @@ label {
 .page-header {
     margin-top: 2px;
     border-bottom: solid 2px #333333;
+}
+
+.panel-heading {
+    color: #ffffff !important;
 }
 
 .panel.panel-primary {

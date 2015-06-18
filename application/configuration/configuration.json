@@ -13,13 +13,14 @@
     "database.user": "iacs",
     "database.password": "123456",
     "database.name": "iacs_dev",
-    "user.security.allow-auto-logout": true,
-    "user.security.auto-logout-time": 60,
+    "user.security.allow-auto-logout": false,
+    "user.security.auto-logout-time": 1,
     "user.email.host": "smtp.gmail.com",
     "user.email.port": 587,
     "user.email.security": "tls",
     "user.email.user": "design@obu.co.il",
     "user.email.password": "12345678",
     "user.general.tax": "18",
-    "api.currency": "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22USDILS%22%29&env=store://datatables.org/alltableswithkeys"
+    "api.currency": "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22USDILS%22%29&env=store://datatables.org/alltableswithkeys",
+    "api.last": "3.8175"
 }

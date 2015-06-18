@@ -2,6 +2,7 @@
 
 namespace Application\Models;
 
+use Trident\Database\Query;
 use Trident\MVC\AbstractModel;
 use Application\Entities\Client;
 
@@ -17,6 +18,14 @@ class Clients extends AbstractModel
     public function getById($id)
     {
         return $this->getORM()->findById('Client', $id, "client_delete = 0");
+    }
+
+    public function count()
+    {
+        $query = new Query('SELECT COUNT(client_id) AS counter FROM clients WHERE client_delete = 0');
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess()) return 0;
+        return $query->getResultSet()[0]['counter'];
     }
 
     public function getAll()

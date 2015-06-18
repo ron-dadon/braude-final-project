@@ -5,7 +5,6 @@
 function deleteUser(id)
 {
     $.post(appSettings.homeURI + "/Administration/Users/Delete", { delete_id: id } , function(result) {
-        console.log(result);
         result = JSON.parse(result);
         var userName = result.details.user;
         $('#confirm-modal').modal('hide');

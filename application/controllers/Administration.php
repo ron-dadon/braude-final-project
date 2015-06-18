@@ -39,6 +39,10 @@ class Administration extends IacsBaseController
         /** @var Users $users */
         $users = $this->loadModel('Users');
         $list = $users->getAll();
+        $list = array_filter($list, function($item) {
+            /** @var User $item */
+            return $item->id !== $this->getLoggedUser()->id;
+        });
         $viewData['users'] = $list;
         $this->getView($viewData)->render();
     }
@@ -56,6 +60,10 @@ class Administration extends IacsBaseController
                 if ($user === null)
                 {
                     $this->addLogEntry("Delete of user with the ID $id failed. No user with this ID was found", "danger");
+                    $this->jsonResponse(false);
+                }
+                if ($user->id === $this->getLoggedUser()->id) {
+                    $this->addLogEntry("Delete of user with the ID $id failed. User can't delete it self.", "danger");
                     $this->jsonResponse(false);
                 }
                 $result = $users->delete($user);

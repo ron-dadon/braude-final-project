@@ -34,6 +34,7 @@ class Header extends AbstractView
     <!-- Icons end -->
     <!-- Javascript files -->
     <?php $this->js('js/libraries/jquery.min.js') ?>
+    <?php $this->js('js/libraries/chart.min.js') ?>
     <?php $this->js('js/libraries/bootstrap.min.js') ?>
     <?php $this->js('js/libraries/bootstrap-file-input.min.js') ?>
     <?php // $this->js('js/libraries/bootstrap-file-input-he.min.js') ?>
@@ -46,11 +47,12 @@ class Header extends AbstractView
         appSettings.autoLogoutTime = <?php echo $autoLogoutTime ?>;
         appSettings.exchangeRate = <?php echo $this->data['exchange-rate'] ?>;
         appSettings.tax = <?php echo $this->configuration->item('user.general.tax') ?>;
+        appSettings.autoLogout = <?php echo $this->configuration->item('user.security.allow-auto-logout') ? 'true' : 'false'; ?>;
     </script>
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->
 </head>
-<body>
+<?php if ($this->data['viewName'] === "Main\\Login"): ?><body class="dark"><?php else: ?><body><?php endif; ?>
 <?php
     }
 

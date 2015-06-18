@@ -13,6 +13,7 @@ class Quotes extends AbstractModel
     {
         /** @var Quote $quote */
         $quote = $this->getORM()->findById('Quote', $id, "quote_delete = 0");
+        if ($quote === null) return null;
         $quote->client = $this->getORM()->findById('Client', $quote->client, "client_delete = 0");
         $quote->status = $this->getORM()->findById('QuoteStatus', $quote->status, "quote_status_delete = 0");
         $quote->products = [];
@@ -32,6 +33,14 @@ class Quotes extends AbstractModel
         return $quote;
     }
 
+    public function count()
+    {
+        $query = new Query('SELECT COUNT(quote_id) AS counter FROM quotes WHERE quote_delete = 0');
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess()) return 0;
+        return $query->getResultSet()[0]['counter'];
+    }
+
     public function getAll()
     {
         /** @var Quote[] $quotes */
@@ -41,6 +50,50 @@ class Quotes extends AbstractModel
             $quotes[$key] = $this->getById($quote->id);
         }
         return $quotes;
+    }
+
+    public function getAllSentOrDraft()
+    {
+        /** @var Quote[] $quotes */
+        $quotes = $this->getORM()->find('Quote', "quote_status IN (1,2) AND quote_delete = 0");
+        foreach ($quotes as $key => $quote)
+        {
+            $quotes[$key] = $this->getById($quote->id);
+        }
+        return $quotes;
+    }
+
+    public function getAllOInvoiced()
+    {
+        /** @var Quote[] $quotes */
+        $quotes = $this->getORM()->find('Quote', "quote_status = 5 AND quote_delete = 0");
+        foreach ($quotes as $key => $quote)
+        {
+            $quotes[$key] = $this->getById($quote->id);
+        }
+        return $quotes;
+    }
+
+    public function getQuotesByMonth()
+    {
+        $query = new Query('SELECT MONTH(quote_date) AS m, COUNT(quote_id) AS c FROM quotes WHERE quote_delete = 0 AND YEAR(quote_date) = :y GROUP BY MONTH(quote_date)', [':y' => date('Y')]);
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess()) {
+            $result = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $result[$i] = 0;
+            }
+            return $result;
+        }
+        $result = [];
+        foreach ($query->getResultSet() as $row) {
+            $result[$row['m']] = $row['c'];
+        }
+        for ($i = 1; $i <= 12; $i++) {
+            if (!isset($result[$i]))
+                $result[$i] = 0;
+        }
+        return $result;
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Application\Views\Main;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\User;
+use Application\Entities\Quote;
+use Application\Entities\Invoice;
 
 /**
  * Class Index
@@ -40,8 +42,134 @@ class Index extends AbstractView
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
-    <div class="page-head bg-main">
-        <h1><i class="fa fa-fw fa-home"></i> <?php echo $welcomeMessage . ' <strong>' . $this->currentUser->firstName . ' ' . $this->currentUser->lastName . '</strong>' ?>!</h1>
+    <div class="page-head bg-main" style="max-height: 60px">
+        <h1 class="visible-lg"><i class="fa fa-fw fa-home"></i> <?php echo $welcomeMessage . ' <strong>' . $this->currentUser->firstName . ' ' . $this->currentUser->lastName . '</strong>' ?>!</h1>
+        <h3 class="visible-xs"><i class="fa fa-fw fa-home"></i> <?php echo $welcomeMessage . ' <strong>' . $this->currentUser->firstName . ' ' . $this->currentUser->lastName . '</strong>' ?>!</h3>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-lg-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-money"></i> USD-NIS Exchange rate:
+                </div>
+                <div class="panel-body">
+                    1 NIS = <?php echo $this->data['usd-rate'] ?> USD
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-list"></i> Summarize:
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge"><?php echo $this->data['clients-count']; ?></span>
+                        Clients
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge"><?php echo $this->data['products-count']; ?></span>
+                        Products
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge"><?php echo $this->data['quotes-count']; ?></span>
+                        Quotes
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge"><?php echo $this->data['invoices-count']; ?></span>
+                        Invoices
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-9">
+            <div class="col-xs-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-exclamation-circle"></i> Non approved quotes:
+                    </div>
+                    <div class="list-group">
+<?php /** @var Quote[] $quotes */ $quotes = $this->data['quotes']; $total = 0; $totalTax = 0; foreach ($quotes as $quote): ?>
+                        <a class="list-group-item" href="<?php $this->publicPath() ?>Quotes/Show/<?php echo $quote->id ?>"><i class="fa fa-fw fa-database"></i> Quote No. <?php echo str_pad($quote->id, 8, '0', STR_PAD_LEFT) ?></a>
+                        <?php $totalTax += $quote->getTotalWithTax(); ?>
+                        <?php $total += $quote->getSubTotal(); ?>
+<?php endforeach; ?>
+                    </div>
+                    <div class="panel-footer">
+                        Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
+                    </div>
+                </div>
+                <?php /** @var Invoice[] $invoices */ $invoices = $this->data['invoices']; $total = 0; $totalTax = 0; if (count($invoices)): ?>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <i class="fa fa-fw fa-exclamation-circle"></i> Non paid invoices:
+                        </div>
+                        <div class="list-group">
+                            <?php foreach ($invoices as $invoice): ?>
+                                <a class="list-group-item" href="<?php $this->publicPath() ?>Invoice/Show/<?php echo $invoice->id ?>"><i class="fa fa-fw fa-file-text"></i> Invoice No. <?php echo str_pad($invoice->id, 8, '0', STR_PAD_LEFT) ?></a>
+                                <?php $totalTax += $invoice->quote->getTotalWithTax(); ?>
+                                <?php $total += $invoice->quote->getSubTotal(); ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="panel-footer">
+                            Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-line-chart"></i> Yearly quotes:
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="year-quotes" style="width: 100%; height: 150px"></canvas>
+                        <script>
+                            var ctxQuoteYear = document.getElementById('year-quotes').getContext('2d');
+                            var dataQuoteYear = {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [
+                                    {
+                                        label: "Yearly quotes",
+                                        fillColor: "rgba(220,220,220,0.2)",
+                                        strokeColor: "#204d74",
+                                        pointColor: "#204d74",
+                                        pointStrokeColor: "#fff",
+                                        pointHighlightFill: "#fff",
+                                        pointHighlightStroke: "rgba(220,220,220,1)",
+                                        data: [<?php echo implode(',', $this->data['quotes-months']) ?>]
+                                    }
+                                ]
+                            };
+                            var chartQuoteYear = new Chart(ctxQuoteYear).Line(dataQuoteYear);
+                        </script>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-line-chart"></i> Yearly invoices:
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="year-invoices" style="width: 100%; height: 150px"></canvas>
+                        <script>
+                            var ctxInvoiceYear = document.getElementById('year-invoices').getContext('2d');
+                            var dataInvoiceYear = {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [
+                                    {
+                                        label: "Yearly invoices",
+                                        fillColor: "rgba(220,220,220,0.2)",
+                                        strokeColor: "#204d74",
+                                        pointColor: "#204d74",
+                                        pointStrokeColor: "#fff",
+                                        pointHighlightFill: "#fff",
+                                        pointHighlightStroke: "rgba(220,220,220,1)",
+                                        data: [<?php echo implode(',', $this->data['invoices-months']) ?>]
+                                    }
+                                ]
+                            };
+                            var chartInvoiceYear = new Chart(ctxInvoiceYear).Line(dataInvoiceYear);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <?php

@@ -12,13 +12,10 @@ class Invoice extends Entity
     public $date;
     public $receipt;
     public $tax;
-    public $taxRate;
+    /** @var  Client */
+    public $client;
     /** @var Quote */
     public $quote;
-    /** @var Client */
-    public $client;
-    /** @var Product[] */
-    public $products = [];
     public $delete;
 
     /**
@@ -67,33 +64,6 @@ class Invoice extends Entity
         {
             $valid = false;
             $this->setError('tax', "Tax invoice length can't exceed 50 characters");
-        }
-        if (!$this->isFloat($this->taxRate, 0) || !$this->isPattern($this->taxRate, '/^[0-9]{1,2}(\.[0-9]{1,2})?$/'))
-        {
-            $valid = false;
-            $this->setError('taxRate', "Tax rate must be a positive decimal number");
-        }
-        if (is_array($this->products) && count($this->products))
-        {
-            foreach ($this->products as $product)
-            {
-                if (!$this->isInteger($product, 1) && !($product instanceof Product))
-                {
-                    $valid = false;
-                    $this->setError('products', "Products list is invalid");
-                }
-            }
-        }
-        if (is_array($this->contacts) && count($this->contacts))
-        {
-            foreach ($this->contacts as $contact)
-            {
-                if (!$this->isInteger($contact, 1) && !($contact instanceof Contact))
-                {
-                    $valid = false;
-                    $this->setError('contacts', "Contacts list is invalid");
-                }
-            }
         }
         return $valid;
     }

@@ -199,7 +199,8 @@ class Products extends IacsBaseController
         if (!$this->getRequest()->isAjax()) die();
         /** @var ProductsModel $products */
         $products = $this->loadModel('Products');
-        echo json_encode($products->getAll(), JSON_UNESCAPED_UNICODE);
+        $list = $products->getAll();
+        echo json_encode($list, JSON_UNESCAPED_UNICODE);
         exit;
     }
 }

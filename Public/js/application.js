@@ -9,6 +9,10 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function formatNumber(num) {
+    return num.replace(/\d(?=(\d{3})+$)/g, '$&,');
+}
+
 function autoLogout()
 {
     clearTimeout(autoLogoutTimer);
@@ -39,13 +43,16 @@ function resetAutoLogout()
 }
 
 $(document).on('ready', function() {
-    // Bind actions to reset auto logout
-    $(document)
-        .bind('mousemove', resetAutoLogout)
-        .bind('keydown', resetAutoLogout)
-        .bind('DOMMouseScroll', resetAutoLogout)
-        .bind('mousewheel', resetAutoLogout)
-        .bind('mousedown', resetAutoLogout);
+    if (appSettings.autoLogout)
+    {
+        // Bind actions to reset auto logout
+        $(document)
+            .bind('mousemove', resetAutoLogout)
+            .bind('keydown', resetAutoLogout)
+            .bind('DOMMouseScroll', resetAutoLogout)
+            .bind('mousewheel', resetAutoLogout)
+            .bind('mousedown', resetAutoLogout);
+    }
     var alerts = $('.alert-dismissable');
     if (alerts.length > 0)
     {

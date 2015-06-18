@@ -4,6 +4,7 @@ namespace Application\Models;
 
 use Trident\MVC\AbstractModel;
 use Application\Entities\Product;
+use Trident\Database\Query;
 
 class Products extends AbstractModel
 {
@@ -11,6 +12,14 @@ class Products extends AbstractModel
     public function getById($id)
     {
         return $this->getORM()->findById('Product', $id,"product_delete = 0");
+    }
+
+    public function count()
+    {
+        $query = new Query('SELECT COUNT(product_id) AS counter FROM products WHERE product_delete = 0');
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess()) return 0;
+        return $query->getResultSet()[0]['counter'];
     }
 
     public function getAll()

@@ -152,9 +152,44 @@
             "method": "Add"
         },
         {
+            "pattern": "/Quotes/Show/(id)",
+            "controller": "Quotes",
+            "method": "Show"
+        },
+        {
+            "pattern": "/Quotes/Update/(id)",
+            "controller": "Quotes",
+            "method": "Update"
+        },
+        {
+            "pattern": "/Quotes/Mark/{type}/(id)",
+            "controller": "Quotes",
+            "method": "Mark"
+        },
+        {
+            "pattern": "/Quotes/Print/(id)",
+            "controller": "Quotes",
+            "method": "PrintQuote"
+        },
+        {
+            "pattern": "/Quotes/Mail/(id)",
+            "controller": "Quotes",
+            "method": "MailQuote"
+        },
+        {
+            "pattern": "/Quotes/Delete",
+            "controller": "Quotes",
+            "method": "Delete"
+        },
+        {
             "pattern": "/Invoices",
             "controller": "Invoices",
             "method": "Index"
+        },
+        {
+            "pattern": "/Invoices/Delete",
+            "controller": "Invoices",
+            "method": "Delete"
         },
         {
             "pattern": "/Licenses",

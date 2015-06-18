@@ -151,6 +151,7 @@ class Mapper
         {
             $fields = array_keys($data);
             $fields = array_diff($fields, array_merge(array_keys($foreign), array_keys($arrays)));
+            $data = array_diff_key($data, array_merge($foreign, $arrays));
             $fieldList = implode(', ', $fields);
             $parametersList = ":" . implode(', :', $fields);
             $queryString = "INSERT INTO $table ($fieldList) VALUES ($parametersList)";
@@ -160,6 +161,7 @@ class Mapper
         else
         {
             $fields = array_diff(array_keys($data), array_merge(array_keys($foreign), array_keys($arrays), [$prefix . $primary]));
+            $data = array_diff_key($data, array_merge($foreign, $arrays));
             $fields = array_map(function ($item)
                 {
                     return "$item = :$item";

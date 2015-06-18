@@ -8,7 +8,7 @@ use Application\Entities\Product;
 use Application\Entities\Quote;
 use Application\Entities\QuoteStatus;
 
-class Add extends AbstractView
+class Update extends AbstractView
 {
 
     public function render()
@@ -26,7 +26,7 @@ class Add extends AbstractView
         $this->getSharedView('SideBar')->render(); ?>
 <div class="container-fluid">
     <div class="page-head bg-main">
-        <h1><i class="fa fa-fw fa-plus"></i> New quote</h1>
+        <h1><i class="fa fa-fw fa-database"></i> Update quote: <?php echo str_pad($quote->id, 8, '0', STR_PAD_LEFT) ?></h1>
     </div>
 <?php if (isset($this->data['error'])): ?>
         <div class="alert alert-dismissable alert-danger fade in">
@@ -44,6 +44,11 @@ class Add extends AbstractView
 <?php endif; ?>
         </div>
 <?php endif; ?>
+<?php if (isset($this->data['success'])): ?>
+    <div class="alert alert-success alert-dismissable">
+        <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+    </div>
+<?php endif; ?>
     <form method="post" id="new-quote-form" data-toggle="validator">
         <div class="panel">
             <div class="panel-heading">
@@ -55,7 +60,6 @@ class Add extends AbstractView
                         <div class="form-group">
                             <label for="quote-date">Date:</label>
                             <p id="quote-date" class="form-control-static"><?php echo $this->escape($this->formatSqlDateTime(substr($quote->date, 0, 10), "Y-m-d", "d/m/Y")) ?></p>
-                            <input type="hidden" name="quote_date" value="<?php echo $quote->date ?>">
                         </div>
                     </div>
                     <div class="col-xs-12 col-lg-2">
@@ -90,6 +94,25 @@ class Add extends AbstractView
                                 </tr>
                             </thead>
                             <tbody id="quote-products-table">
+<?php $i = 1; foreach ($quote->products as $product): ?>
+                                <tr id="product-line-row-<?php echo $i; ?>">
+                                    <td>
+                                        <select class="selectpicker" data-live-search="true" data-width="100%" name="quote_products[]" id="product-line-<?php echo $i?>" data-id="<?php echo $i ?>">
+                                        <?php foreach ($products as $p): ?>
+                                            <option value="<?php echo $p->id; ?>" <?php if ($p->id === $product->product->id): ?>selected<?php endif; ?>><?php echo $p->name; ?></option>
+                                        <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td class="products-prices" data-coin="<?php echo $product->product->coin ?>" data-quantity="<?php echo $product->quantity ?>" id="product-line-price-<?php echo $i; ?>"><?php echo number_format($product->product->basePrice); ?></td>
+                                    <td id="product-line-coin-<?php echo $i; ?>"><?php echo $product->product->coin ?></td>
+                                    <td>
+                                        <input type="number" class="form-control" name="product_quantity[]" id="product-quantity-<?php echo $i; ?>" value="<?php echo $product->quantity ?>" min="1" data-id="<?php echo $i; ?>">
+                                    </td>
+                                    <td>
+                                        <button type="button" id="delete-row-<?php echo $i; ?>" data-delete-id="<?php echo $i++; ?>" class="btn btn-xs btn-danger"><i class="fa fa-fw fa-times"></i></button>
+                                    </td>
+                                </tr>
+<?php endforeach; ?>
                             </tbody>
                             <tfoot class="bg-info">
                                 <tr>
@@ -136,7 +159,7 @@ class Add extends AbstractView
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <textarea name="quote_note" class="form-control" style="resize: vertical"></textarea>
+                        <textarea name="quote_note" class="form-control" style="resize: vertical"><?php echo $this->escape($quote->note) ?></textarea>
                     </div>
                 </div>
             </div>
@@ -144,12 +167,13 @@ class Add extends AbstractView
         <div class="panel">
             <div class="panel-footer text-right">
                 <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Add quote</button>
+                <button type="submit" class="btn btn-primary" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Save quote</button>
             </div>
         </div>
     </form>
 </div>
-<script src="<?php $this->publicPath() ?>js/quotes/quote-new.js?<?php echo date('YmdHis') ?>"></script>
+<script>var productLines = <?php echo --$i; ?>;</script>
+<script src="<?php $this->publicPath() ?>js/quotes/quote-update.js?<?php echo date('YmdHis') ?>"></script>
 <?php
         $this->getSharedView('ConfirmModal')->render();
         $this->getSharedView('MessageModal')->render();

@@ -11,7 +11,6 @@ String.prototype.pad = function(padString, length) {
 function deleteQuote(id)
 {
     $.post(appSettings.homeURI + "/Quotes/Delete", { delete_id: id } , function(result) {
-        console.log(result);
         result = JSON.parse(result);
         var quoteName = result.details.quote;
         $('#confirm-modal').modal('hide');
@@ -29,13 +28,26 @@ function deleteQuote(id)
 
 $(document).on('ready', function() {
     $('#quotes-table').bootgrid({
-       formatters: {
+        converters: {
+            quote: {
+                from: function(value) { return parseInt(value.replace(/^0+/,"")); },
+                to: function(value) { return value.toString().pad('0',8) }
+            }
+        },
+        formatters: {
            "quoteLink": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '">' + row.id.pad("0",8) + '</a>';
+               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '">' + row.id.toString().pad("0",8) + '</a>';
+           },
+           "quoteStatus": function (column, row) {
+               if (row.quoteStatus == 'INVOICED') return '';
+               return '&nbsp;<a class="btn btn-xs btn-warning" href="' + appSettings.homeURI + '/Quotes/Mark/Decline/' + row.id + '"><i class="fa fa-fw fa-times-circle"></i></a>' +
+                      '&nbsp;<a class="btn btn-xs btn-success" href="' + appSettings.homeURI + '/Quotes/Mark/Approve/' + row.id + '"><i class="fa fa-fw fa-check-circle"></i></a>' +
+                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Mark/Draft/' + row.id + '"><i class="fa fa-fw fa-circle"></i></a>';
            },
            "quoteActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-quote-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               if (row.quoteStatus == 'INVOICED') return '';
+               return '<button class="btn btn-xs btn-danger btn-quote-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {

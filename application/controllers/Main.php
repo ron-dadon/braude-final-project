@@ -7,6 +7,8 @@ use Application\Libraries\CUrl;
 use Application\Models\Users;
 use Application\Entities\User;
 use Application\Models\Logs;
+use Application\Models\Quotes as QuoteModel;
+use Application\Models\Invoices as InvoicesModel;
 
 class Main extends IacsBaseController
 {
@@ -17,7 +19,20 @@ class Main extends IacsBaseController
         {
             $this->redirect("/Login");
         }
-        $this->getView()->render();
+        /** @var QuoteModel $quotes */
+        $quotes = $this->loadModel('Quotes');
+        /** @var InvoicesModel $invoices */
+        $invoices = $this->loadModel('Invoices');
+        $viewData['usd-rate'] = $this->getUSDRate();
+        $viewData['clients-count'] = $this->loadModel('Clients')->count();
+        $viewData['products-count'] = $this->loadModel('Products')->count();
+        $viewData['quotes-count'] = $quotes->count();
+        $viewData['quotes'] = $quotes->getAllSentOrDraft();
+        $viewData['invoices'] = $invoices->getUnpaid();
+        $viewData['invoices-count'] = $invoices->count();
+        $viewData['quotes-months'] = $quotes->getQuotesByMonth();
+        $viewData['invoices-months'] = $invoices->getByMonth();
+        $this->getView($viewData)->render();
     }
 
     public function Settings()

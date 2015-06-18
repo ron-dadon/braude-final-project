@@ -4,7 +4,6 @@
 function deleteClient(id)
 {
     $.post(appSettings.homeURI + "/Clients/Delete", { delete_id: id } , function(result) {
-        console.log(result);
         result = JSON.parse(result);
         var clientName = result.details.client;
         $('#confirm-modal').modal('hide');

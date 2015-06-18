@@ -4,7 +4,6 @@
 function deleteContact(id)
 {
     $.post(appSettings.homeURI + "/Clients/Contacts/Delete", { delete_id: id } , function(result) {
-        console.log(result);
         result = JSON.parse(result);
         var clientName = result.details.contact;
         $('#confirm-modal').modal('hide');
