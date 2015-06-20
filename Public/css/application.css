@@ -65,6 +65,9 @@
     .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
         max-height: 100%;
     }
+    .page-head > h1 {
+        font-size: 16pt !important;
+    }
 }
 
 /* Desktop */
@@ -247,6 +250,10 @@ label {
     color: #ffffff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+}
+
+.input-group-btn > .btn {
+    font-size: 14px !important;
 }
 
 /***********************************************************************************************************************

@@ -36,8 +36,8 @@ class Index extends AbstractView
                 <thead>
                 <tr>
                     <th data-column-id="id" data-identifier="true" data-order="desc" data-converter="invoice" data-formatter="invoice">Number</th>
-                    <th data-column-id="client" data-formatter="client">Client</th>
-                    <th data-column-id="clientName" data-visible="false">Client</th>
+                    <th data-column-id="clientId" data-visible="false">Client</th>
+                    <th data-column-id="clientName" data-formatter="client">Client</th>
                     <th data-column-id="quote" data-converter="invoice" data-formatter="quote">Quote</th>
                     <th data-column-id="receipt">Receipt</th>
                     <th data-column-id="taxInvoice">Tax invoice</th>

@@ -187,9 +187,29 @@
             "method": "Index"
         },
         {
+            "pattern": "/Invoices/Show/(id)",
+            "controller": "Invoices",
+            "method": "Show"
+        },
+        {
+            "pattern": "/Invoices/Update/(id)",
+            "controller": "Invoices",
+            "method": "Update"
+        },
+        {
             "pattern": "/Invoices/Delete",
             "controller": "Invoices",
             "method": "Delete"
+        },
+        {
+            "pattern": "/Invoices/New/(quote)",
+            "controller": "Invoices",
+            "method": "Add"
+        },
+        {
+            "pattern": "/Invoices/ByProduct/(pid)/(cid)",
+            "controller": "Invoices",
+            "method": "InvoicesByProduct"
         },
         {
             "pattern": "/Licenses",

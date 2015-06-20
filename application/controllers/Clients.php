@@ -2,14 +2,24 @@
 
 namespace Application\Controllers;
 
-use Application\Entities\Client;
-use Application\Models\Contacts;
 use Application\Models\Clients as ClientsModel;
-use Trident\Database\Query;
+use Application\Entities\Client;
 
+/**
+ * Class Clients
+ *
+ * This class provides the logic layer for the clients data.
+ *
+ * @package Application\Controllers
+ */
 class Clients extends IacsBaseController
 {
 
+    /**
+     * Show clients list.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Index()
     {
         /** @var ClientsModel $clients */
@@ -23,6 +33,12 @@ class Clients extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Add a new client.
+     * Client information need to be passed via POST.
+     *
+     * @throws \Trident\Exceptions\IOException
+     */
     public function Add()
     {
         $client = new Client();
@@ -70,6 +86,13 @@ class Clients extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Delete client.
+     * Client ID to delete need to be passed via POST delete_id.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Delete()
     {
         if ($this->getRequest()->isPost())
@@ -135,6 +158,13 @@ class Clients extends IacsBaseController
         }
     }
 
+    /**
+     * Show client profile.
+     *
+     * @param string|int $id Client ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Show($id)
     {
         /** @var ClientsModel $clients */
@@ -153,6 +183,15 @@ class Clients extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Update client.
+     * Client updated information need to be passed via POST.
+     *
+     * @param string|int $id Client ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Update($id)
     {
         /** @var ClientsModel $clients */

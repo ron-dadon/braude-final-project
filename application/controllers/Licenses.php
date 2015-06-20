@@ -7,9 +7,22 @@ use Application\Models\Clients;
 use Application\Models\Products;
 use Application\Models\Licenses as LicensesModel;
 use Application\Models\LicenseTypes;
+
+/**
+ * Class Licenses
+ *
+ * This class provides the logic layer for the licenses data.
+ *
+ * @package Application\Controllers
+ */
 class Licenses extends IacsBaseController
 {
 
+    /**
+     * Show all licenses.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Index()
     {
        /** @var LicensesModel $licenses */
@@ -19,6 +32,13 @@ class Licenses extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Show license extended information.
+     *
+     * @param string|int $id License ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Show($id)
     {
         /** @var LicensesModel $licenses */
@@ -27,7 +47,13 @@ class Licenses extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
-
+    /**
+     * Add a new license.
+     * License information must be passed via POST.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Add()
     {
         /** @var LicenseTypes $licenseTypes */
@@ -36,6 +62,8 @@ class Licenses extends IacsBaseController
         $clients = $this->loadModel('Clients');
         /** @var Products $products*/
         $products = $this->loadModel('Products');
+        /** @var Invoices $invoices*/
+        $invoices = $this->loadModel('Invoices');
         $license = new License();
         if ($this->getRequest()->isPost())
         {
@@ -65,11 +93,18 @@ class Licenses extends IacsBaseController
         }
         $viewData['license'] = $license;
         $viewData['license-types'] = $licenseTypes->getAll();
-        $viewData['client'] = $clients->getAll();
-        $viewData['product'] = $products->search("product_type = 'software'", []);
+        $viewData['clients'] = $clients->getAll();
+        $viewData['products'] = $products->search("product_type = 'software'", []);
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Delete a license.
+     * License ID for delete must be passed via POST delete_id.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Delete()
     {
         if ($this->getRequest()->isPost())
@@ -136,6 +171,15 @@ class Licenses extends IacsBaseController
         $this->getView()->render();
     }
 
+    /**
+     * Update license information.
+     * License updated information must be passed via POST.
+     *
+     * @param string|int $id License ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Update($id)
     {
         /** @var LicensesModel $licenses */

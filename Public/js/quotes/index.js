@@ -1,12 +1,6 @@
 /*
  * Clients Index
  */
-String.prototype.pad = function(padString, length) {
-    var str = this;
-    while (str.length < length)
-        str = padString + str;
-    return str;
-};
 
 function deleteQuote(id)
 {
@@ -39,10 +33,11 @@ $(document).on('ready', function() {
                return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '">' + row.id.toString().pad("0",8) + '</a>';
            },
            "quoteStatus": function (column, row) {
-               if (row.quoteStatus == 'INVOICED') return '';
-               return '&nbsp;<a class="btn btn-xs btn-warning" href="' + appSettings.homeURI + '/Quotes/Mark/Decline/' + row.id + '"><i class="fa fa-fw fa-times-circle"></i></a>' +
-                      '&nbsp;<a class="btn btn-xs btn-success" href="' + appSettings.homeURI + '/Quotes/Mark/Approve/' + row.id + '"><i class="fa fa-fw fa-check-circle"></i></a>' +
-                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Mark/Draft/' + row.id + '"><i class="fa fa-fw fa-circle"></i></a>';
+                if (row.quoteStatus == 'INVOICED' || row.quoteStatus == 'DECLINE' || row.quoteStatus == 'EXPIRED') return '';
+                if (row.quoteStatus == 'APPROVED')
+                    return '<a class="btn btn-xs btn-success" href="' + appSettings.homeURI + '/Invoices/New/' + row.id + '"><i class="fa fa-fw fa-file-text"></i> Create invoice</a>';
+                return  '<a class="btn btn-xs btn-warning" href="' + appSettings.homeURI + '/Quotes/Mark/Decline/' + row.id + '"><i class="fa fa-fw fa-times-circle"></i> Decline</a>' +
+                        '&nbsp;<a class="btn btn-xs btn-success" href="' + appSettings.homeURI + '/Quotes/Mark/Approve/' + row.id + '"><i class="fa fa-fw fa-check-circle"></i> Approve</a>';
            },
            "quoteActions": function (column, row) {
                if (row.quoteStatus == 'INVOICED') return '';

@@ -7,9 +7,21 @@ use Application\Models\LicenseTypes;
 use Application\Models\Products as ProductsModel;
 use Trident\Database\Query;
 
+/**
+ * Class Products
+ *
+ * This class provides the logic layer for the products data.
+ *
+ * @package Application\Controllers
+ */
 class Products extends IacsBaseController
 {
 
+    /**
+     * Show all products.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Index()
     {
         /** @var ProductsModel $products */
@@ -23,6 +35,13 @@ class Products extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Show extended product information.
+     *
+     * @param string|int $id Product ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function show($id)
     {
         /** @var ProductsModel $products */
@@ -41,6 +60,13 @@ class Products extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Add a new product.
+     * Product information must be passed via POST.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Add()
     {
         $product = new Product();
@@ -78,6 +104,13 @@ class Products extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Delete a product.
+     * Product ID for delete must be passed via POST delete_id.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Delete()
     {
         if ($this->getRequest()->isPost())
@@ -145,6 +178,15 @@ class Products extends IacsBaseController
         $this->getView()->render();
     }
 
+    /**
+     * Update a product.
+     * Product updated information must be passed via POST.
+     *
+     * @param string|int $id Product ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Update($id)
     {
         /** @var ProductsModel $products */
@@ -194,6 +236,10 @@ class Products extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Get all products as a JSON object for AJAX request.
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function ajaxGetAll()
     {
         if (!$this->getRequest()->isAjax()) die();

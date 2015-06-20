@@ -92,10 +92,12 @@ class UpdateUser extends AbstractView
             </div>
         </div>
     </div>
-    <div class="panel">
-        <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Administration/Users" class="btn btn-link">Back</a>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update user</button>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-footer text-right">
+                <a href="<?php $this->publicPath() ?>Administration/Users" class="btn btn-link">Back</a>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update user</button>
+            </div>
         </div>
     </div>
     </form>

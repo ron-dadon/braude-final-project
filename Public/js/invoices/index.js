@@ -44,7 +44,8 @@ $(document).on('ready', function() {
                return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.quote + '">' + row.quote.toString().pad("0",8) + '</a>';
            },
            "client": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.client + '">' + row.clientName + '</a>';
+               return "<a onclick=\"$('#invoices-table').bootgrid('search','" + row.clientName + "')\">" + row.clientName + "</a>";
+               //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
            },
            "invoiceActions": function (column, row) {
                return '<button class="btn btn-xs btn-danger btn-invoice-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +

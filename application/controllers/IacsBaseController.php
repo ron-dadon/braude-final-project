@@ -10,14 +10,39 @@ use Trident\Exceptions\ViewNotFoundException;
 use Trident\MVC\AbstractView;
 use Application\Entities\User;
 
+/**
+ * Class IacsBaseController
+ *
+ * This abstract class extends the base framework abstract controller and
+ * adds more application wide functionality required by most of the application controllers.
+ *
+ * All application controllers should extend from this class,
+ * not from the base framework abstract controller.
+ *
+ * @package Application\Controllers
+ */
 abstract class IacsBaseController extends AbstractController
 {
 
     /**
+     * Logs instance.
+     *
      * @var \Application\Models\Logs
      */
     private $logs;
 
+    /**
+     * Create a new instance.
+     * Update logged user information if one is present.
+     *
+     * @param \Trident\System\Configuration $configuration
+     * @param \Trident\System\Log           $log
+     * @param \Trident\System\Request       $request
+     * @param \Trident\System\Session       $session
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     function __construct($configuration, $log, $request, $session)
     {
         parent::__construct($configuration, $log, $request, $session);
@@ -118,6 +143,15 @@ abstract class IacsBaseController extends AbstractController
         return $user;
     }
 
+    /**
+     * Create a JSON response.
+     * JSON object will contain a result boolean property,
+     * and a details array property.
+     * Script will exit at the end of this function.
+     *
+     * @param bool $result
+     * @param array $details
+     */
     protected function jsonResponse($result, $details = [])
     {
         $json = ['result' => $result, 'details' => $details];
@@ -125,6 +159,12 @@ abstract class IacsBaseController extends AbstractController
         exit();
     }
 
+    /**
+     * Add a log entry to the database log.
+     *
+     * @param string $entry Entry
+     * @param string $level Level (info, success, danger or warning)
+     */
     protected function addLogEntry($entry, $level = "info")
     {
         $logEntry = new LogEntry();
@@ -139,11 +179,23 @@ abstract class IacsBaseController extends AbstractController
         $this->getORM()->save($logEntry);
     }
 
+    /**
+     * Set a session alert message to be displayed after a redirection.
+     *
+     * @param string $message Message text.
+     * @param string $type Message type (success, error)
+     */
     protected function setSessionAlertMessage($message, $type = "success")
     {
         $_SESSION['alert-message'] = ['type' => $type, 'message' => $message];
     }
 
+    /**
+     * Get the stored session message and remove it from the session.
+     * If no message exists - return null.
+     *
+     * @return array|null
+     */
     protected function pullSessionAlertMessage()
     {
         if (isset($_SESSION['alert-message']))
@@ -155,6 +207,16 @@ abstract class IacsBaseController extends AbstractController
         return null;
     }
 
+    /**
+     * Get the USD to NIS convert ratio based of the configuration api string.
+     * The api must return a valid XML instance, and contain the rate in a <rate> tag.
+     * If no access is available, the last retrieved rate will be used.
+     *
+     * @return string|float USD to NIS rate.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\JsonParseException
+     */
     protected function getUSDRate()
     {
         $curl = new CUrl($this->getConfiguration(), $this->getLog(), $this->getRequest(), $this->getSession());

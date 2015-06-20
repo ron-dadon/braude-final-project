@@ -150,12 +150,16 @@ class Show extends AbstractView
                 <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link">Quotes</a>
                 <?php if ($quote->client->email): ?><button data-send-id="<?php echo $quote->id?>" data-send-email="<?php echo $quote->client->email?>" class="btn btn-default send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail quote</button><?php endif; ?>
                 <a href="<?php $this->publicPath() ?>Quotes/Print/<?php echo $quote->id ?>" target="_blank" class="btn btn-default"><i class="fa fa-fw fa-print"></i> Print quote</a>
-                <?php if ($quote->status->id == 4): ?><a href="<?php $this->publicPath() ?>Invoices/FromQuote/<?php echo $quote->id ?>" class="btn btn-success"><i class="fa fa-fw fa-file-text"></i> Create invoice</a><?php endif; ?>
+                <?php if ($quote->status->id == 4): ?><a href="<?php $this->publicPath() ?>Invoices/New/<?php echo $quote->id ?>" class="btn btn-success"><i class="fa fa-fw fa-file-text"></i> Create invoice</a><?php endif; ?>
+                <?php if ($quote->status->id != 5): ?>
                 <a href="<?php $this->publicPath() ?>Quotes/Update/<?php echo $quote->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update quote</a>
+                <?php endif; ?>
             </div>
             <div class="visible-xs">
+                <?php if ($quote->status->id != 5): ?>
                 <a href="<?php $this->publicPath() ?>Quotes/Update/<?php echo $quote->id ?>" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i> Update quote</a>
-                <?php if ($quote->status->id == 4): ?><a href="<?php $this->publicPath() ?>Invoices/FromQuote/<?php echo $quote->id ?>" class="btn btn-success btn-block"><i class="fa fa-fw fa-file-text"></i> Create invoice</a><?php endif; ?>
+                <?php endif; ?>
+                <?php if ($quote->status->id == 4): ?><a href="<?php $this->publicPath() ?>Invoices/New/<?php echo $quote->id ?>" class="btn btn-success btn-block"><i class="fa fa-fw fa-file-text"></i> Create invoice</a><?php endif; ?>
                 <?php if ($quote->client->email): ?><button data-send-id="<?php echo $quote->id?>" data-send-email="<?php echo $quote->client->email?>" class="btn btn-default btn-block send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail quote</button><?php endif; ?>
                 <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link btn-block">Quotes</a>
             </div>

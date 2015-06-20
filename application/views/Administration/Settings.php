@@ -121,13 +121,14 @@ class Settings extends AbstractView
     <div class="row">
         <div class="col-xs-12">
             <div class="alert alert-dismissable hidden" id="save-message"></div>
+        </div>
             <div class="panel panel-default">
                 <div class="panel-footer text-right">
                     <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
                     <button id="save-button" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Save</button>
                 </div>
             </div>
-        </div>
+
     </div>
 
     <?php $this->js("js/administration/settings.js?" . date('YmdHis')); ?>

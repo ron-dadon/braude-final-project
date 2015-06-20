@@ -1,6 +1,13 @@
 var autoLogoutTimer = null;
 var lastReset = 0;
 
+String.prototype.pad = function(padString, length) {
+    var str = this;
+    while (str.length < length)
+        str = padString + str;
+    return str;
+};
+
 function addslashes( str ) {
     return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
 }
@@ -40,6 +47,13 @@ function resetAutoLogout()
         autoLogoutTimer = setTimeout(autoLogout, 1000 * 60 * appSettings.autoLogoutTime);
     }
     lastReset--;
+}
+
+function serialGenerator()
+{
+    var guid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx';
+    guid = guid.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
+    return guid;
 }
 
 $(document).on('ready', function() {

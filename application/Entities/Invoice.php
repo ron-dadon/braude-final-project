@@ -50,7 +50,7 @@ class Invoice extends Entity
             $valid = false;
             $this->setError('note', "Note length can't exceed 65535 characters");
         }
-        if (!$this->isDate($this->date))
+        if (!$this->isDate($this->date) && !$this->isDateTime($this->date))
         {
             $valid = false;
             $this->setError('date', "Creation date must be a valid date");

@@ -63,7 +63,7 @@ class Quotes extends AbstractModel
         return $quotes;
     }
 
-    public function getAllOInvoiced()
+    public function getAllInvoiced()
     {
         /** @var Quote[] $quotes */
         $quotes = $this->getORM()->find('Quote', "quote_status = 5 AND quote_delete = 0");
@@ -72,6 +72,12 @@ class Quotes extends AbstractModel
             $quotes[$key] = $this->getById($quote->id);
         }
         return $quotes;
+    }
+
+    public function updateExpired()
+    {
+        $query = new Query("UPDATE quotes SET quote_status = 6 WHERE quote_expire < NOW()");
+        return $this->getMysql()->executeQuery($query)->isSuccess();
     }
 
     public function getQuotesByMonth()
@@ -132,5 +138,40 @@ class Quotes extends AbstractModel
     {
         $quote->delete = 1;
         return $this->getMysql()->executeQuery(new Query("UPDATE " . $quote->getTable() . " SET quote_delete = 1 WHERE quote_id = ?", [$quote->id]));
+    }
+
+    public function getTopSellingProducts($count = 3)
+    {
+        $quotes = $this->getAll();
+        $sells = [];
+        $products = [];
+        foreach ($quotes as $quote) {
+            if ($quote->status->id != 5) continue;
+            foreach ($quote->products as $p)
+            {
+                if (!isset($sells[$p->product->id]))
+                {
+                    $sells[$p->product->id] = 0;
+                }
+                if (!isset($products[$p->product->id]))
+                {
+                    $products[$p->product->id] = $p->product;
+                }
+                $sells[$p->product->id] += $p->quantity;
+            }
+        }
+        arsort($sells);
+        if (count($sells) > $count) {
+            $sells = array_slice($sells, 0, $count, true);
+        }
+        $result = [];
+        $i = count($sells);
+        foreach ($sells as $key => $count) {
+            $result[$i]['product'] = $products[$key];
+            $result[$i]['count'] = $count;
+            $i--;
+        }
+        krsort($result);
+        return $result;
     }
 }

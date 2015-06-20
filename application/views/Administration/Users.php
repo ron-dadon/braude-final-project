@@ -49,9 +49,11 @@ class Users extends AbstractView
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
-            <a href="<?php $this->publicPath() ?>Administration/Users/New" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New user</a>
+        <div class="row">
+            <div class="panel-footer text-right">
+                <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
+                <a href="<?php $this->publicPath() ?>Administration/Users/New" class="btn btn-primary"><i class="fa fa-fw fa-user-plus"></i> New user</a>
+            </div>
         </div>
     </div>
 </div>

@@ -1,9 +1,10 @@
 <?php
 
-
 namespace Application\Views\Licenses;
 
 use Application\Entities\License;
+use Application\Entities\Product;
+use Application\Entities\Client;
 use Application\Entities\LicenseType;
 use Trident\MVC\AbstractView;
 
@@ -15,10 +16,10 @@ class Add extends AbstractView
         $license = $this->data['license'];
         /** @var LicenseType[] $licenseTypes */
         $licenseTypes = $this->data['license-types'];
-        /** @var Clients[] $clients */
-        $clients = $this->data['client'];
-        /** @var Products[] $products */
-        $products = $this->data['product'];
+        /** @var Client[] $clients */
+        $clients = $this->data['clients'];
+        /** @var Product[] $products */
+        $products = $this->data['products'];
         $this->getSharedView('Header')->render();
         $this->getSharedView('TopBar')->render();
         $this->getSharedView('SideBar')->render(); ?>
@@ -42,40 +43,84 @@ class Add extends AbstractView
 <?php endif; ?>
     </div>
 <?php endif; ?>
-    <form method="post" id="new-client-form" data-toggle="validator">
+    <form method="post" id="new-license-form" data-toggle="validator">
         <div class="panel">
-            <div class="panel-heading">
-                <h3>License details:</h3>
-            </div>
             <div class="panel-body">
                 <div class="row">
-                            <div class="col-xs-12 col-lg-2">
-                                <div class="form-group">
-                                    <label for="client-name">Client:</label>
-                                    <select id="client-name" name="client-name" class="selectpicker" data-live-search="true" data-width="100%" autofocus>
-                                        <?php foreach ($clients as $client): ?>
-                                            <option value="<?php echo $client->id?>"><?php echo $client->name ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="license-client">Client:</label>
+                            <select id="license-client" name="license_client" class="selectpicker" data-live-search="true" data-width="100%">
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?php echo $client->id?>"><?php echo $client->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="license-product">Product:</label>
+                            <select id="license-product" name="license_product" class="selectpicker" data-live-search="true" data-width="100%">
+                                <?php foreach ($products as $product): ?>
+                                    <option value="<?php echo $product->id?>"><?php echo $product->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <script>
+                                function updateInvoiceList() {
+                                    $.get(appSettings.homeURI + '/Invoices/ByProduct/' + $('#license-product').val() + '/' + $('#license-client').val(), function(data)
+                                    {
+                                        var json = JSON.parse(data);
+                                        var options = '<select id="license-invoice" name="license_invoice" class="selectpicker" data-live-search="true" data-width="100%"><option value="0" selected>None</option>';
+                                        for (var i = 0; i < json.length; i++)
+                                        {
+                                            options += '<option value="' + json[i].id + '">' + json[i].id.toString().pad('0', 8) + '</option>';
+                                        }
+                                        options += '</select>';
+                                        $('#select-invoice').html('<label for="license-invoice">Invoice:</label>').append(options);
+                                        $('#license-invoice').selectpicker();
+                                    });
+                                }
+                                $(document).on('ready', function() {
+                                    $('#license-product').on('change', function() { updateInvoiceList(); });
+                                    $('#license-client').on('change', function() { updateInvoiceList(); });
+                                    $('#gen-serial').on('click', function() { $('#license-serial').val(serialGenerator()); $('#new-license-form').validator('validate'); });
+                                    updateInvoiceList();
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group" id="select-invoice">
+                            <label for="license-invoice">Invoice:</label>
+                            <select id="license-invoice" name="license_invoice" class="selectpicker" data-live-search="true" data-width="100%">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="license-expire">Expiration date:</label>
+                            <input type="date" id="license-expire" name="license_expire" class="form-control" value="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" min="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="license-serial">Serial:</label>
+                            <div class="input-group">
+                                <input type="text" id="license-serial" name="license_serial" class="form-control" value="" maxlength="64" pattern="^[a-zA-Z0-9\-]+$" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" id="gen-serial" type="button" style="font-size: 14px"><i class="fa fa-fw fa-refresh"></i> Generate</button>
+                                </span>
                             </div>
-                                    <div class="col-xs-12 col-lg-2">
-                                        <div class="form-group">
-                                            <label for="product-name">Product:</label>
-                                            <select id="product-name" name="product-name" class="selectpicker" data-live-search="true" data-width="100%" autofocus>
-                                                <?php foreach ($products as $product): ?>
-                                                    <option value="<?php echo $product->id?>"><?php echo $product->name ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                            <div class="col-xs-12 col-lg-2">
-                                <div class="form-group">
-                                    <label for="license-expire">Expiration date:</label>
-                                    <input type="date" id="license-expire" name="quote_expire" class="form-control" value="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" min="<?php echo $this->escape(substr($license->expire, 0, 10)) ?>" required>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="license-file">Request file:</label>
+                            <input id="license-file" type="file" class="file" name="request_file" data-show-preview="false" data-show-upload="false">
                         </div>
                     </div>
                 </div>
@@ -89,7 +134,7 @@ class Add extends AbstractView
         </div>
     </form>
 </div>
-<script src="<?php $this->publicPath() ?>js/licenses/licenses-new.js?<?php echo date('YmdHis') ?>"></script>
+<!--<script src="<?php $this->publicPath() ?>js/licenses/licenses-new.js?<?php echo date('YmdHis') ?>"></script>-->
 <?php
         $this->getSharedView('ConfirmModal')->render();
         $this->getSharedView('MessageModal')->render();

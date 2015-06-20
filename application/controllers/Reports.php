@@ -7,63 +7,66 @@ use \Application\Models\Clients;
 use \Application\Models\Products;
 use \Application\Models\Invoices;
 use \Application\Models\LicenseTypes;
+use \Application\Models\Quotes;
 use \Application\Entities\License;
+use \Application\Entities\Quote;
 use Trident\Database\Query;
 
+/**
+ * Class Reports
+ *
+ * This class provides the logic layer for the reports.
+ *
+ * @package Application\Controllers
+ */
 class Reports extends IacsBaseController
 {
 
+    /**
+     * Show reports list.
+     */
     public function Index()
     {
         $this->getView()->render();
     }
 
-    public function ExpiredLicenses()
+    /**
+     * Expired licenses report.
+     *
+     * @param int|string $days The number of days back to check.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function ExpiredLicenses($days)
     {
+        if (!preg_match('/[0-9]+/',$days) || $days > 365)
+        {
+            $this->addLogEntry("Can't perform expired licenses report. Supplied days are invalid.","warning");
+            $this->redirect('/Reports');
+        }
         /** @var Licenses $licenses */
         $licenses = $this->loadModel('Licenses');
         $now = date('Y-m-d');
-        $list = $licenses->search("license_expire < :todate", [':todate'=>$now]);
+        $list = $licenses->search("DATEDIFF(:todate,license_expire) BETWEEN 0 AND :days ", [':todate'=>$now, ':days'=>$days]);
         if ($list === null)
         {
             $this->getLog()->newEntry("Failed to retrieve licenses from the database", "database");
-            // Go to reports
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
         }
-        /** @var Clients $clients */
-        $clients = $this->loadModel('Clients');
-        /** @var Products $products */
-        $products = $this->loadModel('Products');
-        /** @var LicenseTypes $licenseTypes */
-        $licenseTypes = $this->loadModel('LicenseTypes');
-        /** @var Invoices $invoices */
-        $invoices = $this->loadModel('Invoices');
-        /**
-         * @var License $license
-         */
-        foreach ($list as $key => $license)
-        {
-            if ($license->client !== null)
-            {
-                $license->client = $clients->getById($license->client);
-            }
-            if ($license->product !== null)
-            {
-                $license->product = $products->getById($license->product);
-            }
-            if ($license->type !== null)
-            {
-                $license->type = $licenseTypes->getById($license->type);
-            }
-            if ($license->invoice !== null)
-            {
-                $license->invoice = $invoices->getById($license->invoice);
-            }
-            $list[$key] = $license;
-        }
-        var_dump($list, $this->getLoggedUser());
+        var_dump($list);
     }
 
-    public function QuotesByStatus ($status)
+    /**
+     * Quotes by status report.
+     *
+     * @param string|int $status Quote status.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function QuotesByStatus($status)
     {
         /** @var Quotes $quotes */
         $quotes = $this->loadModel('Quotes');
@@ -74,31 +77,19 @@ class Reports extends IacsBaseController
             $this->getLog()->newEntry("Failed to retrieve quotes from the database", "database");
             // Go to reports
         }
-        /** @var Products $products */
-        $products = $this->loadModel('Products');
-        /** @var Clients $clients */
-        $clients = $this->loadModel('Clients');
-        /**
-         * @var Quote $quote
-         */
-        foreach ($list as $key => $quote)
-        {
-            if ($quote->client !== null)
-            {
-                $quote->client = $clients->getById($quote->client);
-            }
-            if ($quote->product !== null)
-            {
-                $quote->product = $products->getById($quote->product);
-            }
-
-            $list[$key] = $quote;
-        }
         var_dump($list);
 
     }
 
-    public function OpenInvoices ()
+    /**
+     * Open invoices report.
+     * An open invoice is a invoice that is not paid, meaning,
+     * there is no tax invoice supplied.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function OpenInvoices()
     {
         /** @var Invoices $invoices */
         $invoices = $this->loadModel('Invoices');
@@ -109,112 +100,7 @@ class Reports extends IacsBaseController
             $this->getLog()->newEntry("Failed to retrieve invoices from the database", "database");
             // Go to reports
         }
-        /** @var Products $products */
-        $products = $this->loadModel('Products');
-        /** @var Clients $clients */
-        $clients = $this->loadModel('Clients');
-        /** @var Quotes $quotes */
-        $quotes = $this->loadModel('Quotes');
-
-        /**
-         * @var Invoice $invoice
-         */
-        foreach ($list as $key => $invoice)
-        {
-            if ($invoice->client !== null)
-            {
-                $invoice->client = $clients->getById($invoice->client);
-            }
-            if ($invoice->product !== null)
-            {
-                $invoice->products = $products->getById($invoice->product);
-            }
-            if ($invoice->quote !== null)
-            {
-                $invoice->quote = $products->getById($invoice->quote);
-            }
-
-            $list[$key] = $invoice;
-        }
         var_dump($list);
     }
 
-    public function ExpiredLicensesByDays($numOfDays)
-    {
-        /** @var Licenses $licenses */
-        $licenses = $this->loadModel('Licenses');
-        $now = new \DateTime();
-        $now->add(new \DateInterval("P$numOfDays" . "D"));
-        $now = $now->format("Y-m-d");
-        $list = $licenses->search("license_expire >= NOW() AND license_expire <= :todate", [':todate' => $now]);
-        if ($list === null)
-        {
-            $this->getLog()->newEntry("Failed to retrieve licenses from the database", "database");
-            // Go to reports
-        }
-        /** @var Clients $clients */
-        $clients = $this->loadModel('Clients');
-        /** @var Products $products */
-        $products = $this->loadModel('Products');
-        /** @var LicenseTypes $licenseTypes */
-        $licenseTypes = $this->loadModel('LicenseTypes');
-        /** @var Invoices $invoices */
-        $invoices = $this->loadModel('Invoices');
-        /**
-         * @var License $license
-         */
-        foreach ($list as $key => $license)
-        {
-            if ($license->client !== null)
-            {
-                $license->client = $clients->getById($license->client);
-            }
-            if ($license->product !== null)
-            {
-                $license->product = $products->getById($license->product);
-            }
-            if ($license->type !== null)
-            {
-                $license->type = $licenseTypes->getById($license->type);
-            }
-            if ($license->invoice !== null)
-            {
-                $license->invoice = $invoices->getById($license->invoice);
-            }
-            $list[$key] = $license;
-        }
-        var_dump($list, $this->getLoggedUser());
-    }
-   /**  public function DeterminedRevenue()
-    {
-        /** @var Invoices $invoices **/
-        /**$invoices = $this->loadModel('Invoices');
-
-        $list = $invoices->search(");
-    }**/
-    public function futureTraining()
-    {
-        /** @var Products $products * */
-        $products = $this->loadModel('Products');
-        $query = new Query("SELECT invoice_products_product FROM invoice_products WHERE invoice_product_date > NOW()");
-        $result = $this->getMysql()->executeQuery($query);
-        if(!$result->isSuccess())
-        {
-            $this->getLog()->newEntry("Failed to retrieve products from the database", "database");
-        }
-        $productsList = $result->getResultSet();
-        $idList = [];
-        foreach ($productsList as $productInfo)
-        {
-            $idList[] = $productInfo['invoice_products_product'];
-        }
-        $idList = implode(",", $idList);
-        $list = $products->search("product_id IN ($idList)",[]);
-        if ($list === null)
-        {
-            $this->getLog()->newEntry("Failed to retrieve products from the database", "database");
-            // Go to reports
-        }
-
-    }
 }

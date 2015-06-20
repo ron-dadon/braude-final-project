@@ -17,7 +17,7 @@ class Index extends AbstractView
         $this->getSharedView('SideBar')->render(); ?>
         <div class="container-fluid">
         <div class="page-head bg-main">
-            <h1><i class="fa fa-fw fa-cubes"></i> Licenses</h1>
+            <h1><i class="fa fa-fw fa-key"></i> Licenses</h1>
         </div>
         <?php if (isset($this->data['error'])): ?>
             <div class="alert alert-danger alert-dismissable">

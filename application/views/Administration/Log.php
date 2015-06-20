@@ -50,8 +50,10 @@ class Log extends AbstractView
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
+        <div class="row">
+            <div class="panel-footer text-right">
+                <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
+            </div>
         </div>
     </div>
 </div>

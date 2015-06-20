@@ -40,7 +40,7 @@ class Index extends AbstractView
                     <th data-column-id="quoteDate">Date</th>
                     <th data-column-id="quoteDateExpire">Expires</th>
                     <th data-column-id="quoteStatus">Status</th>
-                    <th data-column-id="statusSet" data-sortable="false" data-formatter="quoteStatus">Set status</th>
+                    <th data-column-id="statusSet" data-sortable="false" data-formatter="quoteStatus">Quote actions</th>
                     <th data-column-id="actions" data-sortable="false" data-formatter="quoteActions">Actions</th>
                 </tr>
                 </thead>

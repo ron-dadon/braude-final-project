@@ -9,9 +9,21 @@ use Application\Models\Products;
 use Application\Models\Quotes as QuotesModel;
 use Trident\Database\Query;
 
+/**
+ * Class Quotes
+ *
+ * This class provides the logic layer for the quotes data.
+ *
+ * @package Application\Controllers
+ */
 class Quotes extends IacsBaseController
 {
 
+    /**
+     * Show all quotes.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Index()
     {
         /** @var QuotesModel $quotes */
@@ -24,6 +36,17 @@ class Quotes extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Add a new quote.
+     * Quote information must be passed via POST.
+     * An optional client-id can be supplied to auto-set the client.
+     *
+     * @param null|int|string $clientId Client ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     * @throws \Trident\Exceptions\MySqlException
+     */
     public function Add($clientId = null)
     {
         $quote = new Quote();
@@ -104,6 +127,13 @@ class Quotes extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Delete a quote.
+     * Quote ID for delete must be supplied via POST delete_id.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Delete()
     {
         if ($this->getRequest()->isPost())
@@ -182,6 +212,16 @@ class Quotes extends IacsBaseController
         $this->getView()->render();
     }
 
+    /**
+     * Update quote.
+     * Quote updated information must be passed via POST.
+     *
+     * @param string|int $id Quote ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     * @throws \Trident\Exceptions\MySqlException
+     */
     public function Update($id)
     {
         /** @var QuotesModel $quotes */
@@ -272,8 +312,19 @@ class Quotes extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Show extended quote information.
+     *
+     * @param string|int $id Quote ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Show($id)
     {
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         /** @var QuotesModel $quotes */
         $quotes = $this->loadModel('Quotes');
         $quote = $quotes->getById($id);
@@ -285,6 +336,13 @@ class Quotes extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Print a quote.
+     *
+     * @param string|int $id Quote ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function PrintQuote($id)
     {
         /** @var QuotesModel $quotes */
@@ -299,6 +357,14 @@ class Quotes extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Mail a quote to the client's email address.
+     *
+     * @param string|int $id Quote ID.
+     *
+     * @throws \Trident\Exceptions\LibraryNotFoundException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function MailQuote($id)
     {
         /** @var QuotesModel $quotes */
@@ -326,6 +392,14 @@ class Quotes extends IacsBaseController
         }
     }
 
+    /**
+     * Mark a quote status.
+     *
+     * @param string $type Status type.
+     * @param string|int $id Quote ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Mark($type, $id)
     {
         if ($type !== 'Decline' && $type !== 'Approve' && $type !== 'Draft') {

@@ -6,9 +6,28 @@ use Application\Entities\User;
 use Application\Models\Logs;
 use Application\Models\Users;
 
+/**
+ * Class Administration
+ *
+ * This class provides the logic layer for the administration area.
+ *
+ * @package Application\Controllers
+ */
 class Administration extends IacsBaseController
 {
 
+    /**
+     * Create a new instance.
+     *
+     * Allow only logged in admin users to access this controller.
+     * If a un-logged user or an un-admin user is trying to access the controller,
+     * redirect him the the error screen.
+     *
+     * @param \Trident\System\Configuration $configuration
+     * @param \Trident\System\Log           $log
+     * @param \Trident\System\Request       $request
+     * @param \Trident\System\Session       $session
+     */
     function __construct($configuration, $log, $request, $session)
     {
         parent::__construct($configuration, $log, $request, $session);
@@ -20,11 +39,19 @@ class Administration extends IacsBaseController
         }
     }
 
+    /**
+     * Show the administration index view.
+     */
     public function Index()
     {
         $this->getView()->render();
     }
 
+    /**
+     * Show administration log of events in the system.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Log()
     {
         /** @var Logs $logs */
@@ -34,6 +61,11 @@ class Administration extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Show system users list.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Users()
     {
         /** @var Users $users */
@@ -47,6 +79,13 @@ class Administration extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Delete a user from the system.
+     * User ID for delete need to be supplied via POST delete_id.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function DeleteUser()
     {
         if ($this->getRequest()->isAjax())
@@ -88,6 +127,14 @@ class Administration extends IacsBaseController
         $this->redirect("/Error");
     }
 
+    /**
+     * Check if user exists by his e-mail address.
+     *
+     * @param string $email E-Mail address.
+     *
+     * @return bool
+     * @throws \Trident\Exceptions\EntityNotFoundException
+     */
     public function IsUserExists($email)
     {
         $result = $this->getORM()->find('User', 'user_email = :email AND user_delete = 0', [':email' => $email]);
@@ -98,6 +145,11 @@ class Administration extends IacsBaseController
         return true;
     }
 
+    /**
+     * Add a new user.
+     *
+     * @throws \Trident\Exceptions\IOException
+     */
     public function NewUser()
     {
         $user = new User();
@@ -134,6 +186,15 @@ class Administration extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Update a user in the system.
+     * User updated properties need to be passed via POST.
+     *
+     * @param string|int $id User ID.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function UpdateUser($id)
     {
         /** @var Users $users */
@@ -190,6 +251,12 @@ class Administration extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Show and update system settings.
+     * Settings update need to be passed via POST using AJAX.
+     *
+     * @throws \Trident\Exceptions\IOException
+     */
     public function Settings()
     {
         if ($this->getRequest()->isAjax())

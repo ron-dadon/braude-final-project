@@ -79,15 +79,29 @@ class Index extends AbstractView
                     </li>
                 </ul>
             </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-cubes"></i> Top products:
+                </div>
+                <ul class="list-group">
+                    <?php foreach ($this->data['top-selling-products'] as $row): ?>
+                    <li class="list-group-item">
+                        <span class="badge"><?php echo $row['count'] ?></span>
+                        <?php echo $row['product']->name ?>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
         <div class="col-xs-12 col-lg-9">
             <div class="col-xs-12">
+<?php /** @var Quote[] $quotes */ $quotes = $this->data['quotes']; if (count($quotes)): ?>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <i class="fa fa-fw fa-exclamation-circle"></i> Non approved quotes:
                     </div>
                     <div class="list-group">
-<?php /** @var Quote[] $quotes */ $quotes = $this->data['quotes']; $total = 0; $totalTax = 0; foreach ($quotes as $quote): ?>
+<?php $total = 0; $totalTax = 0; foreach ($quotes as $quote): ?>
                         <a class="list-group-item" href="<?php $this->publicPath() ?>Quotes/Show/<?php echo $quote->id ?>"><i class="fa fa-fw fa-database"></i> Quote No. <?php echo str_pad($quote->id, 8, '0', STR_PAD_LEFT) ?></a>
                         <?php $totalTax += $quote->getTotalWithTax(); ?>
                         <?php $total += $quote->getSubTotal(); ?>
@@ -97,6 +111,7 @@ class Index extends AbstractView
                         Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
                     </div>
                 </div>
+<?php endif; ?>
                 <?php /** @var Invoice[] $invoices */ $invoices = $this->data['invoices']; $total = 0; $totalTax = 0; if (count($invoices)): ?>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
@@ -137,7 +152,7 @@ class Index extends AbstractView
                                     }
                                 ]
                             };
-                            var chartQuoteYear = new Chart(ctxQuoteYear).Line(dataQuoteYear);
+                            var chartQuoteYear = new Chart(ctxQuoteYear).Line(dataQuoteYear, {bezierCurve : false});
                         </script>
                     </div>
                 </div>
@@ -164,7 +179,41 @@ class Index extends AbstractView
                                     }
                                 ]
                             };
-                            var chartInvoiceYear = new Chart(ctxInvoiceYear).Line(dataInvoiceYear);
+                            var chartInvoiceYear = new Chart(ctxInvoiceYear).Line(dataInvoiceYear, {bezierCurve : false});
+                        </script>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-line-chart"></i> Yearly incomes (NIS) based of invoices:
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="year-incomes" style="width: 100%; height: 150px"></canvas>
+                        <small>Blue line: Income | Orange line: Income + Tax</small>
+                        <script>
+                            var ctxIncomeYear = document.getElementById('year-incomes').getContext('2d');
+                            var dataIncomeYear = {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [
+                                    {
+                                        label: "Yearly incomes",
+                                        fillColor: "rgba(30,115,164,0.6)",
+                                        strokeColor: "#204d74",
+                                        highlightFill: "rgba(30,115,164,0.9)",
+                                        highlightStroke: "#204d74",
+                                        data: [<?php echo implode(',', $this->data['income-months']['total']) ?>]
+                                    },
+                                    {
+                                        label: "Yearly incomes with tax",
+                                        fillColor: "rgba(225,95,30,0.6)",
+                                        strokeColor: "#ff6620",
+                                        highlightFill: "rgba(225,95,30,0.9)",
+                                        highlightStroke: "#ff6620",
+                                        data: [<?php echo implode(',', $this->data['income-months']['total-tax']) ?>]
+                                    }
+                                ]
+                            };
+                            var chartIncomeYear = new Chart(ctxIncomeYear).Bar(dataIncomeYear);
                         </script>
                     </div>
                 </div>

@@ -3,16 +3,28 @@
 namespace Application\Controllers;
 
 use application\Entities\LogEntry;
-use Application\Libraries\CUrl;
 use Application\Models\Users;
 use Application\Entities\User;
 use Application\Models\Logs;
 use Application\Models\Quotes as QuoteModel;
 use Application\Models\Invoices as InvoicesModel;
 
+/**
+ * Class Main
+ *
+ * This class provides the logic layer for the main actions.
+ *
+ * @package Application\Controllers
+ */
 class Main extends IacsBaseController
 {
 
+    /**
+     * Show system home screen.
+     * Display important information for the user.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Index()
     {
         if (!$this->isUserLogged())
@@ -21,6 +33,7 @@ class Main extends IacsBaseController
         }
         /** @var QuoteModel $quotes */
         $quotes = $this->loadModel('Quotes');
+        $quotes->updateExpired();
         /** @var InvoicesModel $invoices */
         $invoices = $this->loadModel('Invoices');
         $viewData['usd-rate'] = $this->getUSDRate();
@@ -31,73 +44,17 @@ class Main extends IacsBaseController
         $viewData['invoices'] = $invoices->getUnpaid();
         $viewData['invoices-count'] = $invoices->count();
         $viewData['quotes-months'] = $quotes->getQuotesByMonth();
+        $viewData['top-selling-products'] = $quotes->getTopSellingProducts();
         $viewData['invoices-months'] = $invoices->getByMonth();
+        $viewData['income-months'] = $invoices->getIncomeByMonth();
         $this->getView($viewData)->render();
     }
 
-    public function Settings()
-    {
-        if (!$this->isUserLogged())
-        {
-            $this->redirect("/Login");
-        }
-        $this->getView()->render();
-    }
-
-    public function Profile()
-    {
-        $user = $this->getLoggedUser();
-        if ($this->getRequest()->isPost())
-        {
-            if ($this->getRequest()->getPost()->item('user_password') !== $this->getRequest()->getPost()->item('user_confirm_password'))
-            {
-                $viewData['error'] = "Can not update user profile. Passwords don't match.";
-            }
-            else
-            {
-                $oldPassword = '';
-                $data = $this->getRequest()->getPost()->toArray();
-                if ($this->getRequest()->getPost()->item('user_password') === '')
-                {
-                    unset($data['user_password']);
-                    $oldPassword = $user->password;
-                    $user->password = '123456';
-                }
-                $user->fromArray($data, "user_");
-                if (!$user->isValid())
-                {
-                    $viewData['error'] = "Can not update user profile. The following fields are invalid:";
-                    $user = $this->getLoggedUser();
-                }
-                else
-                {
-                    if ($this->getRequest()->getPost()->item('user_password') !== '')
-                    {
-                        $user->password = password_hash($user->password, PASSWORD_BCRYPT);
-                    }
-                    else
-                    {
-                        $user->password = $oldPassword;
-                    }
-                    $result = $this->getORM()->save($user);
-                    if ($result->isSuccess())
-                    {
-                        $this->addLogEntry("Successfully updated user profile", "success");
-                        $viewData['success'] = "User updated successfully!";
-                    }
-                    else
-                    {
-                        $this->addLogEntry("Update of user profile failed", "danger");
-                        $this->getLog()->newEntry($result->getErrorString(), "database");
-                        $viewData['error'] = "Can not update user profile";
-                    }
-                }
-            }
-        }
-        $viewData['user'] = $user;
-        $this->getView($viewData)->render();
-    }
-
+    /**
+     * Show the login screen and handle login request.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function Login()
     {
         if ($this->isUserLogged())
@@ -146,6 +103,11 @@ class Main extends IacsBaseController
         $this->getView()->render();
     }
 
+    /**
+     * Logout the user.
+     * Return OK for AJAX request.
+     * Redirect to base public path for non-ajax request.
+     */
     public function Logout()
     {
         $this->getSession()->destroy();
