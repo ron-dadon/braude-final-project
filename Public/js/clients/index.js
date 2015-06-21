@@ -23,23 +23,23 @@ $(document).on('ready', function() {
     $('#clients-table').bootgrid({
        formatters: {
            "clientLink": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.id + '">' + row.clientName + '</a>';
+               return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.id + '" title="Show client ' + row.clientName + '">' + row.clientName + '</a>';
            },
            "webLink": function (column, row) {
-               return '<a href="' + row.website + '" target="_blank">' + row.website + '</a>';
+               return '<a href="' + row.website + '" target="_blank" title="Go to ' + row.website + '">' + row.website + '</a>';
            },
            "telLink": function (column, row) {
-               return '<a class="visible-xs" href="tel:' + row.phone + '">' + row.phone + '</a><span class="hidden-xs">' + row.phone + '</span>';
+               return '<a class="visible-xs" href="tel:' + row.phone + '" title="Call ' + row.phone + '">' + row.phone + '</a><span class="hidden-xs">' + row.phone + '</span>';
            },
            "emailLink": function (column, row) {
-               return '<a href="mailto:' + row.email + '">' + row.email + '</a>';
+               return '<a href="mailto:' + row.email + '" title="Mail to ' + row.email + '">' + row.email + '</a>';
            },
            "addressLink": function (column, row) {
-               return '<a  class="visible-xs" href="waze://?q=' + row.address + '">' + row.address + '</a><span class="hidden-xs">' + row.address + '</span>';
+               return '<a  class="visible-xs" href="waze://?q=' + row.address + '" title="Navigate with waze to ' + row.address + '">' + row.address + '</a><span class="hidden-xs">' + row.address + '</span>';
            },
            "clientActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.clientName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Clients/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-client-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.clientName) + '" title="Delete ' + htmlEntities(row.clientName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Clients/Update/' + row.id + '" title="Update ' + htmlEntities(row.clientName) + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {

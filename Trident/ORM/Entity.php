@@ -462,4 +462,5 @@ abstract class Entity
      * @return bool True if valid, false otherwise.
      */
     public abstract function isValid();
+
 }

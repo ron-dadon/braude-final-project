@@ -5,8 +5,10 @@ namespace Application\Controllers;
 use Application\Entities\License;
 use Application\Models\Clients;
 use Application\Models\Products;
+use Application\Models\Invoices;
 use Application\Models\Licenses as LicensesModel;
 use Application\Models\LicenseTypes;
+use Trident\Database\Result;
 
 /**
  * Class Licenses
@@ -27,7 +29,10 @@ class Licenses extends IacsBaseController
     {
        /** @var LicensesModel $licenses */
         $licenses = $this->loadModel('Licenses');
-
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $viewData['licenses'] = $licenses->getAll();
         $this->getView($viewData)->render();
     }
@@ -41,6 +46,10 @@ class Licenses extends IacsBaseController
      */
     public function Show($id)
     {
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         /** @var LicensesModel $licenses */
         $licenses = $this->loadModel('Licenses');
         $viewData['license'] = $licenses->getById($id);
@@ -67,16 +76,54 @@ class Licenses extends IacsBaseController
         $license = new License();
         if ($this->getRequest()->isPost())
         {
+            /** @var LicensesModel $licenses */
+            $licenses = $this->loadModel('Licenses');
+            try{
+                $file = $this->getRequest()->getFiles()->item('request_file');
+            } catch (\InvalidArgumentException $e) {
+                $file = null;
+            }
+            if ($file !== null) {
+                if ($file->getError() == UPLOAD_ERR_OK) {
+                    $product = $products->getById($this->getRequest()->getPost()->item('license_product'));
+                    $client = $clients->getById($this->getRequest()->getPost()->item('license_client'));
+                    $invoice = $invoices->getById($this->getRequest()->getPost()->item('license_invoice'));
+                    $result = $licenses->fromRequest(
+                        $file->getTemporaryName(), $this->getRequest()->getPost()->item('license_serial'),
+                        $product, $client, $this->getRequest()->getPost()->item('license_expire'), $invoice);
+                    if ($result instanceof Result) {
+                        if ($result->isSuccess()) {
+                            $this->addLogEntry('Created license ' . $result->getLastId() . ' successfully', 'success');
+                            $this->setSessionAlertMessage("Created license successfully");
+                            $this->redirect('/Licenses/Show/' . $result->getLastId());
+                        } else {
+                            $this->addLogEntry('Creating license from request failed. ' . $result->getErrorString());
+                            $this->setSessionAlertMessage("Can't create license from request", "error");
+                            $this->redirect('/Licenses/New');
+                        }
+                    } else {
+                        $this->addLogEntry('Creating license from request failed. ' . $result);
+                        $this->setSessionAlertMessage("Can't create license. Request file error {$result}", "error");
+                        $this->redirect('/Licenses/New');
+                    }
+                } else if ($file->getError() != UPLOAD_ERR_NO_FILE) {
+                    $this->addLogEntry('Creating license failed. Error uploading request file ' . $file->getName());
+                    $this->setSessionAlertMessage("Can't create license. Request file upload error.", "error");
+                    $this->redirect('/Licenses/New');
+                }
+            }
             $data = $this->getRequest()->getPost()->toArray();
             $license->fromArray($data, "license_");
             if ($license->isValid())
             {
+                if ($license->invoice == 0) $license->invoice = null;
                 $result = $this->getORM()->save($license);
                 if ($result->isSuccess())
                 {
                     $license->id = $result->getLastId();
                     $this->addLogEntry("Created license with ID: " . $license->id, "success");
-                    // Add go to show license
+                    $this->setSessionAlertMessage("Created license successfully");
+                    $this->redirect('/Licenses/Show/' . $result->getLastId());
                 }
                 else
                 {
@@ -95,6 +142,10 @@ class Licenses extends IacsBaseController
         $viewData['license-types'] = $licenseTypes->getAll();
         $viewData['clients'] = $clients->getAll();
         $viewData['products'] = $products->search("product_type = 'software'", []);
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $this->getView($viewData)->render();
     }
 
@@ -188,38 +239,62 @@ class Licenses extends IacsBaseController
         $license = $licenses->getById($id);
         if ($license === null)
         {
+            $this->setSessionAlertMessage("Can't update license with ID {$id}. License doesn't exists");
             $this->redirect("/Licenses");
         }
-        if ($this->getRequest()->isAjax())
+        if ($this->getRequest()->isPost())
         {
-            $data = $this->getRequest()->getPost()->toArray();
-            $license->fromArray($data, "license_");
+            $expire = $this->getRequest()->getPost()->item('license_expire');
+            $license->expire = $expire;
+            $license->client = $license->client->id;
+            $license->product = $license->product->id;
+            $license->type = $license->type->id;
+            $license->invoice = $license->invoice == null ? 0 : $license->invoice->id;
             if ($license->isValid())
             {
+                if ($license->invoice == 0) $license->invoice = null;
                 $result = $this->getORM()->save($license);
                 if ($result->isSuccess())
                 {
                     $license->id = $result->getLastId();
                     $this->addLogEntry("Updated license with ID: " . $license->id, "success");
-                    $this->jsonResponse(true);
+                    $this->setSessionAlertMessage("License updated!");
+                    $this->redirect('/Licenses/Show/' . $id);
                 }
                 else
                 {
                     $viewData['error'] = "Error updating license to the database. Check the errors log for further information, or contact your system administrator.";
                     $this->getLog()->newEntry("Error updating license in the database: " . $result->getErrorString(), "Database");
                     $this->addLogEntry("Failed to update license", "danger");
-                    $this->jsonResponse(false);
                 }
             }
             else
             {
                 $viewData['error'] = "Error updating license";
                 $this->addLogEntry("Failed to update license - invalid data", "danger");
-                $this->jsonResponse(false);
             }
         }
         $viewData['license'] = $license;
         $this->getView($viewData)->render();
+    }
+
+    public function download($id)
+    {
+        /** @var LicensesModel $licenses */
+        $licenses = $this->loadModel('Licenses');
+        /** @var License $license */
+        $license = $licenses->getById($id);
+        if ($license === null)
+        {
+            $this->setSessionAlertMessage("Can't download license with ID {$id}. License doesn't exists");
+            $this->redirect("/Licenses");
+        }
+        ob_clean();
+        header('Content-Type: application/xml');
+        header("Content-Transfer-Encoding: Binary");
+        header("Content-disposition: attachment; filename=\"" . $license->client->name . ' - ' . $license->product->name . ' - ' . $license->serial . '.iacslic' . "\"");
+        echo $license->toFile();
+        exit();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Clients New
+ * Products Update
  */
 
 $(document).on('ready', function() {

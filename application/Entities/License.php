@@ -47,7 +47,13 @@ class License extends Entity
     public function generateLicenseHash()
     {
         $validTo = $this->timeStampToDate($this->expire);
-        $toHash = $this->serial . $this->product->name . $this->client->name . ($this->type->name === 'Trial' ? '1' : '0') . $validTo . $this->pcid;
+        $trial = 0;
+        if ($this->type instanceof LicenseType) {
+            $trial = $this->type->name === 'Trial' ? '1' : '0';
+        } else {
+            if ($this->type == 1) $trial = 1;
+        }
+        $toHash = $this->serial . $this->product->name . $this->client->name . $trial . $validTo . ($trial ? '' : $this->pcid);
         $this->hash = hash('sha512', $toHash);
         return $this->hash;
     }
@@ -58,7 +64,7 @@ class License extends Entity
         $line .= '<serial>' . $this->serial . '</serial>';
         $line .= '<valid>' . $this->timeStampToDate($this->expire) . '</valid>';
         $line .= '<client>' . $this->client->name . '</client>';
-        $line .= '<pcid>' . $this->pcid . '</pcid>' . PHP_EOL;
+        $line .= '<pcid>' . ($this->type->name === 'Trial' ? '' : $this->pcid) . '</pcid>' . PHP_EOL;
         $line .= '<app>' . $this->product->name . '</app>';
         $line .= '<trial>' . ($this->type->name === 'Trial' ? '1' : '0') . '</trial>';
         $line .= '<hash>' . $this->generateLicenseHash() . '</hash></license>';
@@ -88,12 +94,12 @@ class License extends Entity
             $valid = false;
             $this->setError('id', "ID is invalid");
         }
-        if (!$this->isDate($this->creationDate))
+        if (!$this->isDate($this->creationDate) && !$this->isDateTime($this->creationDate))
         {
             $valid = false;
             $this->setError('creationDate', "Creation date must be a valid date");
         }
-        if (!$this->isDate($this->expire))
+        if (!$this->isDate($this->expire) && !$this->isDateTime($this->expire))
         {
             $valid = false;
             $this->setError('expire', "Expire date must be a valid date");
@@ -113,7 +119,7 @@ class License extends Entity
             $valid = false;
             $this->setError('product', "Product is invalid");
         }
-        if (!$this->isInteger($this->invoice, 1) && !($this->invoice instanceof Invoice))
+        if (!$this->isInteger($this->invoice, 0) && !($this->invoice instanceof Invoice))
         {
             $valid = false;
             $this->setError('invoice', "Invoice is invalid");

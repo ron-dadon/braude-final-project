@@ -111,7 +111,7 @@ class Show extends AbstractView
                         <?php foreach ($quote->products as $product): ?>
                             <tr>
                                 <td><?php echo $product->product->id ?></td>
-                                <td><?php echo $product->product->name ?></td>
+                                <td><?php echo $product->product->name . ($product->product->type == 'software' ? " ({$product->product->license->name})" : '')?></td>
                                 <td><?php echo number_format($product->product->basePrice) . ' ' . strtoupper($product->product->coin); ?></td>
                                 <td><?php echo $product->quantity ?></td>
                             </tr>
@@ -147,6 +147,18 @@ class Show extends AbstractView
                 </div>
             </div>
         </div>
+        <?php $licenses = $this->data['licenses']; if (count($licenses)): ?>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="bg-main padded-5px margin-bottom">Related licenses:</h3>
+                <ul>
+                    <?php foreach($licenses as $license): ?>
+                        <li><a href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>"><?php echo "{$license->product->name}  ({$license->type->name}): {$license->serial}" ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
     <div class="panel">
         <div class="panel-footer text-right">

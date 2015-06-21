@@ -51,4 +51,14 @@ class LicenseType extends Entity
         return $valid;
     }
 
+    /**
+     * Get the id of the license type.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->id;
+    }
+
 } 

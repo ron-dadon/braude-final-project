@@ -38,9 +38,6 @@ class Index extends AbstractView
 <?php endif; ?>
     <form method="post" id="new-user-form" data-toggle="validator">
     <div class="panel">
-        <div class="panel-heading">
-            <h3>User details:</h3>
-        </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 col-lg-3">

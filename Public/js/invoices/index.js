@@ -38,18 +38,18 @@ $(document).on('ready', function() {
         },
         formatters: {
            "invoice": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Invoices/Show/' + row.id + '">' + row.id.toString().pad("0",8) + '</a>';
+               return '<a href="' + appSettings.homeURI + '/Invoices/Show/' + row.id + '" title=\"Show invoice ' + row.id.toString().pad("0",8) + '\">' + row.id.toString().pad("0",8) + '</a>';
            },
            "quote": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.quote + '">' + row.quote.toString().pad("0",8) + '</a>';
+               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.quote + '" title=\"Show quote ' + row.quote.toString().pad("0",8) + '\">' + row.quote.toString().pad("0",8) + '</a>';
            },
            "client": function (column, row) {
-               return "<a onclick=\"$('#invoices-table').bootgrid('search','" + row.clientName + "')\">" + row.clientName + "</a>";
+               return "<a style=\"cursor:pointer\" title=\"Filter by " + row.clientName + "\" onclick=\"$('#invoices-table').bootgrid('search','" + row.clientName + "')\">" + row.clientName + "</a>";
                //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
            },
            "invoiceActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-invoice-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Invoices/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-invoice-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '" title="Delete invoice ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Invoices/Update/' + row.id + '" title="Update invoice ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {

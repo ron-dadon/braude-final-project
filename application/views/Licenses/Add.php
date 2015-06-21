@@ -43,7 +43,7 @@ class Add extends AbstractView
 <?php endif; ?>
     </div>
 <?php endif; ?>
-    <form method="post" id="new-license-form" data-toggle="validator">
+    <form method="post" id="new-license-form" data-toggle="validator" enctype="multipart/form-data">
         <div class="panel">
             <div class="panel-body">
                 <div class="row">
@@ -59,12 +59,13 @@ class Add extends AbstractView
                     </div>
                     <div class="col-xs-12 col-lg-4">
                         <div class="form-group">
+                            <input type="hidden" id="license-type" name="license_type" value="0">
                             <label for="license-product">Product:</label>
                             <select id="license-product" name="license_product" class="selectpicker" data-live-search="true" data-width="100%">
                                 <?php foreach ($products as $product): ?>
-                                    <option value="<?php echo $product->id?>"><?php echo $product->name ?></option>
+                                    <option value="<?php echo $product->id?>" class="products-list" data-type="<?php echo $product->license ?>"><?php echo $product->name . " ({$product->license->name})" ?></option>
                                 <?php endforeach; ?>
-                            </select>
+                                </select>
                             <script>
                                 function updateInvoiceList() {
                                     $.get(appSettings.homeURI + '/Invoices/ByProduct/' + $('#license-product').val() + '/' + $('#license-client').val(), function(data)
@@ -80,11 +81,18 @@ class Add extends AbstractView
                                         $('#license-invoice').selectpicker();
                                     });
                                 }
+                                function updateLicenseType() {
+                                    $('#license-type').val($('.products-list:selected').data('type'));
+                                }
                                 $(document).on('ready', function() {
-                                    $('#license-product').on('change', function() { updateInvoiceList(); });
+                                    $('#license-product').on('change', function() {
+                                        updateInvoiceList();
+                                        updateLicenseType();
+                                    });
                                     $('#license-client').on('change', function() { updateInvoiceList(); });
                                     $('#gen-serial').on('click', function() { $('#license-serial').val(serialGenerator()); $('#new-license-form').validator('validate'); });
                                     updateInvoiceList();
+                                    updateLicenseType();
                                 });
                             </script>
                         </div>
@@ -93,7 +101,7 @@ class Add extends AbstractView
                         <div class="form-group" id="select-invoice">
                             <label for="license-invoice">Invoice:</label>
                             <select id="license-invoice" name="license_invoice" class="selectpicker" data-live-search="true" data-width="100%">
-                                <option value="0">None</option>
+                                <option value="0" selected>None</option>
                             </select>
                         </div>
                     </div>

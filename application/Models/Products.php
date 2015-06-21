@@ -11,7 +11,10 @@ class Products extends AbstractModel
 
     public function getById($id)
     {
-        return $this->getORM()->findById('Product', $id,"product_delete = 0");
+        /** @var Product $product */
+        $product = $this->getORM()->findById('Product', $id,"product_delete = 0");
+        $product->license = $this->getORM()->findById('LicenseType', $product->license, "license_type_delete = 0");
+        return $product;
     }
 
     public function count()
@@ -24,7 +27,12 @@ class Products extends AbstractModel
 
     public function getAll()
     {
-        return $this->getORM()->find('Product', "product_delete = 0");
+        $list = $this->getORM()->find('Product', "product_delete = 0");
+        foreach ($list as $k => $v) {
+            /** @var Product $v */
+            $list[$k] = $this->getById($v->id);
+        }
+        return $list;
     }
 
     public function search($term, $values)
@@ -33,7 +41,12 @@ class Products extends AbstractModel
         {
             throw new \InvalidArgumentException("Search products values mush be an array");
         }
-        return $this->getORM()->find('Product',"$term AND product_delete = 0", $values);
+        $list = $this->getORM()->find('Product',"$term AND product_delete = 0", $values);
+        foreach ($list as $k => $v) {
+            /** @var Product $v */
+            $list[$k] = $this->getById($v->id);
+        }
+        return $list;
     }
 
     /**

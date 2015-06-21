@@ -22,12 +22,24 @@ function deleteProduct(id)
 $(document).on('ready', function() {
     $('#products-table').bootgrid({
        formatters: {
+           "manufactor": function (column, row) {
+               return "<a style=\"cursor:pointer\" title=\"Filter by " + row.productManufacturer + "\" onclick=\"$('#products-table').bootgrid('search','" + row.productManufacturer + "')\">" + row.productManufacturer + "</a>";
+               //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
+           },
+           "types": function (column, row) {
+               return "<a style=\"cursor:pointer\" title=\"Filter by " + row.productType + "\" onclick=\"$('#products-table').bootgrid('search','" + row.productType + "')\">" + row.productType + "</a>";
+               //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
+           },
+           "licenses": function (column, row) {
+               return "<a style=\"cursor:pointer\" title=\"Filter by " + row.productLicense + "\" onclick=\"$('#products-table').bootgrid('search','" + row.productLicense + "')\">" + row.productLicense + "</a>";
+               //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
+           },
            "productLink": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Products/Show/' + row.id + '">' + row.productName + '</a>';
+               return '<a href="' + appSettings.homeURI + '/Products/Show/' + row.id + '" title="Show ' + row.productName + '">' + row.productName + '</a>';
            },
            "productActions": function (column, row) {
-               return '<button class="btn btn-xs btn-danger btn-product-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.productName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Products/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-product-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.productName) + '" title="Update ' + htmlEntities(row.productName) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Products/Update/' + row.id + '" title="Delete ' + htmlEntities(row.productName) + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {

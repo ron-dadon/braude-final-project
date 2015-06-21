@@ -23,11 +23,13 @@ class Quotes extends AbstractModel
         {
             return $quote;
         }
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
         foreach ($query->getResultSet() as $productData)
         {
             $quoteProduct = new QuoteProduct();
             $quoteProduct->fromArray($productData, "quote_product_");
-            $quoteProduct->product = $this->getORM()->findById('Product', $quoteProduct->product);
+            $quoteProduct->product = $products->getById($quoteProduct->product);
             $quote->products[] = $quoteProduct;
         }
         return $quote;
@@ -140,38 +142,4 @@ class Quotes extends AbstractModel
         return $this->getMysql()->executeQuery(new Query("UPDATE " . $quote->getTable() . " SET quote_delete = 1 WHERE quote_id = ?", [$quote->id]));
     }
 
-    public function getTopSellingProducts($count = 3)
-    {
-        $quotes = $this->getAll();
-        $sells = [];
-        $products = [];
-        foreach ($quotes as $quote) {
-            if ($quote->status->id != 5) continue;
-            foreach ($quote->products as $p)
-            {
-                if (!isset($sells[$p->product->id]))
-                {
-                    $sells[$p->product->id] = 0;
-                }
-                if (!isset($products[$p->product->id]))
-                {
-                    $products[$p->product->id] = $p->product;
-                }
-                $sells[$p->product->id] += $p->quantity;
-            }
-        }
-        arsort($sells);
-        if (count($sells) > $count) {
-            $sells = array_slice($sells, 0, $count, true);
-        }
-        $result = [];
-        $i = count($sells);
-        foreach ($sells as $key => $count) {
-            $result[$i]['product'] = $products[$key];
-            $result[$i]['count'] = $count;
-            $i--;
-        }
-        krsort($result);
-        return $result;
-    }
 }

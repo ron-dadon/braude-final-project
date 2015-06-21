@@ -6,7 +6,7 @@ use \Trident\MVC\AbstractView;
 use Application\Entities\User;
 use Application\Entities\Quote;
 use Application\Entities\Invoice;
-
+use Application\Entities\License;
 /**
  * Class Index
  * @property User $currentUser
@@ -87,7 +87,12 @@ class Index extends AbstractView
                     <?php foreach ($this->data['top-selling-products'] as $row): ?>
                     <li class="list-group-item">
                         <span class="badge"><?php echo $row['count'] ?></span>
-                        <?php echo $row['product']->name ?>
+                        <?php
+                            echo $row['product']->name;
+                            if ($row['product']->type == 'software') {
+                                echo ' (' . $row['product']->license->name . ')';
+                            }
+                        ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -126,6 +131,21 @@ class Index extends AbstractView
                         </div>
                         <div class="panel-footer">
                             Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php /** @var License[] $licenses */ $licenses = $this->data['expire-licenses']; if (count($licenses)): ?>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <i class="fa fa-fw fa-exclamation-circle"></i> Licenses expiring / expired this month:
+                        </div>
+                        <div class="list-group">
+                            <?php foreach ($licenses as $license): ?>
+                                <a class="list-group-item" href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>"><i class="fa fa-fw fa-key"></i> License <?php echo $license->serial ?> (<?php echo $this->escape($license->client->name) ?>)</a>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="panel-footer">
+                            No. Of Licenses: <?php echo number_format(count($licenses)) ?>
                         </div>
                     </div>
                 <?php endif; ?>

@@ -5,6 +5,7 @@ namespace Application\Controllers;
 use Application\Entities\Invoice;
 use Application\Models\Invoices as InvoicesModel;
 use Application\Models\Quotes;
+use Application\Models\Licenses;
 
 /**
  * Class Invoices
@@ -48,11 +49,14 @@ class Invoices extends IacsBaseController
         }
         /** @var InvoicesModel $invoices */
         $invoices = $this->loadModel('Invoices');
+        /** @var Licenses $licenses */
+        $licenses = $this->loadModel('Licenses');
         $invoice = $invoices->getById($id);
         if ($invoice === null) {
             $this->setSessionAlertMessage("Can't show invoice with ID " . htmlspecialchars($id) . ". Invoice doesn't exists.", "error");
             $this->redirect('/Invoices');
         }
+        $viewData['licenses'] = $licenses->getLicensesByInvoice($invoice->id);
         $viewData['invoice'] = $invoice;
         $this->getView($viewData)->render();
     }

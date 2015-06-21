@@ -39,4 +39,5 @@ class LicenseTypes extends AbstractModel
         return $this->getORM()->save($licenseType);
 
     }
+
 } 

@@ -36,9 +36,9 @@ class Index extends AbstractView
                         <thead>
                         <tr>
                             <th data-column-id="licenseId" data-identifier="true" data-visible="false">ID</th>
-                            <th data-column-id="productName" data-order="asc" data-formatter="productLink">Product</th>
-                            <th data-column-id="clientName" data-formatter="clientLink" data-order="asc">Client</th>
-                            <th data-column-id="licenseType">Type</th>
+                            <th data-column-id="productName" data-order="asc" data-formatter="product">Product</th>
+                            <th data-column-id="clientName" data-formatter="client" data-order="asc">Client</th>
+                            <th data-column-id="licenseType" data-formatter="types">Type</th>
                             <th data-column-id="expirationDate">Expiration Date</th>
                             <th data-column-id="serial" data-formatter="licenseLink">Serial</th>
                             <th data-column-id="actions" data-sortable="false" data-formatter="licenseActions">Actions</th>

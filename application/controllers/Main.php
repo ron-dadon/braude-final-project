@@ -8,6 +8,7 @@ use Application\Entities\User;
 use Application\Models\Logs;
 use Application\Models\Quotes as QuoteModel;
 use Application\Models\Invoices as InvoicesModel;
+use Application\Models\Licenses;
 
 /**
  * Class Main
@@ -36,6 +37,8 @@ class Main extends IacsBaseController
         $quotes->updateExpired();
         /** @var InvoicesModel $invoices */
         $invoices = $this->loadModel('Invoices');
+        /** @var Licenses $licenses */
+        $licenses = $this->loadModel('Licenses');
         $viewData['usd-rate'] = $this->getUSDRate();
         $viewData['clients-count'] = $this->loadModel('Clients')->count();
         $viewData['products-count'] = $this->loadModel('Products')->count();
@@ -44,9 +47,10 @@ class Main extends IacsBaseController
         $viewData['invoices'] = $invoices->getUnpaid();
         $viewData['invoices-count'] = $invoices->count();
         $viewData['quotes-months'] = $quotes->getQuotesByMonth();
-        $viewData['top-selling-products'] = $quotes->getTopSellingProducts();
+        $viewData['top-selling-products'] = $invoices->getTopSellingProducts();
         $viewData['invoices-months'] = $invoices->getByMonth();
         $viewData['income-months'] = $invoices->getIncomeByMonth();
+        $viewData['expire-licenses'] = $licenses->expireInMonth(intval(date('m')));
         $this->getView($viewData)->render();
     }
 

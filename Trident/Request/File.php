@@ -56,6 +56,7 @@ class File
         $this->name = $name;
         $this->size = $size;
         $this->temporaryName = $temporaryName;
+        if ($error == UPLOAD_ERR_NO_FILE) return;
         $fileInfo = new \finfo(FILEINFO_MIME);
         $this->mime = $fileInfo->file($temporaryName);
     }

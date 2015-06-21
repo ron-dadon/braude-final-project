@@ -36,8 +36,10 @@ class Index extends AbstractView
                 <thead>
                 <tr>
                     <th data-column-id="id" data-identifier="true">ID</th>
-                    <th data-column-id="productType">Type</th>
+                    <th data-column-id="productManufacturer" data-formatter="manufactor">Manufacturer</th>
+                    <th data-column-id="productType" data-formatter="types">Type</th>
                     <th data-column-id="productName" data-order="asc" data-formatter="productLink">Name</th>
+                    <th data-column-id="productLicense" data-formatter="licenses">License</th>
                     <th data-column-id="basePrice">Base price</th>
                     <th data-column-id="coin">Coin</th>
                     <th data-column-id="actions" data-sortable="false" data-formatter="productActions">Actions</th>
@@ -47,8 +49,10 @@ class Index extends AbstractView
                 <?php foreach ($products as $product): ?>
                     <tr data-user-id="<?php echo $product->id ?>">
                         <td><?php echo $product->id ?></td>
+                        <td><?php echo $product->manufactor === 'iacs' ? 'IACS' : 'CaseWare' ?></td>
                         <td><?php echo $product->type === "software" ? "Software" : "Training" ?></td>
                         <td><?php echo $this->escape($product->name) ?></td>
+                        <td><?php echo $this->escape($product->license->name) ?></td>
                         <td><?php echo number_format($product->basePrice, 0) ?></td>
                         <td><?php echo $product->coin === "usd" ? "USD $" : "NIS &#8362;" ?></td>
                         <td>Actions</td>
@@ -58,7 +62,14 @@ class Index extends AbstractView
             </table>
         </div>
         <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Products/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New product</a>
+            <div class="hidden-xs">
+                <button type="button" class="btn btn-default pull-left" onclick="$('#products-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                <a href="<?php $this->publicPath() ?>Products/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New product</a>
+            </div>
+            <div class="visible-xs">
+                <a href="<?php $this->publicPath() ?>Products/New" class="btn btn-primary btn-block"><i class="fa fa-fw fa-plus"></i> New product</a>
+                <button type="button" class="btn btn-default btn-block" onclick="$('#products-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+            </div>
         </div>
     </div>
 </div>

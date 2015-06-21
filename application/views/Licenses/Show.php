@@ -20,11 +20,13 @@ class Show extends AbstractView
                 <h1><i class="fa fa-fw fa-cubes"></i> License: <?php echo $this->escape($license->serial) ?></h1>
             </div>
             <?php if (isset($this->data['error'])): ?>
-                <div class="alert alert-dismissable alert-danger fade in">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4><i class="fa fa-fw fa-times-circle"></i><?php echo $this->escape($this->data['error']) ?></h4>
+                <div class="alert alert-danger alert-dismissable">
+                    <h4><i class="fa fa-fw fa-times-circle"></i><?php echo $this->data['error'] ?></h4>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($this->data['success'])): ?>
+                <div class="alert alert-success alert-dismissable">
+                    <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
                 </div>
             <?php endif; ?>
             <div class="panel">
@@ -36,7 +38,7 @@ class Show extends AbstractView
                         <div class="form-group">
                             <label for="product-name">Product Name: </label>
                             <p class="form-control-static" id="product-name">
-                                <strong><?php echo $this->escape($license->product->name) ?> hours</strong>
+                                <strong><a href="<?php $this->publicPath() ?>Products/Show/<?php echo $license->product->id?>" title="Go to product"><?php echo $this->escape($license->product->name) ?></a></strong>
                             </p>
                         </div>
                     </div>
@@ -57,7 +59,7 @@ class Show extends AbstractView
                         <div class="form-group">
                             <label for="client-name">Client Name:</label>
                             <p class="form-control-static" id="client-name">
-                                <strong><?php echo $this->escape($license->client->name) ?></strong>
+                                <strong><a href="<?php $this->publicPath() ?>Clients/Show/<?php echo $license->client->id?>" title="Go to client"><?php echo $this->escape($license->client->name) ?></a></strong>
                             </p>
                         </div>
                     </div>
@@ -111,7 +113,7 @@ class Show extends AbstractView
                         <div class="form-group">
                             <label for="license-invoice">Invoice:</label>
                             <p class="form-control-static" id="license-invoice">
-                                <strong><?php echo $this->escape($license->invoice->id) ?></strong>
+                                <strong><a href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $license->invoice->id ?>" title="Go to invoice"><?php echo $this->escape(str_pad($license->invoice->id, 8, '0', STR_PAD_LEFT)) ?></a></strong>
                             </p>
                         </div>
                     </div>
@@ -121,8 +123,10 @@ class Show extends AbstractView
             <div class="panel">
                 <div class="panel-footer text-right">
                     <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link">Back</a>
-                    <a href="<?php $this->publicPath() ?>Licenses/Update/<?php echo $license->id ?>"
-                       class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update product</a>
+                    <?php if ($license->product->manufactor === 'iacs'): ?>
+                    <a href="<?php $this->publicPath() ?>Licenses/Download/<?php echo $license->id ?>" class="btn btn-success"><i class="fa fa-fw fa-download"></i> Download license</a>
+                    <?php endif; ?>
+                    <a href="<?php $this->publicPath() ?>Licenses/Update/<?php echo $license->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update license</a>
                 </div>
             </div>
         </div>

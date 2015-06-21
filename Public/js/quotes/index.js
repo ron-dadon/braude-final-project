@@ -29,8 +29,11 @@ $(document).on('ready', function() {
             }
         },
         formatters: {
-           "quoteLink": function (column, row) {
-               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '">' + row.id.toString().pad("0",8) + '</a>';
+            "client": function (column, row) {
+                return "<a style=\"cursor:pointer\" title=\"Filter by " + row.quoteClient + "\" onclick=\"$('#quotes-table').bootgrid('search','" + row.quoteClient + "')\">" + row.quoteClient + "</a>";
+            },
+            "quoteLink": function (column, row) {
+               return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '" title="Show quote ' + row.id.toString().pad("0",8) + '">' + row.id.toString().pad("0",8) + '</a>';
            },
            "quoteStatus": function (column, row) {
                 if (row.quoteStatus == 'INVOICED' || row.quoteStatus == 'DECLINE' || row.quoteStatus == 'EXPIRED') return '';
@@ -41,8 +44,8 @@ $(document).on('ready', function() {
            },
            "quoteActions": function (column, row) {
                if (row.quoteStatus == 'INVOICED') return '';
-               return '<button class="btn btn-xs btn-danger btn-quote-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
-                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
+               return '<button class="btn btn-xs btn-danger btn-quote-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '" title="Delete quote ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
+                      '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Quotes/Update/' + row.id + '" title="Update quote ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-edit"></i></a>';
            }
        }
    }).on('loaded.rs.jquery.bootgrid', function() {

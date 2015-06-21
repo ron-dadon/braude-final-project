@@ -227,14 +227,44 @@
             "method": "Show"
         },
         {
+            "pattern": "/Licenses/Update/(id)",
+            "controller": "Licenses",
+            "method": "Update"
+        },
+        {
+            "pattern": "/Licenses/Delete",
+            "controller": "Licenses",
+            "method": "Delete"
+        },
+        {
+            "pattern": "/Licenses/Download/(id)",
+            "controller": "Licenses",
+            "method": "Download"
+        },
+        {
             "pattern": "/Reports",
             "controller": "Reports",
             "method": "Index"
         },
         {
-            "pattern": "/Reports/ExpiredLicenses",
+            "pattern": "/Reports/ExpiredLicenses/(days)",
             "controller": "Reports",
             "method": "ExpiredLicenses"
+        },
+        {
+            "pattern": "/Reports/OpenInvoices",
+            "controller": "Reports",
+            "method": "OpenInvoices"
+        },
+        {
+            "pattern": "/Reports/ProductsSales",
+            "controller": "Reports",
+            "method": "ProductsSales"
+        },
+        {
+            "pattern": "/Reports/QuotesByStatus/(status)",
+            "controller": "Reports",
+            "method": "QuotesByStatus"
         }
     ]
 }

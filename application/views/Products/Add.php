@@ -47,14 +47,23 @@ class Add extends AbstractView
                 <div class="row">
                     <div class="col-xs-12 col-lg-2">
                         <div class="form-group">
+                            <label for="product-manufactor">Manufacturer:</label>
+                            <select id="product-manufactor" name="product_manufactor" class="form-control">
+                                <option value="iacs" <?php if ($product->manufactor === "iacs"): ?>selected<?php endif; ?>>IACS</option>
+                                <option value="caseware" <?php if ($product->manufactor === "caseware"): ?>selected<?php endif; ?>>CaseWare</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <div class="form-group">
                             <label for="product-type">Type:</label>
-                            <select id="product-type" name="product_type" class="form-control" autofocus>
+                            <select id="product-type" name="product_type" class="form-control">
                                 <option value="software" <?php if ($product->type === "software"): ?>selected<?php endif; ?>>Software</option>
                                 <option value="training" <?php if ($product->type === "training"): ?>selected<?php endif; ?>>Training</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-lg-6">
+                    <div class="col-xs-12 col-lg-4">
                         <div class="form-group">
                             <label for="product-name">Name:</label>
                             <input type="text" id="product-name" name="product_name" class="form-control" value="<?php echo $this->escape($product->name) ?>" required data-error="Please enter the product name">

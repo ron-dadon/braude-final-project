@@ -104,3 +104,7 @@ function showMessageAlert(titleIcon, msgTitle, msgBody, type, autoHide)
         setTimeout(function() { $('.alert-dismissable').alert('close'); }, appSettings.messageDismissTime);
     }
 }
+
+function goTo(uri) {
+    window.location.href = appSettings.homeURI + uri;
+}

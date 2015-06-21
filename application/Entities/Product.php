@@ -7,6 +7,7 @@ use Trident\ORM\Entity;
 class Product extends Entity
 {
     public $id;
+    public $manufactor;
     public $name;
     public $description;
     public $basePrice;
@@ -35,6 +36,7 @@ class Product extends Entity
         $this->basePrice = 0;
         $this->version = "1.00";
         $this->length = 0;
+        $this->manufactor = 'iacs';
     }
 
     /**
@@ -76,6 +78,11 @@ class Product extends Entity
         {
             $valid = false;
             $this->setError('type', "Product type can be only Software or Training");
+        }
+        if (!$this->isInList($this->manufactor, ['iacs', 'caseware']))
+        {
+            $valid = false;
+            $this->setError('manufactor', "Product manufacturer can be only IACS or CaseWare");
         }
         if ($this->type === 'training')
         {

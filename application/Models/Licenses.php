@@ -2,6 +2,7 @@
 
 namespace Application\Models;
 
+use application\Entities\Invoice;
 use Trident\MVC\AbstractModel;
 use Application\Entities\License;
 
@@ -86,29 +87,61 @@ class Licenses extends AbstractModel
     /**
      * Add a new license from request file.
      *
-     * @param $file
+     * @param string $file
+     * @param string $serial
+     * @param \Application\Entities\Product $product
+     * @param \Application\Entities\Client $client
+     * @param \Application\Entities\Invoice $invoice
+     * @param string $expire
      *
-     * @return \Trident\Database\Result
+     * @return \Trident\Database\Result|string
      * @throws \Trident\Exceptions\EntityNotFoundException
      */
-    public function fromRequest($file, $licenseType, $client)
+    public function fromRequest($file, $serial, $product, $client, $expire, $invoice = null)
     {
         $file = simplexml_load_file($file);
         if (count(get_object_vars($file)) == 2 &&
             array_key_exists('app', get_object_vars($file)) !== false &&
             array_key_exists('pcid', get_object_vars($file)) !== false) {
+            $file = get_object_vars($file);
+            if ($file['app'] != $product->name) return "Request file product doesn't match";
             $license = new License();
             $license->pcid = $file['pcid'];
-            $product = $this->getORM()->find('Product', 'product_name = :n', [':n' => $file['app']]);
-            if ($product === null || count($product) !== 1) {
-                return false;
-            }
+            $license->serial = $serial;
+            $license->expire = $expire;
+            $license->product = $product;
+            $license->client = $client;
+            $license->invoice = $invoice instanceof Invoice ? $invoice->id : null;
+            $license->type = $product->license->id;
+            $license->generateLicenseHash();
             $license->product = $product->id;
             $license->client = $client->id;
-            $license->type = $licenseType->id;
             return $this->add($license);
         }
-        return false;
+        return "Invalid request file";
     }
 
+    /**
+     * Get all the expiring licenses of a given month.
+     *
+     * @param int $month Month of the year.
+     *
+     * @return \Application\Entities\License[]
+     */
+    public function expireInMonth($month)
+    {
+        return $this->search('MONTH(license_expire) = :m AND YEAR(license_expire) = :y', [':m' => $month, ':y' => date('Y')]);
+    }
+
+    /**
+     * Get licenses by invoice.
+     *
+     * @param int|string $invoice Invoice ID.
+     *
+     * @return \Application\Entities\License[]
+     */
+    public function getLicensesByInvoice($invoice)
+    {
+        return $this->search('license_invoice = :in', [':in' => $invoice]);
+    }
 } 

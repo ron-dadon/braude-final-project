@@ -11,6 +11,8 @@ use \Application\Models\Quotes;
 use \Application\Entities\License;
 use \Application\Entities\Quote;
 use Trident\Database\Query;
+use Application\Entities\Invoice;
+use Application\Entities\Product;
 
 /**
  * Class Reports
@@ -27,7 +29,14 @@ class Reports extends IacsBaseController
      */
     public function Index()
     {
-        $this->getView()->render();
+        /** @var Quotes $quotes */
+        $quotes = $this->loadModel('Quotes');
+        $viewData['quote-status'] = $quotes->getAllStatuses();
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
+        $this->getView($viewData)->render();
     }
 
     /**
@@ -48,14 +57,22 @@ class Reports extends IacsBaseController
         /** @var Licenses $licenses */
         $licenses = $this->loadModel('Licenses');
         $now = date('Y-m-d');
-        $list = $licenses->search("DATEDIFF(:todate,license_expire) BETWEEN 0 AND :days ", [':todate'=>$now, ':days'=>$days]);
+        $list = $licenses->search("DATEDIFF(:todate,license_expire) BETWEEN 1 AND :days ", [':todate'=>$now, ':days'=>$days]);
         if ($list === null)
         {
             $this->getLog()->newEntry("Failed to retrieve licenses from the database", "database");
+            $this->addLogEntry("Failed to retrieve licenses from the database", "danger");
             $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
             $this->redirect('/Reports');
         }
-        var_dump($list);
+        if (!count($list))
+        {
+            $this->addLogEntry("Report Expired Licenses create successfully");
+            $this->setSessionAlertMessage("Report Expired Licenses Within {$days} Days: no results");
+            $this->redirect('/Reports');
+        }
+        $this->addLogEntry("Report Expired Licenses create successfully");
+        $this->getView(['days' => $days, 'licenses' => $list])->render();
     }
 
     /**
@@ -75,8 +92,17 @@ class Reports extends IacsBaseController
         if ($list === null)
         {
             $this->getLog()->newEntry("Failed to retrieve quotes from the database", "database");
-            // Go to reports
+            $this->addLogEntry("Failed to retrieve quotes from the database", "danger");
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
         }
+        if (!count($list))
+        {
+            $this->addLogEntry("Report Quotes By Status create successfully");
+            $this->setSessionAlertMessage("Report Quotes By Status: no results");
+            $this->redirect('/Reports');
+        }
+        $this->addLogEntry("Report Quotes By Status create successfully");
         var_dump($list);
 
     }
@@ -98,9 +124,72 @@ class Reports extends IacsBaseController
         if ($list === null)
         {
             $this->getLog()->newEntry("Failed to retrieve invoices from the database", "database");
-            // Go to reports
+            $this->addLogEntry("Failed to retrieve invoices from the database", "danger");
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
         }
+        if (!count($list))
+        {
+            $this->addLogEntry("Report Open Invoices create successfully");
+            $this->setSessionAlertMessage("Report Open Invoices: no results");
+            $this->redirect('/Reports');
+        }
+        $this->addLogEntry("Report Open Invoices create successfully");
         var_dump($list);
     }
 
+    public function ProductsSales()
+    {
+        /** @var Invoices $invoices */
+        $invoices = $this->loadModel('Invoices');
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
+        $list = $invoices->getAll();
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve invoices from the database", "database");
+            $this->addLogEntry("Failed to retrieve invoices from the database", "danger");
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
+        }
+        $counts = [];
+        $total = 0;
+        /** @var Invoice $invoice */
+        foreach ($list as $invoice) {
+            foreach ($invoice->quote->products as $p) {
+                if (isset($counts[$p->product->id])) {
+                    $counts[$p->product->id]['count'] += $p->quantity;
+                } else {
+                    $counts[$p->product->id]['count'] = $p->quantity;
+                    $counts[$p->product->id]['product'] = $p->product;
+                }
+                $total += $p->quantity;
+            }
+        }
+        if (!count($counts))
+        {
+            $this->addLogEntry("Report Products Sales create successfully");
+            $this->setSessionAlertMessage("Report Products Sales: no products sales");
+            $this->redirect('/Reports');
+        }
+        $prods = $products->getAll();
+        if ($prods === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve products from the database", "database");
+            $this->addLogEntry("Failed to retrieve products from the database", "danger");
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
+        }
+        foreach($prods as $p) {
+            if (!isset($counts[$p->id])) {
+                $counts[$p->id]['count'] = 0;
+                $counts[$p->id]['product'] = $p;
+            }
+        }
+        arsort($counts);
+        $viewData['counts'] = $counts;
+        $viewData['total'] = $total;
+        $this->addLogEntry("Report Products Sales create successfully");
+        $this->getView($viewData)->render();
+    }
 }

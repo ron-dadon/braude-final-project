@@ -36,7 +36,7 @@ class Index extends AbstractView
                 <thead>
                 <tr>
                     <th data-column-id="id" data-identifier="true" data-order="desc" data-converter="invoice" data-formatter="invoice">Number</th>
-                    <th data-column-id="clientId" data-visible="false">Client</th>
+                    <!--<th data-column-id="clientId" data-visible="false">Client</th>-->
                     <th data-column-id="clientName" data-formatter="client">Client</th>
                     <th data-column-id="quote" data-converter="invoice" data-formatter="quote">Quote</th>
                     <th data-column-id="receipt">Receipt</th>
@@ -51,7 +51,7 @@ class Index extends AbstractView
                 <?php foreach ($invoices as $invoice): ?>
                     <tr data-user-id="<?php echo $invoice->id ?>">
                         <td><?php echo $invoice->id ?></td>
-                        <td><?php echo $invoice->client->id ?></td>
+                        <!--<td><?php echo $invoice->client->id ?></td>-->
                         <td><?php echo $invoice->client->name ?></td>
                         <td><?php echo $invoice->quote->id ?></td>
                         <td><?php echo $this->escape($invoice->receipt) ?></td>
@@ -66,6 +66,12 @@ class Index extends AbstractView
             </table>
         </div>
         <div class="panel-footer text-right">
+            <div class="hidden-xs">
+                <button type="button" class="btn btn-default" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+            </div>
+            <div class="visible-xs">
+                <button type="button" class="btn btn-default btn-block" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+            </div>
         </div>
     </div>
 </div>

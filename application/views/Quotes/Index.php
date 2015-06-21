@@ -36,7 +36,7 @@ class Index extends AbstractView
                 <thead>
                 <tr>
                     <th data-column-id="id" data-identifier="true"  data-order="desc" data-converter="quote" data-formatter="quoteLink">Number</th>
-                    <th data-column-id="quoteClient">Client</th>
+                    <th data-column-id="quoteClient" data-formatter="client">Client</th>
                     <th data-column-id="quoteDate">Date</th>
                     <th data-column-id="quoteDateExpire">Expires</th>
                     <th data-column-id="quoteStatus">Status</th>
@@ -60,7 +60,14 @@ class Index extends AbstractView
             </table>
         </div>
         <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New quote</a>
+            <div class="hidden-xs">
+                <button type="button" class="btn btn-default pull-left" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New quote</a>
+            </div>
+            <div class="visible-xs">
+                <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary btn-block"><i class="fa fa-fw fa-plus"></i> New quote</a>
+                <button type="button" class="btn btn-default btn-block" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+            </div>
         </div>
     </div>
 </div>

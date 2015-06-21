@@ -78,7 +78,7 @@ class Show extends AbstractView
                         <?php foreach ($quote->products as $product): ?>
                             <tr>
                                 <td><?php echo $product->product->id ?></td>
-                                <td><?php echo $product->product->name ?></td>
+                                <td><?php echo $product->product->name ?><?php if ($product->product->type == 'software'):?> (<?php echo $product->product->license->name ?>)<?php endif; ?></td>
                                 <td><?php echo number_format($product->product->basePrice) . ' ' . strtoupper($product->product->coin); ?></td>
                                 <td><?php echo $product->quantity ?></td>
                             </tr>

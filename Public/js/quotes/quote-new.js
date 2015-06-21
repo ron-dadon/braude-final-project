@@ -15,7 +15,7 @@ function getAllProducts(data)
 function getProductSelect() {
     var output = '<select class="selectpicker" data-live-search="true" data-width="100%" name="quote_products[]" id="product-line-' + productLines + '" data-id="' + productLines + '">';
     for (var i = 0; i < products.length; i++) {
-        output += '<option value="' + products[i].id + '">' + products[i].name + '</option>';
+        output += '<option value="' + products[i].id + '">' + products[i].name + (products[i].type == 'software' ? ' (' + products[i].license.name + ')' : '') + '</option>';
     }
     output += '</select>';
     return output;

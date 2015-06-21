@@ -210,4 +210,40 @@ class Invoices extends AbstractModel
         return $result;
     }
 
+    public function getTopSellingProducts($count = 3)
+    {
+        $invoices = $this->getAll();
+        $quotes = array_map(function($item) { return $item->quote; }, $invoices);
+        $sells = [];
+        $products = [];
+        foreach ($quotes as $quote) {
+            if ($quote->status->id != 5) continue;
+            foreach ($quote->products as $p)
+            {
+                if (!isset($sells[$p->product->id]))
+                {
+                    $sells[$p->product->id] = 0;
+                }
+                if (!isset($products[$p->product->id]))
+                {
+                    $products[$p->product->id] = $p->product;
+                }
+                $sells[$p->product->id] += $p->quantity;
+            }
+        }
+        arsort($sells);
+        if (count($sells) > $count) {
+            $sells = array_slice($sells, 0, $count, true);
+        }
+        $result = [];
+        $i = count($sells);
+        foreach ($sells as $key => $count) {
+            $result[$i]['product'] = $products[$key];
+            $result[$i]['count'] = $count;
+            $i--;
+        }
+        krsort($result);
+        return $result;
+    }
+
 } 
