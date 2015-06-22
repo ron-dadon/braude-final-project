@@ -1,12 +1,31 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Main;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class Login
+ *
+ * Show login form.
+ *
+ * @package Application\Views\Main
+ */
 class Login extends AbstractView
 {
 
+    /**
+     * Render login form.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         $this->getSharedView('Header')->render(); ?>

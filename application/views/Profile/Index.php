@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Profile;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\User;
 
+/**
+ * Class Index
+ *
+ * Show logged user profile.
+ *
+ * @package Application\Views\Profile
+ */
 class Index extends AbstractView
 {
 
+    /**
+     * Render logged user profile.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var User $user */

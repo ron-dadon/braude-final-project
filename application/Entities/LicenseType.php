@@ -1,15 +1,51 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class LicenseType
+ *
+ * License type entity.
+ *
+ * @package Application\Entities
+ */
 class LicenseType extends Entity
 {
 
+    /**
+     * License type ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * License type display name.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * License type description.
+     * @var
+     */
     public $description;
+
+    /**
+     * Is license type deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -24,7 +60,8 @@ class LicenseType extends Entity
     }
 
     /**
-     * Implement validation rules.
+     * Validate license type.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

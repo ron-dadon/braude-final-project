@@ -1,12 +1,31 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Error;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class Index
+ *
+ * Show general error message.
+ *
+ * @package Application\Views\Error
+ */
 class Index extends AbstractView
 {
 
+    /**
+     * Render general error message.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         $this->getSharedView('Header')->render();

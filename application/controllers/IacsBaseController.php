@@ -1,9 +1,15 @@
 <?php
-
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Controllers;
 
-use application\Entities\LogEntry;
+use Application\Entities\LogEntry;
 use Application\Libraries\CUrl;
 use Trident\MVC\AbstractController;
 use Trident\Exceptions\ViewNotFoundException;

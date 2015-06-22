@@ -1,14 +1,21 @@
 <?php
-
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Shared;
-
 
 use Trident\MVC\AbstractView;
 use Application\Entities\User;
 
 /**
  * Class TopBar
+ *
+ * Top bar widget.
  *
  * @property User $currentUser
  * @property string $currentMenuItem
@@ -19,7 +26,7 @@ class TopBar extends AbstractView
 {
 
     /**
-     * Render out the view.
+     * Render top bar widget.
      */
     public function render() { ?>
     <nav class="navbar navbar-inverse navbar-fixed-top">

@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Invoices;
 
@@ -8,9 +15,21 @@ use Application\Entities\Quote;
 use Application\Entities\Invoice;
 use Application\Entities\QuoteProduct;
 
+/**
+ * Class Show
+ *
+ * Show invoice.
+ *
+ * @package Application\Views\Invoices
+ */
 class Show extends AbstractView
 {
 
+    /**
+     * Render invoice.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var Invoice $invoice */

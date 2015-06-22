@@ -1,15 +1,32 @@
 <?php
-
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Reports;
-
 
 use Trident\MVC\AbstractView;
 use Application\Entities\Product;
 
+/**
+ * Class ProductsSales
+ *
+ * Show products sales reports.
+ *
+ * @package Application\Views\Reports\
+ */
 class ProductsSales extends AbstractView
 {
 
+    /**
+     * Render products sales report.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         $counts = $this->data['counts'];

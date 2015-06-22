@@ -1,25 +1,52 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Models;
 
 use Trident\Database\Query;
+use Trident\Database\Result;
+use Trident\Exceptions\EntityNotFoundException;
+use Trident\Exceptions\MySqlException;
 use Trident\MVC\AbstractModel;
 use Application\Entities\Client;
 
+/**
+ * Class Clients
+ *
+ * This class provides the data-access layer to the clients in the database.
+ *
+ * @package Application\Models
+ */
 class Clients extends AbstractModel
 {
 
     /**
-     * @param $id
+     * Get client by it's ID.
      *
-     * @return null|\Application\Entities\Client
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @param string|int $id Client ID.
+     *
+     * @return Client|null
+     *
+     * @throws EntityNotFoundException
      */
     public function getById($id)
     {
         return $this->getORM()->findById('Client', $id, "client_delete = 0");
     }
 
+    /**
+     * Get the number of clients in the system.
+     *
+     * @return int
+     *
+     * @throws MySqlException
+     */
     public function count()
     {
         $query = new Query('SELECT COUNT(client_id) AS counter FROM clients WHERE client_delete = 0');
@@ -28,11 +55,27 @@ class Clients extends AbstractModel
         return $query->getResultSet()[0]['counter'];
     }
 
+    /**
+     * Get all the clients in the system.
+     *
+     * @return Client[]|null
+     *
+     * @throws EntityNotFoundException
+     */
     public function getAll()
     {
         return $this->getORM()->find('Client', "client_delete = 0");
     }
 
+    /**
+     * Get clients that match the search.
+     *
+     * @param string $term Search term (WHERE condition).
+     * @param array $values Term parameters values.
+     *
+     * @return Client[]|null
+     * @throws EntityNotFoundException
+     */
     public function search($term, $values)
     {
         if (!is_array($values))
@@ -43,9 +86,11 @@ class Clients extends AbstractModel
     }
 
     /**
+     * Add a new client to the system.
+     *
      * @param Client $client
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function add($client)
     {
@@ -53,8 +98,11 @@ class Clients extends AbstractModel
     }
 
     /**
-     * @param $client
-     * @return \Trident\Database\Result
+     * Update client in the system.
+     *
+     * @param Client $client
+     *
+     * @return Result
      */
     public function update($client)
     {
@@ -62,9 +110,11 @@ class Clients extends AbstractModel
     }
 
     /**
+     * Delete client from the system.
+     *
      * @param Client $client
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function delete($client)
     {
@@ -72,4 +122,5 @@ class Clients extends AbstractModel
         return $this->getORM()->save($client);
 
     }
+
 } 

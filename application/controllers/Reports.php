@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Controllers;
 
@@ -109,6 +116,7 @@ class Reports extends IacsBaseController
 
     /**
      * Open invoices report.
+     *
      * An open invoice is a invoice that is not paid, meaning,
      * there is no tax invoice supplied.
      *
@@ -138,6 +146,14 @@ class Reports extends IacsBaseController
         var_dump($list);
     }
 
+    /**
+     * Perform products sales report.
+     * The report includes a list of the products and the amount
+     * of items sold, by summing up the products from the invoices.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function ProductsSales()
     {
         /** @var Invoices $invoices */

@@ -1,6 +1,15 @@
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
+
 /*
- * Clients Index
+ * Products Index
  */
+
 function deleteProduct(id)
 {
     $.post(appSettings.homeURI + "/Products/Delete", { delete_id: id } , function(result) {

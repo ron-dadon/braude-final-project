@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Clients;
 
 use \Trident\MVC\AbstractView;
 use \Application\Entities\Client;
 
+/**
+ * Class Add
+ *
+ * Show add client form.
+ *
+ * @package Application\Views\Clients
+ */
 class Add extends AbstractView
 {
 
+    /**
+     * Render add client form.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var Client $client */

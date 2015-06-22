@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Models;
 
@@ -6,9 +13,32 @@ use Application\Entities\QuoteProduct;
 use Trident\Database\Query;
 use Trident\MVC\AbstractModel;
 use Application\Entities\Quote;
+use Application\Entities\QuoteStatus;
+use Trident\Database\Result;
+use Trident\Exceptions\EntityNotFoundException;
+use Trident\Exceptions\ModelNotFoundException;
+use Trident\Exceptions\MySqlException;
 
+/**
+ * Class Quotes
+ *
+ * This class provides the data-access layer to the quotes in the database.
+ *
+ * @package Application\Models
+ */
 class Quotes extends AbstractModel
 {
+
+    /**
+     * Get quote by it's ID.
+     *
+     * @param string|int $id Quote ID.
+     *
+     * @return Quote
+     * @throws EntityNotFoundException
+     * @throws MySqlException
+     * @throws ModelNotFoundException
+     */
     public function getById($id)
     {
         /** @var Quote $quote */
@@ -35,6 +65,13 @@ class Quotes extends AbstractModel
         return $quote;
     }
 
+    /**
+     * Get number of quotes in the system.
+     *
+     * @return int
+     *
+     * @throws MySqlException
+     */
     public function count()
     {
         $query = new Query('SELECT COUNT(quote_id) AS counter FROM quotes WHERE quote_delete = 0');
@@ -43,6 +80,13 @@ class Quotes extends AbstractModel
         return $query->getResultSet()[0]['counter'];
     }
 
+    /**
+     * Get all quotes in the system.
+     *
+     * @return Quote[]|null
+     *
+     * @throws EntityNotFoundException
+     */
     public function getAll()
     {
         /** @var Quote[] $quotes */
@@ -54,6 +98,12 @@ class Quotes extends AbstractModel
         return $quotes;
     }
 
+    /**
+     * Get all sent or draft quotes.
+     *
+     * @return Quote[]
+     * @throws EntityNotFoundException
+     */
     public function getAllSentOrDraft()
     {
         /** @var Quote[] $quotes */
@@ -65,6 +115,13 @@ class Quotes extends AbstractModel
         return $quotes;
     }
 
+    /**
+     * Get all invoiced quotes.
+     *
+     * @return Quote[]
+     *
+     * @throws EntityNotFoundException
+     */
     public function getAllInvoiced()
     {
         /** @var Quote[] $quotes */
@@ -76,12 +133,29 @@ class Quotes extends AbstractModel
         return $quotes;
     }
 
+    /**
+     * Update expired status for quotes.
+     *
+     * @return bool
+     *
+     * @throws MySqlException
+     */
     public function updateExpired()
     {
         $query = new Query("UPDATE quotes SET quote_status = 6 WHERE quote_expire < NOW()");
         return $this->getMysql()->executeQuery($query)->isSuccess();
     }
 
+    /**
+     * Get quotes by months.
+     *
+     * Returns array with 1-12 cells, where the cell content is the number
+     * of quote in the corresponding month.
+     *
+     * @return array
+     *
+     * @throws MySqlException
+     */
     public function getQuotesByMonth()
     {
         $query = new Query('SELECT MONTH(quote_date) AS m, COUNT(quote_id) AS c FROM quotes WHERE quote_delete = 0 AND YEAR(quote_date) = :y GROUP BY MONTH(quote_date)', [':y' => date('Y')]);
@@ -105,14 +179,26 @@ class Quotes extends AbstractModel
     }
 
     /**
-     * @return \Application\Entities\QuoteStatus[]
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * Get all quote statuses.
+     *
+     * @return QuoteStatus[]
+     *
+     * @throws EntityNotFoundException
      */
     public function getAllStatuses()
     {
         return $this->getORM()->find("QuoteStatus", "quote_status_delete = 0");
     }
 
+    /**
+     * Get quotes that match the search.
+     *
+     * @param string $term Search term (WHERE condition).
+     * @param array $values Term parameters values.
+     *
+     * @return Quote[]|null
+     * @throws EntityNotFoundException
+     */
     public function search($term, $values)
     {
         if (!is_array($values))
@@ -123,18 +209,23 @@ class Quotes extends AbstractModel
     }
 
     /**
+     * Add quote to the system.
+     *
      * @param Quote $quote
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function add($quote)
     {
         return $this->getORM()->save($quote);
     }
+
     /**
+     * Delete quote from the system.
+     *
      * @param Quote $quote
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function delete($quote)
     {

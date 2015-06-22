@@ -1,33 +1,102 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: פרנקו
- * Date: 12/05/2015
- * Time: 14:40
- */
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 
 use Trident\ORM\Entity;
 
+/**
+ * Class License
+ *
+ * License entity.
+ *
+ * @package Application\Entities
+ */
 class License extends Entity
 {
 
+    /**
+     * License ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * License serial.
+     *
+     * @var string
+     */
     public $serial;
+
+    /**
+     * License PC-ID.
+     *
+     * @var string|null
+     */
     public $pcid;
+
+    /**
+     * License creation date.
+     *
+     * @var string
+     */
     public $creationDate;
+
+    /**
+     * License hash.
+     *
+     * @var string|null
+     */
     public $hash;
+
+    /**
+     * License expiration date.
+     *
+     * @var string
+     */
     public $expire;
-    /** @var LicenseType */
+
+    /**
+     * License type.
+     *
+     * @var LicenseType
+     */
     public $type;
-    /** @var Product */
+
+    /**
+     * License product.
+     *
+     * @var Product
+     */
     public $product;
-    /** @var Client */
+
+    /**
+     * License client.
+     *
+     * @var Client
+     */
     public $client;
-    /** @var Invoice */
+
+    /**
+     * License related invoice if one exists.
+     *
+     * @var Invoice|int|null
+     */
     public $invoice;
+
+    /**
+     * Is license deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -44,6 +113,11 @@ class License extends Entity
         $this->serial = md5(bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM)));
     }
 
+    /**
+     * Generate license hash string.
+     *
+     * @return null|string
+     */
     public function generateLicenseHash()
     {
         $validTo = $this->timeStampToDate($this->expire);
@@ -58,6 +132,11 @@ class License extends Entity
         return $this->hash;
     }
 
+    /**
+     * Get license file XML content.
+     *
+     * @return string
+     */
     public function toFile()
     {
         $line = '<?xml version="1.0" encoding="UTF-8"?><license>';
@@ -72,15 +151,20 @@ class License extends Entity
     }
 
     /**
-     * @param $ts
+     * Convert time stamp string to dd/mm/yyyy string.
+     *
+     * @param string $ts Timestamp.
+     *
      * @return string
      */
     private function timeStampToDate($ts)
     {
         return substr($ts, 8, 2) . '/' . substr($ts, 5, 2) . '/' . substr($ts, 0, 4);
     }
+
     /**
-     * Implement validation rules.
+     * Validate license.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

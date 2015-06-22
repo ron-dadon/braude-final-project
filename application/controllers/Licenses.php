@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Controllers;
 
@@ -278,6 +285,14 @@ class Licenses extends IacsBaseController
         $this->getView($viewData)->render();
     }
 
+    /**
+     * Download license file.
+     * Only applies to IACS software products.
+     *
+     * @param string|int $id License ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
     public function download($id)
     {
         /** @var LicensesModel $licenses */

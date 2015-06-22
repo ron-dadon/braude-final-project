@@ -1,20 +1,32 @@
 <?php
-
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Libraries;
 
-
 use Trident\Libraries\AbstractLibrary;
 
+/**
+ * Class CUrl
+ *
+ * Simple AJAX like interface for PHP.
+ *
+ * @package Application\Libraries
+ */
 class CUrl extends AbstractLibrary
 {
 
     /**
-     * Get URL.
+     * Perform a GET request.
      *
-     * @param string $url URL.
+     * @param string $url Request URL.
      *
-     * @return string
+     * @return string|bool Response string or false on failure.
      */
     public function getUrl($url)
     {
@@ -28,6 +40,14 @@ class CUrl extends AbstractLibrary
         return $response;
     }
 
+    /**
+     * Perform a POST request.
+     *
+     * @param string $url Request URL.
+     * @param array $postData POST data.
+     *
+     * @return string|bool Response string or false on failure.
+     */
     public function postUrl($url, $postData = [])
     {
         $cUrl = curl_init();

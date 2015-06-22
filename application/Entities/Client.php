@@ -1,24 +1,73 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: פרנקו
- * Date: 12/05/2015
- * Time: 14:42
- */
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class Client
+ *
+ * Client entity class.
+ *
+ * @package Application\Entities
+ */
 class Client extends Entity
 {
 
+    /**
+     * Client ID.
+     *
+     * @var int|string|null
+     */
     public $id;
+
+    /**
+     * Client name.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Client address.
+     *
+     * @var string
+     */
     public $address;
+
+    /**
+     * Client phone number.
+     *
+     * @var string
+     */
     public $phone;
+
+    /**
+     * Client e-mail.
+     *
+     * @var string
+     */
     public $email;
+
+    /**
+     * Client web site url.
+     *
+     * @var string
+     */
     public $webSite;
+
+    /**
+     * Is client deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -33,7 +82,8 @@ class Client extends Entity
     }
 
     /**
-     * Implement validation rules.
+     * Validate client.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

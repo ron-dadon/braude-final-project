@@ -1,20 +1,87 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class User
+ *
+ * User entity.
+ *
+ * @package Application\Entities
+ */
 class User extends Entity
 {
 
+    /**
+     * User ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * User e-mail address.
+     *
+     * @var string
+     */
     public $email;
+
+    /**
+     * User password.
+     *
+     * @var string
+     */
     public $password;
+
+    /**
+     * User unique token.
+     *
+     * @var string
+     */
     public $token;
+
+    /**
+     * User first name.
+     *
+     * @var string
+     */
     public $firstName;
+
+    /**
+     * User last name.
+     *
+     * @var string
+     */
     public $lastName;
+
+    /**
+     * Is user an admin.
+     *
+     * @var int|bool
+     */
     public $admin;
+
+    /**
+     * User last activity timestamp.
+     *
+     * @var string
+     */
     public $lastActive;
+
+    /**
+     * Is user deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -32,7 +99,8 @@ class User extends Entity
     }
 
     /**
-     * Implement validation rules.
+     * Validate user.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

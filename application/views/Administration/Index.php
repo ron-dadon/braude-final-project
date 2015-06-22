@@ -1,12 +1,31 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Administration;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class Index
+ *
+ * Show administration index.
+ *
+ * @package Application\Views\Administration
+ */
 class Index extends AbstractView
 {
 
+    /**
+     * Render administration index.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         $this->getSharedView('Header')->render();

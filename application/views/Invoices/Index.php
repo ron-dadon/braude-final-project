@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Invoices;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\Invoice;
 
+/**
+ * Class Index
+ *
+ * Show system invoices.
+ *
+ * @package Application\Views\Invoices
+ */
 class Index extends AbstractView
 {
 
+    /**
+     * Render system invoices.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var Invoice[] $invoices */

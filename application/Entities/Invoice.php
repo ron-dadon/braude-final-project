@@ -1,21 +1,80 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class Invoice
+ *
+ * Invoice entity class.
+ *
+ * @package Application\Entities
+ */
 class Invoice extends Entity
 {
 
+    /**
+     * Invoice ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * Invoice note.
+     *
+     * @var string
+     */
     public $note;
+
+    /**
+     * Invoice date.
+     *
+     * @var string
+     */
     public $date;
+
+    /**
+     * Invoice receipt.
+     *
+     * @var string
+     */
     public $receipt;
+
+    /**
+     * Invoice tax invoice.
+     *
+     * @var string
+     */
     public $tax;
-    /** @var  Client */
+
+    /**
+     * Invoice client.
+     *
+     * @var  Client
+     */
     public $client;
-    /** @var Quote */
+
+    /**
+     * Invoice related quote.
+     *
+     * @var Quote
+     */
     public $quote;
+
+    /**
+     * Is invoice deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -31,7 +90,8 @@ class Invoice extends Entity
     }
 
     /**
-     * Implement validation rules.
+     * Validate invoice.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

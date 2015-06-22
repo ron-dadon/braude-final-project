@@ -1,12 +1,29 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Shared;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class Header
+ *
+ * View global header.
+ *
+ * @package Application\Views\Shared
+ */
 class Header extends AbstractView
 {
 
+    /**
+     * Render global header.
+     */
     public function render() {
         $autoLogoutTime = $this->configuration->item('user.security.auto-logout-time'); ?>
 <!DOCTYPE html>

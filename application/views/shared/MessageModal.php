@@ -1,16 +1,28 @@
 <?php
-
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Shared;
 
-
 use Trident\MVC\AbstractView;
 
+/**
+ * Class MessageModal
+ *
+ * Message modal widget.
+ *
+ * @package Application\Views\Shared
+ */
 class MessageModal extends AbstractView
 {
 
     /**
-     * Render out the view.
+     * Render message modal widget.
      */
     public function render() { ?>
     <!-- Message modal -->

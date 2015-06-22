@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Administration;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\LogEntry;
 
+/**
+ * Class Log
+ *
+ * Show system events log.
+ *
+ * @package Application\Views\Administration
+ */
 class Log extends AbstractView
 {
 
+    /**
+     * Render system events log.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var LogEntry[] $entries */

@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Products;
 
 use Trident\MVC\AbstractView;
 use Application\Entities\Product;
 
+/**
+ * Class Show
+ *
+ * Show product.
+ *
+ * @package Application\Views\Products
+ */
 class Show extends AbstractView
 {
 
+    /**
+     * Render product.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var Product $product */

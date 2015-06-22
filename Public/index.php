@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 define("VENDOR_PATH", "../");
 define("CONFIGURATION_FILE", "../Application/Configuration/configuration.json");
@@ -22,7 +29,7 @@ catch (Exception $e) { ?>
         </div>
         <div class="alert alert-danger">
             <h2><i class="glyphicon glyphicon-alert"></i> Oops! Something went wrong!</h2>
-            <h3>The application can not start. Please contact administrator.</h3>
+            <h3>The application could not start. Please contact administrator.</h3>
         </div>
     </div>
     </body>

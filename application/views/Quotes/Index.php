@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Quotes;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\Quote;
 
+/**
+ * Class Index
+ *
+ * Show system quotes.
+ *
+ * @package Application\Views\Quotes
+ */
 class Index extends AbstractView
 {
 
+    /**
+     * Render system quotes.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var Quote[] $quotes */

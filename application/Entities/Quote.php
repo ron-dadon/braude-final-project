@@ -1,31 +1,102 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: פרנקו
- * Date: 12/05/2015
- * Time: 14:41
- */
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 
 use Trident\ORM\Entity;
 
-class Quote extends Entity {
+/**
+ * Class Quote
+ *
+ * Quote entity.
+ *
+ * @package Application\Entities
+ */
+class Quote extends Entity
+{
 
+    /**
+     * Quote ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * Quote note.
+     *
+     * @var string
+     */
     public $note;
+
+    /**
+     * Quote creation date.
+     *
+     * @var string
+     */
     public $date;
+
+    /**
+     * Quote expiration date.
+     *
+     * @var string
+     */
     public $expire;
+
+    /**
+     * Quote tax rate.
+     *
+     * @var float
+     */
     public $taxRate;
+
+    /**
+     * Quote USD to NIS ratio.
+     *
+     * @var float
+     */
     public $usdRate;
+
+    /**
+     * Quote discount.
+     *
+     * @var float
+     */
     public $discount;
-    /** @var  QuoteStatus */
+
+    /**
+     * Quote status.
+     *
+     * @var  QuoteStatus
+     */
     public $status;
-    /** @var  Client */
+
+    /**
+     * Quote client.
+     *
+     * @var  Client
+     */
     public $client;
-    /** @var QuoteProduct[] */
+
+    /**
+     * Quote products list.
+     *
+     * @var QuoteProduct[]
+     */
     public $products;
+
+    /**
+     * Is quote deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -42,11 +113,21 @@ class Quote extends Entity {
         $this->status = 1;
     }
 
+    /**
+     * Get the tax amount.
+     *
+     * @return float
+     */
     public function getTaxAmount()
     {
         return $this->getSubTotal() * ($this->taxRate / 100);
     }
 
+    /**
+     * Get the sub total with discount, without tax.
+     *
+     * @return float
+     */
     public function getSubTotal()
     {
         $total = 0;
@@ -59,13 +140,19 @@ class Quote extends Entity {
         return $total;
     }
 
+    /**
+     * Get total + tax.
+     *
+     * @return float
+     */
     public function getTotalWithTax()
     {
         return $this->getSubTotal() + $this->getTaxAmount();
     }
 
     /**
-     * Implement validation rules.
+     * Validate quote.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

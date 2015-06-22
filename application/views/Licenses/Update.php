@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Licenses;
 
@@ -8,8 +15,21 @@ use Application\Entities\Client;
 use Application\Entities\LicenseType;
 use Trident\MVC\AbstractView;
 
+/**
+ * Class Update
+ *
+ * Show update license form.
+ *
+ * @package Application\Views\Licenses\
+ */
 class Update extends AbstractView
 {
+
+    /**
+     * Render update license form.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var License $license */

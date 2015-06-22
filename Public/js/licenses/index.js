@@ -1,6 +1,15 @@
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
+
 /*
  * Licenses Index
  */
+
 function deleteLicense(id)
 {
     $.post(appSettings.homeURI + "/Licenses/Delete", { delete_id: id } , function(result) {

@@ -1,4 +1,11 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Controllers;
 
@@ -238,6 +245,7 @@ class Products extends IacsBaseController
 
     /**
      * Get all products as a JSON object for AJAX request.
+     *
      * @throws \Trident\Exceptions\ModelNotFoundException
      */
     public function ajaxGetAll()

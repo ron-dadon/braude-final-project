@@ -1,14 +1,45 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Entities;
+namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class QuoteStatus
+ *
+ * Quote status entity.
+ *
+ * @package Application\Entities
+ */
 class QuoteStatus extends Entity
 {
 
+    /**
+     * Quote status ID.
+     *
+     * @var string|int|null
+     */
     public $id;
+
+    /**
+     * Quote status name.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Quote status is deleted.
+     *
+     * @var int|bool
+     */
     public $delete;
 
     /**
@@ -23,7 +54,8 @@ class QuoteStatus extends Entity
     }
 
     /**
-     * Implement validation rules.
+     * Validate quote status.
+     *
      * Return true if valid, or false otherwise.
      * Set validation errors to the errors array.
      *

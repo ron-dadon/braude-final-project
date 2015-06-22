@@ -1,10 +1,27 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
-namespace application\Models;
+namespace Application\Models;
 
-use application\Entities\LogEntry;
+use Application\Entities\LogEntry;
 use Trident\MVC\AbstractModel;
+use Trident\Database\Result;
+use Trident\Exceptions\EntityNotFoundException;
+use Trident\Exceptions\ModelNotFoundException;
 
+/**
+ * Class Logs
+ *
+ * This class provides the data-access layer to the logs in the database.
+ *
+ * @package Application\Models
+ */
 class Logs extends AbstractModel
 {
 
@@ -13,7 +30,7 @@ class Logs extends AbstractModel
      *
      * @param LogEntry $log Log entry.
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function saveLogEntry($log)
     {
@@ -25,9 +42,12 @@ class Logs extends AbstractModel
     }
 
     /**
-     * @return Users
-     * @throws \Trident\Exceptions\EntityNotFoundException
-     * @throws \Trident\Exceptions\ModelNotFoundException
+     * Get all log entries.
+     *
+     * @return LogEntry[]
+     *
+     * @throws EntityNotFoundException
+     * @throws ModelNotFoundException
      */
     public function getAll()
     {

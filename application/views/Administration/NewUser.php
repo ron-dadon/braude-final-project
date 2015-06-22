@@ -1,13 +1,32 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Administration;
 
 use \Trident\MVC\AbstractView;
 use Application\Entities\User;
 
+/**
+ * Class NewUser
+ *
+ * Show a new user form.
+ *
+ * @package Application\Views\Administration
+ */
 class NewUser extends AbstractView
 {
 
+    /**
+     * Render a new user form.
+     *
+     * @throws \Trident\Exceptions\ViewNotFoundException
+     */
     public function render()
     {
         /** @var User $user */

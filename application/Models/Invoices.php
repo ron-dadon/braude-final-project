@@ -1,9 +1,21 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Models;
 
 use Trident\MVC\AbstractModel;
+use Trident\Database\Result;
+use Trident\Exceptions\EntityNotFoundException;
+use Trident\Exceptions\ModelNotFoundException;
+use Trident\Exceptions\MySqlException;
 use Application\Entities\Invoice;
+use Application\Entities\Product;
 use Trident\Database\Query;
 
 /**
@@ -22,8 +34,9 @@ class Invoices extends AbstractModel
      * @param string|int $id Invoice ID.
      *
      * @return Invoice
-     * @throws \Trident\Exceptions\EntityNotFoundException
-     * @throws \Trident\Exceptions\ModelNotFoundException
+     *
+     * @throws EntityNotFoundException
+     * @throws ModelNotFoundException
      */
     public function getById($id)
     {
@@ -41,7 +54,8 @@ class Invoices extends AbstractModel
      * Get invoices count.
      *
      * @return int
-     * @throws \Trident\Exceptions\MySqlException
+     *
+     * @throws MySqlException
      */
     public function count()
     {
@@ -52,10 +66,10 @@ class Invoices extends AbstractModel
     }
 
     /**
-     * Get all the invoices from the database.
+     * Get all the invoices in the system.
      *
-     * @return \Trident\ORM\Entity[]|null
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @return Invoice[]|null
+     * @throws EntityNotFoundException
      */
     public function getAll()
     {
@@ -70,10 +84,11 @@ class Invoices extends AbstractModel
 
     /**
      * Get all unpaid invoices.
+     *
      * An unpaid invoice is an invoice without a tax invoice number.
      *
-     * @return null|\Trident\ORM\Entity[]
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @return Invoice[]|null
+     * @throws EntityNotFoundException
      */
     public function getUnpaid()
     {
@@ -92,8 +107,8 @@ class Invoices extends AbstractModel
      * @param string $term Search term (SQL Where condition)
      * @param array $values Values of the search term parameters.
      *
-     * @return null|\Trident\ORM\Entity[]
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @return Invoice[]|null
+     * @throws EntityNotFoundException
      */
     public function search($term, $values)
     {
@@ -110,24 +125,26 @@ class Invoices extends AbstractModel
     }
 
     /**
-     * Add a new invoice to the database.
+     * Add a new invoice to the system.
      *
      * @param Invoice $invoice
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function add($invoice)
     {
         return $this->getORM()->save($invoice);
     }
+
     /**
-     * Delete an invoice from the database.
+     * Delete an invoice from the system.
+     *
      * Performs a soft-delete.
      * Sets related quote status to APPROVED.
      *
      * @param Invoice $invoice
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function delete($invoice)
     {
@@ -144,7 +161,7 @@ class Invoices extends AbstractModel
      *
      * @return array Array of the count per months (1 to 12)
      *
-     * @throws \Trident\Exceptions\MySqlException
+     * @throws MySqlException
      */
     public function getByMonth()
     {
@@ -173,7 +190,7 @@ class Invoices extends AbstractModel
      *
      * @return array Array of the income per months (1 to 12) with total and total + tax fields.
      *
-     * @throws \Trident\Exceptions\MySqlException
+     * @throws MySqlException
      */
     public function getIncomeByMonth()
     {
@@ -210,6 +227,13 @@ class Invoices extends AbstractModel
         return $result;
     }
 
+    /**
+     * Get the top selling product from the invoices data.
+     *
+     * @param int $count The number of product to get.
+     *
+     * @return Product[]|null
+     */
     public function getTopSellingProducts($count = 3)
     {
         $invoices = $this->getAll();

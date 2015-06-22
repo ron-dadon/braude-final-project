@@ -1,12 +1,29 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Views\Shared;
 
 use \Trident\MVC\AbstractView;
 
+/**
+ * Class PrintHeader
+ *
+ * Print global header.
+ *
+ * @package Application\Views\Shared
+ */
 class PrintHeader extends AbstractView
 {
 
+    /**
+     * Render print global header.
+     */
     public function render() { ?>
 <!DOCTYPE html>
 <html>

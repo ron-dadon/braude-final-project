@@ -1,14 +1,38 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Entities;
 
 use Trident\ORM\Entity;
 
+/**
+ * Class QuoteProduct
+ *
+ * Quote product entity.
+ *
+ * @package Application\Entities
+ */
 class QuoteProduct extends Entity
 {
 
+    /**
+     * Quantity of the product.
+     *
+     * @var int
+     */
     public $quantity;
-    /** @var  Product */
+
+    /**
+     * Related product.
+     *
+     * @var  Product
+     */
     public $product;
 
     /**
@@ -20,6 +44,11 @@ class QuoteProduct extends Entity
         $this->_prefix = "quote_product_";
     }
 
+    /**
+     * Validate quote product.
+     *
+     * @return bool
+     */
     public function isValid()
     {
         $valid = true;

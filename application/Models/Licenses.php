@@ -1,19 +1,39 @@
 <?php
+/***********************************************************************************************************************
+ * IACS Management System
+ * ORT BRAUDE COLLEGE OF ENGINEERING
+ * Information System Engineering - Final Project
+ * Students: Ron Dadon, Guy Franco
+ * Project adviser: PhD Miri Weiss-Cohen
+ **********************************************************************************************************************/
 
 namespace Application\Models;
 
-use application\Entities\Invoice;
+use Application\Entities\Invoice;
 use Trident\MVC\AbstractModel;
 use Application\Entities\License;
+use Trident\Database\Result;
+use Application\Entities\Product;
+use Application\Entities\Client;
+use Trident\Exceptions\EntityNotFoundException;
 
+/**
+ * Class Licenses
+ *
+ * This class provides the data-access layer to the licenses in the database.
+ *
+ * @package Application\Models
+ */
 class Licenses extends AbstractModel
 {
 
     /**
-     * @param $id
+     * Get license by it's ID.
      *
-     * @return License
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @param string|int $id License ID.
+     *
+     * @return License|null
+     * @throws EntityNotFoundException
      */
     public function getById($id)
     {
@@ -29,8 +49,10 @@ class Licenses extends AbstractModel
     }
 
     /**
-     * @return \Application\Entities\License[]
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * Get all licenses.
+     *
+     * @return License[]|null
+     * @throws EntityNotFoundException
      */
     public function getAll()
     {
@@ -43,11 +65,13 @@ class Licenses extends AbstractModel
     }
 
     /**
-     * @param $term
-     * @param $values
+     * Get licenses that match the search.
      *
-     * @return \Application\Entities\License[]
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @param string $term Search term (WHERE condition).
+     * @param array $values Term parameters values.
+     *
+     * @return License[]|null
+     * @throws EntityNotFoundException
      */
     public function search($term, $values)
     {
@@ -64,18 +88,23 @@ class Licenses extends AbstractModel
     }
 
     /**
+     * Add a new license to the system.
+     *
      * @param License $license
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function add($license)
     {
         return $this->getORM()->save($license);
     }
+
     /**
+     * Delete a license from the system.
+     *
      * @param License $license
      *
-     * @return \Trident\Database\Result
+     * @return Result
      */
     public function delete($license)
     {
@@ -87,15 +116,15 @@ class Licenses extends AbstractModel
     /**
      * Add a new license from request file.
      *
-     * @param string $file
-     * @param string $serial
-     * @param \Application\Entities\Product $product
-     * @param \Application\Entities\Client $client
-     * @param \Application\Entities\Invoice $invoice
-     * @param string $expire
+     * @param string $file Request file path.
+     * @param string $serial Serial number.
+     * @param Product $product Product instance.
+     * @param Client $client Client instance.
+     * @param Invoice|null $invoice Invoice instance.
+     * @param string $expire Expiration date.
      *
-     * @return \Trident\Database\Result|string
-     * @throws \Trident\Exceptions\EntityNotFoundException
+     * @return Result|string
+     * @throws EntityNotFoundException
      */
     public function fromRequest($file, $serial, $product, $client, $expire, $invoice = null)
     {
@@ -126,7 +155,7 @@ class Licenses extends AbstractModel
      *
      * @param int $month Month of the year.
      *
-     * @return \Application\Entities\License[]
+     * @return License[]|null
      */
     public function expireInMonth($month)
     {
@@ -138,10 +167,11 @@ class Licenses extends AbstractModel
      *
      * @param int|string $invoice Invoice ID.
      *
-     * @return \Application\Entities\License[]
+     * @return License[]|null
      */
     public function getLicensesByInvoice($invoice)
     {
         return $this->search('license_invoice = :in', [':in' => $invoice]);
     }
+
 } 
