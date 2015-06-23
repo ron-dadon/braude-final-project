@@ -96,9 +96,12 @@ class Index extends AbstractView
             </div>
         </div>
     </div>
-    <div class="panel">
-        <div class="panel-footer text-right">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update profile</button>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-footer text-right">
+                <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-check"></i> Update profile</button>
+                <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-check"></i> Update profile</button>
+            </div>
         </div>
     </div>
     </form>

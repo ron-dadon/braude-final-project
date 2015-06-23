@@ -179,18 +179,20 @@ class Show extends AbstractView
         </div>
         <?php endif; ?>
     </div>
-    <div class="panel">
-        <div class="panel-footer text-right">
-            <div class="hidden-xs">
-                <a href="<?php $this->publicPath() ?>Invoices" class="btn btn-link">Invoices</a>
-                <?php if ($invoice->client->email): ?><button data-send-id="<?php echo $invoice->id?>" data-send-email="<?php echo $invoice->client->email?>" class="btn btn-default send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail invoice</button><?php endif; ?>
-                <a href="<?php $this->publicPath() ?>Invoices/Print/<?php echo $invoice->id ?>" target="_blank" class="btn btn-default"><i class="fa fa-fw fa-print"></i> Print invoice</a>
-                <a href="<?php $this->publicPath() ?>Invoices/Update/<?php echo $invoice->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update invoice</a>
-            </div>
-            <div class="visible-xs">
-                <a href="<?php $this->publicPath() ?>Invoices/Update/<?php echo $invoice->id ?>" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i> Update invoice</a>
-                <?php if ($invoice->client->email): ?><button data-send-id="<?php echo $invoice->id?>" data-send-email="<?php echo $invoice->client->email?>" class="btn btn-default btn-block send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail invoice</button><?php endif; ?>
-                <a href="<?php $this->publicPath() ?>Invoices" class="btn btn-link btn-block">Invoices</a>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-footer text-right">
+                <div class="hidden-xs">
+                    <a href="<?php $this->publicPath() ?>Invoices" class="btn btn-link">Invoices</a>
+                    <?php if ($invoice->client->email): ?><button data-send-id="<?php echo $invoice->id?>" data-send-email="<?php echo $invoice->client->email?>" class="btn btn-default send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail invoice</button><?php endif; ?>
+                    <a href="<?php $this->publicPath() ?>Invoices/Print/<?php echo $invoice->id ?>" target="_blank" class="btn btn-default"><i class="fa fa-fw fa-print"></i> Print invoice</a>
+                    <a href="<?php $this->publicPath() ?>Invoices/Update/<?php echo $invoice->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update invoice</a>
+                </div>
+                <div class="visible-xs">
+                    <a href="<?php $this->publicPath() ?>Invoices/Update/<?php echo $invoice->id ?>" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i> Update invoice</a>
+                    <?php if ($invoice->client->email): ?><button data-send-id="<?php echo $invoice->id?>" data-send-email="<?php echo $invoice->client->email?>" class="btn btn-default btn-block send-mail-btn"><i class="fa fa-fw fa-send"></i> Mail invoice</button><?php endif; ?>
+                    <a href="<?php $this->publicPath() ?>Invoices" class="btn btn-link btn-block">Invoices</a>
+                </div>
             </div>
         </div>
     </div>

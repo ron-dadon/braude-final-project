@@ -86,6 +86,12 @@ $(document).on('ready', function() {
         setTimeout(function() { alerts.alert('close'); }, 3000);
     }
     $('.selectpicker').selectpicker();
+    $('button[type=submit]').data('loading-text', "<i class='fa fa-fw fa-spin fa-spinner'></i> Please wait...").on('click', function() { $(this).button('loading'); });
+    $('form').validator().on('submit', function (e) {
+        if (e.isDefaultPrevented()) {
+            $('button[type=submit]').button('reset').prop('disabled', true);
+        }
+    });
 });
 
 function showMessageModal(titleIcon, msgTitle, msgBody, type, autoHide)

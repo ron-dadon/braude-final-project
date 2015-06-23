@@ -40,6 +40,7 @@ $(document).on('ready', function() {
                //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
            },
            "licenses": function (column, row) {
+			   if (row.productType == 'Training') return;
                return "<a style=\"cursor:pointer\" title=\"Filter by " + row.productLicense + "\" onclick=\"$('#products-table').bootgrid('search','" + row.productLicense + "')\">" + row.productLicense + "</a>";
                //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
            },

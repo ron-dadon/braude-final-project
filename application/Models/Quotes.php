@@ -205,7 +205,16 @@ class Quotes extends AbstractModel
         {
             throw new \InvalidArgumentException("Search quotes values mush be an array");
         }
-        return $this->getORM()->find('Quote',"$term AND quote_delete = 0", $values);
+        $quotes = $this->getORM()->find('Quote',"$term AND quote_delete = 0", $values);
+        /**
+         * @var  $key
+         * @var Quote $quote
+         */
+        foreach ($quotes as $key => $quote)
+        {
+            $quotes[$key] = $this->getById($quote->id);
+        }
+        return $quotes;
     }
 
     /**

@@ -220,6 +220,7 @@ class Clients extends IacsBaseController
                 {
                     $this->addLogEntry("Updated client with ID: " . $client->id, "success");
                     $this->setSessionAlertMessage("Client {$client->name} updated.", "success");
+                    $this->redirect('/Clients/Show/' . $client->id);
                 }
                 else
                 {

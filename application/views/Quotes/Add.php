@@ -160,10 +160,14 @@ class Add extends AbstractView
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Add quote</button>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link hidden-xs">Back</a>
+                    <button type="submit" class="btn btn-primary hidden-xs" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Add quote</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs" id="add-quote-btn-xs" disabled><i class="fa fa-fw fa-plus"></i> Add quote</button>
+                    <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link btn-block visible-xs">Back</a>
+                </div>
             </div>
         </div>
     </form>

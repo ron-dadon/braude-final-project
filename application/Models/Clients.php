@@ -123,4 +123,23 @@ class Clients extends AbstractModel
 
     }
 
+    /**
+     * Get all non active client.
+     * A non active client is a client without any quotes.
+     *
+     * @return Client[]|null
+     * @throws MySqlException
+     */
+    public function getNonActiveClients()
+    {
+        $query = new Query("SELECT DISTINCT quote_client FROM quotes WHERE quote_delete = 0");
+        $query = $this->getMysql()->executeQuery($query);
+        if (!$query->isSuccess()) return null;
+        $ids = [];
+        foreach ($query->getResultSet() as $row) {
+            $ids[] = $row['quote_client'];
+        }
+        $ids = implode(',', $ids);
+        return $this->search("client_id NOT IN ({$ids})",[]);
+    }
 } 

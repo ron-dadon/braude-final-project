@@ -110,8 +110,37 @@ class Reports extends IacsBaseController
             $this->redirect('/Reports');
         }
         $this->addLogEntry("Report Quotes By Status create successfully");
-        var_dump($list);
+        $status = $list[0]->status->name;
+        $this->getView(['quotes' => $list, 'status' => $status])->render();
+    }
 
+    /**
+     * Non active clients report.
+     *
+     * @throws \Trident\Exceptions\IOException
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function NonActiveClients()
+    {
+        /** @var Clients $clients */
+        $clients = $this->loadModel('Clients');
+
+        $list = $clients->getNonActiveClients();
+        if ($list === null)
+        {
+            $this->getLog()->newEntry("Failed to retrieve clients from the database", "database");
+            $this->addLogEntry("Failed to retrieve clients from the database", "danger");
+            $this->setSessionAlertMessage("Error generating report. Please check system log for further information.","error");
+            $this->redirect('/Reports');
+        }
+        if (!count($list))
+        {
+            $this->addLogEntry("Report Non Active Clients create successfully");
+            $this->setSessionAlertMessage("Report Non Active Clients: no results");
+            $this->redirect('/Reports');
+        }
+        $this->addLogEntry("Report Non Active Clients create successfully");
+        $this->getView(['clients' => $list])->render();
     }
 
     /**
@@ -143,7 +172,7 @@ class Reports extends IacsBaseController
             $this->redirect('/Reports');
         }
         $this->addLogEntry("Report Open Invoices create successfully");
-        var_dump($list);
+        $this->getView(['invoices' => $list])->render();
     }
 
     /**

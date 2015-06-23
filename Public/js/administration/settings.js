@@ -24,6 +24,9 @@ $(document).on('ready', function() {
     $('#save-button').on('click', function() {
         $('#settings-form').submit();
     });
+    $('#save-button-xs').on('click', function() {
+        $('#settings-form').submit();
+    });
     $('#settings-form').validator().on('submit', function(e) {
         if (e.isDefaultPrevented())
         {

@@ -84,12 +84,14 @@ class Index extends AbstractView
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer text-right">
-            <div class="hidden-xs">
-                <button type="button" class="btn btn-default" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
-            </div>
-            <div class="visible-xs">
-                <button type="button" class="btn btn-default btn-block" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+        <div class="row">
+            <div class="panel-footer text-right">
+                <div class="hidden-xs">
+                    <button type="button" class="btn btn-default" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                </div>
+                <div class="visible-xs">
+                    <button type="button" class="btn btn-default btn-block" onclick="$('#invoices-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                </div>
             </div>
         </div>
     </div>

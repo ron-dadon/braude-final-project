@@ -139,13 +139,20 @@ class Show extends AbstractView
 <?php endif; ?>
                 </div>
             </div>
-            <div class="panel">
-                <div class="panel-footer text-right">
-                    <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link">Back</a>
-                    <?php if ($license->product->manufactor === 'iacs'): ?>
-                    <a href="<?php $this->publicPath() ?>Licenses/Download/<?php echo $license->id ?>" class="btn btn-success"><i class="fa fa-fw fa-download"></i> Download license</a>
-                    <?php endif; ?>
-                    <a href="<?php $this->publicPath() ?>Licenses/Update/<?php echo $license->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update license</a>
+            <div class="row">
+                <div class="panel">
+                    <div class="panel-footer text-right">
+                        <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link hidden-xs">Back</a>
+                        <?php if ($license->product->manufactor === 'iacs'): ?>
+                        <a href="<?php $this->publicPath() ?>Licenses/Download/<?php echo $license->id ?>" class="btn btn-success hidden-xs"><i class="fa fa-fw fa-download"></i> Download license</a>
+                        <?php endif; ?>
+                        <a href="<?php $this->publicPath() ?>Licenses/Update/<?php echo $license->id ?>" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-edit"></i> Update license</a>
+                        <a href="<?php $this->publicPath() ?>Licenses/Update/<?php echo $license->id ?>" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-edit"></i> Update license</a>
+                        <?php if ($license->product->manufactor === 'iacs'): ?>
+                            <a href="<?php $this->publicPath() ?>Licenses/Download/<?php echo $license->id ?>" class="btn btn-success btn-block visible-xs"><i class="fa fa-fw fa-download"></i> Download license</a>
+                        <?php endif; ?>
+                        <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link btn-block visible-xs">Back</a>
+                    </div>
                 </div>
             </div>
         </div>

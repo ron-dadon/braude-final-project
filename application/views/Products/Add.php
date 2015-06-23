@@ -59,9 +59,6 @@ class Add extends AbstractView
 <?php endif; ?>
     <form method="post" id="new-client-form" data-toggle="validator">
         <div class="panel">
-            <div class="panel-heading">
-                <h3>Product details:</h3>
-            </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-lg-2">
@@ -91,7 +88,7 @@ class Add extends AbstractView
                     </div>
                     <div class="col-xs-12 col-lg-2">
                         <div class="form-group">
-                            <label for="product-basePrice">Base price:</label>
+                            <label for="product-basePrice">Price:</label>
                             <input type="number" id="product-basePrice" name="product_basePrice" class="form-control" value="<?php echo $this->escape($product->basePrice) ?>" required min="0" data-error="Please enter a valid price">
                             <div class="help-block with-errors"></div>
                         </div>
@@ -136,7 +133,7 @@ class Add extends AbstractView
                 <div class="row <?php if ($product->type !== "training"): ?>hidden<?php endif; ?>" id="training-details">
                     <div class="col-xs-12 col-lg-3">
                         <div class="form-group">
-                            <label for="product-length">Training length:</label>
+                            <label for="product-length">Training length (Hours):</label>
                             <input type="number" id="product-length" name="product_length" class="form-control" value="<?php echo $this->escape($product->length) ?>" min="1" data-error="Please enter training length in hours. Minimum 1 hour.">
                             <div class="help-block with-errors"></div>
                         </div>
@@ -144,10 +141,14 @@ class Add extends AbstractView
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Products" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add product</button>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <a href="<?php $this->publicPath() ?>Products" class="btn btn-link hidden-xs">Back</a>
+                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add product</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add product</button>
+                    <a href="<?php $this->publicPath() ?>Products" class="btn btn-link btn-block visible-xs">Back</a>
+                </div>
             </div>
         </div>
     </form>

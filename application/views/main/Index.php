@@ -140,7 +140,7 @@ class Index extends AbstractView
                         </div>
                         <div class="list-group">
                             <?php foreach ($invoices as $invoice): ?>
-                                <a class="list-group-item" href="<?php $this->publicPath() ?>Invoice/Show/<?php echo $invoice->id ?>"><i class="fa fa-fw fa-file-text"></i> Invoice No. <?php echo str_pad($invoice->id, 8, '0', STR_PAD_LEFT) ?></a>
+                                <a class="list-group-item" href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>"><i class="fa fa-fw fa-file-text"></i> Invoice No. <?php echo str_pad($invoice->id, 8, '0', STR_PAD_LEFT) ?></a>
                                 <?php $totalTax += $invoice->quote->getTotalWithTax(); ?>
                                 <?php $total += $invoice->quote->getSubTotal(); ?>
                             <?php endforeach; ?>

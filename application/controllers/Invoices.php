@@ -69,6 +69,30 @@ class Invoices extends IacsBaseController
     }
 
     /**
+     * Print invoice.
+     *
+     * @param string|int $id Invoice ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function PrintInvoice($id)
+    {
+        /** @var InvoicesModel $invoices */
+        $invoices = $this->loadModel('Invoices');
+        /** @var Licenses $licenses */
+        $licenses = $this->loadModel('Licenses');
+        $invoice = $invoices->getById($id);
+        if ($invoice === null) {
+            $this->setSessionAlertMessage("Can't print invoice with ID " . htmlspecialchars($id) . ". Invoice doesn't exists.", "error");
+            $this->redirect('/Invoices');
+        }
+        $viewData['licenses'] = $licenses->getLicensesByInvoice($invoice->id);
+        $viewData['invoice'] = $invoice;
+        $viewData['title'] = "IACS Invoice No. " . str_pad($invoice->id, 8, '0', STR_PAD_LEFT);
+        $this->getView($viewData)->render();
+    }
+
+    /**
      * Add a new invoice based on a quote.
      *
      * @param string|int $quoteId The quote to base on.

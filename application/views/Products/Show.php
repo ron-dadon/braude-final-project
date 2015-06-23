@@ -63,7 +63,7 @@ class Show extends AbstractView
                 </div>
                 <div class="col-xs-12 col-lg-2">
                     <div class="form-group">
-                        <label for="product-base-price">Base price:</label>
+                        <label for="product-base-price">Price:</label>
                         <p class="form-control-static" id="product-base-price"><strong><?php echo number_format($product->basePrice) ?></strong></p>
                     </div>
                 </div>
@@ -103,10 +103,14 @@ class Show extends AbstractView
             </div>
         </div>
     </div>
-    <div class="panel">
-        <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Products" class="btn btn-link">Back</a>
-            <a href="<?php $this->publicPath() ?>Products/Update/<?php echo $product->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update product</a>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-footer text-right">
+                <a href="<?php $this->publicPath() ?>Products" class="btn btn-link hidden-xs">Back</a>
+                <a href="<?php $this->publicPath() ?>Products/Update/<?php echo $product->id ?>" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-edit"></i> Update product</a>
+                <a href="<?php $this->publicPath() ?>Products/Update/<?php echo $product->id ?>" class="btn btn-primary  visible-xs"><i class="fa fa-fw fa-edit"></i> Update product</a>
+                <a href="<?php $this->publicPath() ?>Products" class="btn btn-link btn-block visible-xs">Back</a>
+            </div>
         </div>
     </div>
 </div>

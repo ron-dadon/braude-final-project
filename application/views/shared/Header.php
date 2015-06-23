@@ -69,7 +69,7 @@ class Header extends AbstractView
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->
 </head>
-<?php if ($this->data['viewName'] === "Main\\Login"): ?><body class="dark"><?php else: ?><body><?php endif; ?>
+<body>
 <?php
     }
 

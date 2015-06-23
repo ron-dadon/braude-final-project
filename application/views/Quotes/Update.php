@@ -118,7 +118,7 @@ class Update extends AbstractView
                                     <td>
                                         <select class="selectpicker" data-live-search="true" data-width="100%" name="quote_products[]" id="product-line-<?php echo $i?>" data-id="<?php echo $i ?>">
                                         <?php foreach ($products as $p): ?>
-                                            <option value="<?php echo $p->id; ?>" <?php if ($p->id === $product->product->id): ?>selected<?php endif; ?>><?php echo $p->name; ?></option>
+                                            <option value="<?php echo $p->id; ?>" <?php if ($p->id === $product->product->id): ?>selected<?php endif; ?>><?php echo $p->name; ?><?php if ($product->product->type == 'software') { echo " ({$product->product->license->name})"; } ?></option>
                                         <?php endforeach; ?>
                                         </select>
                                     </td>
@@ -183,10 +183,14 @@ class Update extends AbstractView
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Save quote</button>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link hidden-xs">Back</a>
+                    <button type="submit" class="btn btn-primary hidden-xs" id="add-quote-btn" disabled><i class="fa fa-fw fa-plus"></i> Save quote</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs" id="add-quote-btn-xs" disabled><i class="fa fa-fw fa-plus"></i> Save quote</button>
+                    <a href="<?php $this->publicPath() ?>Quotes" class="btn btn-link btn-block visible-xs">Back</a>
+                </div>
             </div>
         </div>
     </form>

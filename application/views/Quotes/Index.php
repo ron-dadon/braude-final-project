@@ -78,14 +78,16 @@ class Index extends AbstractView
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer text-right">
-            <div class="hidden-xs">
-                <button type="button" class="btn btn-default pull-left" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
-                <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New quote</a>
-            </div>
-            <div class="visible-xs">
-                <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary btn-block"><i class="fa fa-fw fa-plus"></i> New quote</a>
-                <button type="button" class="btn btn-default btn-block" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+        <div class="row">
+            <div class="panel-footer text-right">
+                <div class="hidden-xs">
+                    <button type="button" class="btn btn-default pull-left" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                    <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New quote</a>
+                </div>
+                <div class="visible-xs">
+                    <a href="<?php $this->publicPath() ?>Quotes/New" class="btn btn-primary btn-block"><i class="fa fa-fw fa-plus"></i> New quote</a>
+                    <button type="button" class="btn btn-default btn-block" onclick="$('#quotes-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
+                </div>
             </div>
         </div>
     </div>

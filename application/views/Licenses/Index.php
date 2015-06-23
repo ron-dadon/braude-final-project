@@ -78,8 +78,11 @@ class Index extends AbstractView
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer text-right">
-                    <a href="<?php $this->publicPath() ?>Licenses/New" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> New License</a>
+                <div class="row">
+                    <div class="panel-footer text-right">
+                        <a href="<?php $this->publicPath() ?>Licenses/New" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> New License</a>
+                        <a href="<?php $this->publicPath() ?>Licenses/New" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> New License</a>
+                    </div>
                 </div>
             </div>
         </div>

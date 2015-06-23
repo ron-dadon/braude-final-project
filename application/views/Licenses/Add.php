@@ -154,10 +154,14 @@ class Add extends AbstractView
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add license</button>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link hidden-xs">Back</a>
+                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add license</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add license</button>
+                    <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link btn-block visible-xs">Back</a>
+                </div>
             </div>
         </div>
     </form>

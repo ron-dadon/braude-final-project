@@ -22,5 +22,5 @@
     "user.email.password": "12345678",
     "user.general.tax": "18",
     "api.currency": "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22USDILS%22%29&env=store://datatables.org/alltableswithkeys",
-    "api.last": "3.8289"
+    "api.last": "3.7584"
 }

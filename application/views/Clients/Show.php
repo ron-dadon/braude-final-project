@@ -47,6 +47,11 @@ class Show extends AbstractView
         <h4><i class="fa fa-fw fa-times-circle"></i><?php echo $this->escape($this->data['error']) ?></h4>
     </div>
 <?php endif; ?>
+    <?php if (isset($this->data['success'])): ?>
+        <div class="alert alert-success alert-dismissable">
+            <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+        </div>
+    <?php endif; ?>
     <div class="panel">
         <div class="row">
             <div class="col-xs-12 col-lg-6">
@@ -68,11 +73,15 @@ class Show extends AbstractView
             </div>
         </div>
     </div>
+    <div class="row">
     <div class="panel">
         <div class="panel-footer text-right">
-            <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link">Back</a>
-            <a href="<?php $this->publicPath() ?>Clients/Update/<?php echo $client->id ?>" class="btn btn-primary"><i class="fa fa-fw fa-edit"></i> Update client</a>
+            <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link hidden-xs">Back</a>
+            <a href="<?php $this->publicPath() ?>Clients/Update/<?php echo $client->id ?>" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-edit"></i> Update client</a>
+            <a href="<?php $this->publicPath() ?>Clients/Update/<?php echo $client->id ?>" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-edit"></i> Update client</a>
+            <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link btn-block visible-xs">Back</a>
         </div>
+    </div>
     </div>
 </div>
 <script src="<?php $this->publicPath() ?>js/clients/client-show.js?<?php echo date('YmdHis') ?>"></script>

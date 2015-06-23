@@ -192,6 +192,11 @@
             "method": "Show"
         },
         {
+            "pattern": "/Invoices/Print/(id)",
+            "controller": "Invoices",
+            "method": "PrintInvoice"
+        },
+        {
             "pattern": "/Invoices/Update/(id)",
             "controller": "Invoices",
             "method": "Update"
@@ -260,6 +265,11 @@
             "pattern": "/Reports/ProductsSales",
             "controller": "Reports",
             "method": "ProductsSales"
+        },
+        {
+            "pattern": "/Reports/NonActiveClients",
+            "controller": "Reports",
+            "method": "NonActiveClients"
         },
         {
             "pattern": "/Reports/QuotesByStatus/(status)",

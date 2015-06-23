@@ -84,6 +84,7 @@ function calcTotals()
     $('#quote-tax').html(formatNumber(parseInt(tax).toString()));
     $('#quote-total-tax').html(formatNumber(parseInt(totalTax).toString()));
     $('#add-quote-btn').prop('disabled', total === 0);
+    $('#add-quote-btn-xs').prop('disabled', total === 0);
 }
 
 $(document).on('ready', function() {

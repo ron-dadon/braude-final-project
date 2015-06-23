@@ -388,11 +388,19 @@ class Quotes extends IacsBaseController
         $this->getLibraries()->load('Mailer');
         /** @var \Application\Libraries\Mailer $mailer */
         $mailer = $this->getLibraries()->Mailer;
-        $altBody = $body = "IACS Quote";
+        ob_start();
+        $viewData['quote'] = $quote;
+        $viewData['title'] = "IACS Quote No. " . str_pad($quote->id, 8, '0', STR_PAD_LEFT);
+        $this->getView($viewData, "Quotes\\PrintQuote")->render();
+        $altBody = $body = ob_get_contents();
+        ob_end_clean();
         if ($mailer->send([$quote->client->email => $quote->client->name], 'Quote from IACS', $body, $altBody,[],[],[],['display_name' => 'IACS']))
         {
-            $quote->status = 2;
-            $this->getORM()->save($quote);
+            if ($quote->status < 2)
+            {
+                $quote->status = 2;
+                $this->getORM()->save($quote);
+            }
             echo '1';
         } else {
             echo $mailer->getError();

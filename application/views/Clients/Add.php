@@ -56,9 +56,6 @@ class Add extends AbstractView
 <?php endif; ?>
             <form method="post" id="new-client-form" data-toggle="validator">
                 <div class="panel">
-                    <div class="panel-heading">
-                        <h3>Client details:</h3>
-                    </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-lg-3">
@@ -110,10 +107,14 @@ class Add extends AbstractView
                         </div>
                     </div>
                 </div>
-                <div class="panel">
-                    <div class="panel-footer text-right">
-                        <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link">Back</a>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Add client</button>
+                <div class="row">
+                    <div class="panel">
+                        <div class="panel-footer text-right">
+                            <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link hidden-xs">Back</a>
+                            <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add client</button>
+                            <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add client</button>
+                            <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link btn-block visible-xs">Back</a>
+                        </div>
                     </div>
                 </div>
             </form>

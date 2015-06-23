@@ -123,15 +123,17 @@ class Update extends AbstractView
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <div class="hidden-xs">
-                    <a href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>" class="btn btn-link">Back</a>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update</button>
-                </div>
-                <div class="visible-xs">
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-fw fa-check"></i> Update</button>
-                    <a href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>" class="btn btn-link btn-block">Back</a>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <div class="hidden-xs">
+                        <a href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>" class="btn btn-link">Back</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update</button>
+                    </div>
+                    <div class="visible-xs">
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-fw fa-check"></i> Update</button>
+                        <a href="<?php $this->publicPath() ?>Licenses/Show/<?php echo $license->id ?>" class="btn btn-link btn-block">Back</a>
+                    </div>
                 </div>
             </div>
         </div>

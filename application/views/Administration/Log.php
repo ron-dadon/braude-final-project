@@ -71,7 +71,8 @@ class Log extends AbstractView
         </div>
         <div class="row">
             <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link">Back</a>
+                <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link hidden-xs">Back</a>
+                <a href="<?php $this->publicPath() ?>Administration" class="btn btn-link btn-block visible-xs">Back</a>
             </div>
         </div>
     </div>

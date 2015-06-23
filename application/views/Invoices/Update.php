@@ -182,15 +182,17 @@ class Update extends AbstractView
             </div>
         </div>
     </div>
-    <div class="panel">
-        <div class="panel-footer text-right">
-            <div class="hidden-xs">
-                <a href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>" class="btn btn-link">Back to invoice</a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update invoice</button>
-            </div>
-            <div class="visible-xs">
-                <a href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>" class="btn btn-link btn-block">Back to invoice</a>
-                <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-fw fa-check"></i> Update invoice</button>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-footer text-right">
+                <div class="hidden-xs">
+                    <a href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>" class="btn btn-link">Back to invoice</a>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update invoice</button>
+                </div>
+                <div class="visible-xs">
+                    <a href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>" class="btn btn-link btn-block">Back to invoice</a>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-fw fa-check"></i> Update invoice</button>
+                </div>
             </div>
         </div>
     </div>

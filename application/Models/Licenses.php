@@ -41,7 +41,9 @@ class Licenses extends AbstractModel
         $license = $this->getORM()->findById('License', $id, "license_delete = 0");
         $license->client = $this->getORM()->findById('Client', $license->client, 'client_delete = 0');
         $license->type = $this->getORM()->findById('LicenseType', $license->type, 'license_type_delete = 0');
-        $license->product = $this->getORM()->findById('Product', $license->product, 'product_delete = 0');
+        /** @var Products $products */
+        $products = $this->loadModel('Products');
+        $license->product = $products->getById($license->product);
         if ($license->invoice !== null) {
             $license->invoice = $this->getORM()->findById('Invoice', $license->invoice, 'invoice_delete = 0');
         }

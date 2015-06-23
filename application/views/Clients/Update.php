@@ -62,9 +62,6 @@ class Update extends AbstractView
 <?php endif; ?>
     <form method="post" id="update-client-form" data-toggle="validator">
         <div class="panel">
-            <div class="panel-heading bg-main padded-5px">
-                <h3><i class="fa fa-fw fa-info-circle"></i> Client details:</h3>
-            </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-lg-3">
@@ -105,21 +102,16 @@ class Update extends AbstractView
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12 col-lg-3">
-                        <div class="form-group">
-                            <input type="checkbox" id="redirect-update" name="redirect_update">
-                            <label for="redirect-update">Go to client card after addition</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-footer text-right">
-                <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link">Back</a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"></i> Update client</button>
+        <div class="row">
+            <div class="panel">
+                <div class="panel-footer text-right">
+                    <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link hidden-xs">Back</a>
+                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-check"></i> Update client</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-check"></i> Update client</button>
+                    <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link btn-block visible-xs">Back</a>
+                </div>
             </div>
         </div>
     </form>

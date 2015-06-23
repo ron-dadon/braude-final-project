@@ -113,7 +113,26 @@ class Index extends AbstractView
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12 col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="no-margin">Non active clients</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <p>Show all non active clients. A non active client is a client without quotes and/or invoices.</p>
+                    </form>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $('button.btn').data('loading-text', "<i class='fa fa-fw fa-spin fa-spinner'></i> Creating report...").on('click', function() { $(this).button('loading'); });
+</script>
 <?php
         $this->getSharedView('Footer')->render();
     }
