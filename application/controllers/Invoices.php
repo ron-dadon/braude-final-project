@@ -93,6 +93,42 @@ class Invoices extends IacsBaseController
     }
 
     /**
+     * Email invoice.
+     *
+     * @param string|int $id Invoice ID.
+     *
+     * @throws \Trident\Exceptions\ModelNotFoundException
+     */
+    public function EmailInvoice($id)
+    {
+        /** @var InvoicesModel $invoices */
+        $invoices = $this->loadModel('Invoices');
+        /** @var Licenses $licenses */
+        $licenses = $this->loadModel('Licenses');
+        $invoice = $invoices->getById($id);
+        if ($invoice === null) {
+            $this->setSessionAlertMessage("Can't print invoice with ID " . htmlspecialchars($id) . ". Invoice doesn't exists.", "error");
+            $this->redirect('/Invoices');
+        }
+        $this->getLibraries()->load('Mailer');
+        /** @var \Application\Libraries\Mailer $mailer */
+        $mailer = $this->getLibraries()->Mailer;
+        ob_start();
+        $viewData['licenses'] = $licenses->getLicensesByInvoice($invoice->id);
+        $viewData['invoice'] = $invoice;
+        $viewData['title'] = "IACS Invoice No. " . str_pad($invoice->id, 8, '0', STR_PAD_LEFT);
+        $this->getView($viewData)->render();
+        $altBody = $body = ob_get_contents();
+        ob_end_clean();
+        if ($mailer->send([$invoice->client->email => $invoice->client->name], 'Quote from IACS', $body, $altBody,[],[],[],['display_name' => 'IACS']))
+        {
+            echo '1';
+        } else {
+            echo $mailer->getError();
+        }
+    }
+
+    /**
      * Add a new invoice based on a quote.
      *
      * @param string|int $quoteId The quote to base on.

@@ -81,9 +81,11 @@ class Add extends AbstractView
                         <div class="form-group">
                             <input type="hidden" id="license-type" name="license_type" value="0">
                             <label for="license-product">Product:</label>
+                            <script>var products = [];</script>
                             <select id="license-product" name="license_product" class="selectpicker" data-live-search="true" data-width="100%">
                                 <?php foreach ($products as $product): ?>
-                                    <option value="<?php echo $product->id?>" class="products-list" data-type="<?php echo $product->license ?>"><?php echo $product->name . " ({$product->license->name})" ?></option>
+                                    <script>products[<?php echo $product->id ?>] ={ manufacturer: "<?php echo strtolower($product->manufactor) ?>", type: "<?php echo $product->license instanceof LicenseType ? $product->license->id : $product->license ?>" }</script>
+                                    <option value="<?php echo $product->id?>" class="products-list"><?php echo $product->name . " ({$product->license->name})" ?></option>
                                 <?php endforeach; ?>
                                 </select>
                             <script>
@@ -102,15 +104,29 @@ class Add extends AbstractView
                                     });
                                 }
                                 function updateLicenseType() {
-                                    $('#license-type').val($('.products-list:selected').data('type'));
+                                    $('#license-type').val(products[$('#license-product').val()].type);
+                                }
+                                function updateFileAndSerial(prod) {
+                                    var fileInput = $('#license-file-input');
+                                    if (products[prod.val()].manufacturer == 'iacs') {
+                                        $('#license-serial').prop('required', true).val(serialGenerator());
+                                        $('#new-license-form').validator('validate');
+                                        fileInput.show();
+                                    } else {
+                                        fileInput.hide();
+                                        $('#license-serial').prop('required', false).val('');
+                                        $('#new-license-form').validator('validate');
+                                    }
                                 }
                                 $(document).on('ready', function() {
                                     $('#license-product').on('change', function() {
+                                        updateFileAndSerial($(this));
                                         updateInvoiceList();
                                         updateLicenseType();
                                     });
                                     $('#license-client').on('change', function() { updateInvoiceList(); });
                                     $('#gen-serial').on('click', function() { $('#license-serial').val(serialGenerator()); $('#new-license-form').validator('validate'); });
+                                    updateFileAndSerial($('#license-product'));
                                     updateInvoiceList();
                                     updateLicenseType();
                                 });
@@ -145,7 +161,7 @@ class Add extends AbstractView
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-lg-6">
+                    <div class="col-xs-12 col-lg-6" id="license-file-input">
                         <div class="form-group">
                             <label for="license-file">Request file:</label>
                             <input id="license-file" type="file" class="file" name="request_file" data-show-preview="false" data-show-upload="false">
@@ -158,8 +174,8 @@ class Add extends AbstractView
             <div class="panel">
                 <div class="panel-footer text-right">
                     <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link hidden-xs">Back</a>
-                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add license</button>
-                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add license</button>
+                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Save license</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Save license</button>
                     <a href="<?php $this->publicPath() ?>Licenses" class="btn btn-link btn-block visible-xs">Back</a>
                 </div>
             </div>

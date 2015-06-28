@@ -32,6 +32,8 @@ $(document).on('ready', function() {
     $('#users-table').bootgrid({
         formatters: {
             "userActions": function (column, row) {
+                if (row.id == appSettings.user)
+                    return '<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Profile"><i class="fa fa-fw fa-user"></i> Profile</a>';
                 return '<button class="btn btn-xs btn-danger btn-user-delete" data-delete-id="' + row.id + '" data-delete-name="' + row.firstName + ' ' + row.lastName + '"><i class="fa fa-fw fa-trash"></i></button>' +
                 ' <a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Administration/Users/Update/' + row.id + '"><i class="fa fa-fw fa-edit"></i></a>';
             }

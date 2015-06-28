@@ -57,6 +57,13 @@ class Invoice extends Entity
     public $tax;
 
     /**
+     * Invoice payment terms.
+     *
+     * @var int
+     */
+    public $terms;
+
+    /**
      * Invoice client.
      *
      * @var  Client
@@ -87,6 +94,7 @@ class Invoice extends Entity
         $this->_primary = "id";
         $this->date = date('Y-m-d');
         $this->delete = 0;
+        $this->terms = 30;
     }
 
     /**
@@ -104,6 +112,11 @@ class Invoice extends Entity
         {
             $valid = false;
             $this->setError('id', "ID is invalid");
+        }
+        if (!$this->isInteger($this->terms, 0) || !$this->isInList($this->terms, [0,15,30,45,60,90]))
+        {
+            $valid = false;
+            $this->setError('terms', "Payment terms are invalid");
         }
         if (!$this->isString($this->note, 0, 65535))
         {

@@ -10,11 +10,14 @@
 namespace Application\Views\Shared;
 
 use \Trident\MVC\AbstractView;
+use Application\Entities\User;
 
 /**
  * Class Header
  *
  * View global header.
+ *
+ * @property User $currentUser
  *
  * @package Application\Views\Shared
  */
@@ -65,6 +68,7 @@ class Header extends AbstractView
         appSettings.exchangeRate = <?php echo $this->data['exchange-rate'] ?>;
         appSettings.tax = <?php echo $this->configuration->item('user.general.tax') ?>;
         appSettings.autoLogout = <?php echo $this->configuration->item('user.security.allow-auto-logout') ? 'true' : 'false'; ?>;
+        appSettings.user = <?php echo $this->currentUser->id ?>;
     </script>
     <?php $this->js('js/application.js?'. date('YmdHis')) ?>
     <!-- Javascript files end -->

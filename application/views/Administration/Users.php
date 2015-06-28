@@ -38,6 +38,11 @@ class Users extends AbstractView
     <div class="page-head bg-main">
         <h1><i class="fa fa-fw fa-users"></i> Users</h1>
     </div>
+    <?php if (isset($this->data['success'])): ?>
+        <div class="alert alert-success alert-dismissable">
+            <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+        </div>
+    <?php endif; ?>
     <div id="alerts-container"></div>
     <div class="panel">
         <div class="table-responsive">

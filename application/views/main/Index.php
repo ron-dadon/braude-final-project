@@ -115,41 +115,45 @@ class Index extends AbstractView
             </div>
         </div>
         <div class="col-xs-12 col-lg-9">
-            <div class="col-xs-12">
-<?php /** @var Quote[] $quotes */ $quotes = $this->data['quotes']; if (count($quotes)): ?>
+            <?php /** @var Quote[] $quotes */ $quotes = $this->data['quotes']; if (count($quotes)): ?>
+            <div class="col-xs-12 col-lg-6">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <i class="fa fa-fw fa-exclamation-circle"></i> Non approved quotes:
                     </div>
                     <div class="list-group">
-<?php $total = 0; $totalTax = 0; foreach ($quotes as $quote): ?>
+                    <?php $total = 0; $totalTax = 0; foreach ($quotes as $quote): ?>
                         <a class="list-group-item" href="<?php $this->publicPath() ?>Quotes/Show/<?php echo $quote->id ?>"><i class="fa fa-fw fa-database"></i> Quote No. <?php echo str_pad($quote->id, 8, '0', STR_PAD_LEFT) ?></a>
                         <?php $totalTax += $quote->getTotalWithTax(); ?>
                         <?php $total += $quote->getSubTotal(); ?>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                     </div>
                     <div class="panel-footer">
                         Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
                     </div>
                 </div>
-<?php endif; ?>
-                <?php /** @var Invoice[] $invoices */ $invoices = $this->data['invoices']; $total = 0; $totalTax = 0; if (count($invoices)): ?>
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <i class="fa fa-fw fa-exclamation-circle"></i> Non paid invoices:
-                        </div>
-                        <div class="list-group">
-                            <?php foreach ($invoices as $invoice): ?>
-                                <a class="list-group-item" href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>"><i class="fa fa-fw fa-file-text"></i> Invoice No. <?php echo str_pad($invoice->id, 8, '0', STR_PAD_LEFT) ?></a>
-                                <?php $totalTax += $invoice->quote->getTotalWithTax(); ?>
-                                <?php $total += $invoice->quote->getSubTotal(); ?>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="panel-footer">
-                            Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
-                        </div>
+            </div>
+            <?php endif; ?>
+            <?php /** @var Invoice[] $invoices */ $invoices = $this->data['invoices']; $total = 0; $totalTax = 0; if (count($invoices)): ?>
+            <div class="col-xs-12 col-lg-6">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-exclamation-circle"></i> Non paid invoices:
                     </div>
-                <?php endif; ?>
+                    <div class="list-group">
+                        <?php foreach ($invoices as $invoice): ?>
+                            <a class="list-group-item" href="<?php $this->publicPath() ?>Invoices/Show/<?php echo $invoice->id ?>"><i class="fa fa-fw fa-file-text"></i> Invoice No. <?php echo str_pad($invoice->id, 8, '0', STR_PAD_LEFT) ?></a>
+                            <?php $totalTax += $invoice->quote->getTotalWithTax(); ?>
+                            <?php $total += $invoice->quote->getSubTotal(); ?>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="panel-footer">
+                        Total (+Tax): <?php echo number_format($total) ?> (<?php echo number_format($totalTax) ?>) NIS
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            <div class="col-xs-12">
                 <?php /** @var License[] $licenses */ $licenses = $this->data['expire-licenses']; if (count($licenses)): ?>
                     <div class="panel panel-warning">
                         <div class="panel-heading">

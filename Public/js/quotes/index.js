@@ -40,6 +40,9 @@ $(document).on('ready', function() {
             "client": function (column, row) {
                 return "<a style=\"cursor:pointer\" title=\"Filter by " + row.quoteClient + "\" onclick=\"$('#quotes-table').bootgrid('search','" + row.quoteClient + "')\">" + row.quoteClient + "</a>";
             },
+            "statusFilter": function (column, row) {
+                return "<a style=\"cursor:pointer\" title=\"Filter by " + row.quoteStatus + "\" onclick=\"$('#quotes-table').bootgrid('search','" + row.quoteStatus + "')\">" + row.quoteStatus + "</a>";
+            },
             "quoteLink": function (column, row) {
                return '<a href="' + appSettings.homeURI + '/Quotes/Show/' + row.id + '" title="Show quote ' + row.id.toString().pad("0",8) + '">' + row.id.toString().pad("0",8) + '</a>';
            },

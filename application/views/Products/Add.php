@@ -145,8 +145,8 @@ class Add extends AbstractView
             <div class="panel">
                 <div class="panel-footer text-right">
                     <a href="<?php $this->publicPath() ?>Products" class="btn btn-link hidden-xs">Back</a>
-                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add product</button>
-                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add product</button>
+                    <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Save product</button>
+                    <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Save product</button>
                     <a href="<?php $this->publicPath() ?>Products" class="btn btn-link btn-block visible-xs">Back</a>
                 </div>
             </div>

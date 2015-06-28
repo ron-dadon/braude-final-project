@@ -49,6 +49,11 @@ class Show extends AbstractView
             <h4><i class="fa fa-fw fa-times-circle"></i><?php echo $this->escape($this->data['error']) ?></h4>
         </div>
 <?php endif; ?>
+    <?php if (isset($this->data['success'])): ?>
+        <div class="alert alert-success alert-dismissable">
+            <h4><i class="fa fa-fw fa-check-circle"></i><?php echo $this->data['success'] ?></h4>
+        </div>
+    <?php endif; ?>
     <div class="panel">
         <div class="row">
             <div class="col-xs-12">

@@ -70,13 +70,26 @@ class Add extends AbstractView
                         <p class="form-control-static" id="invoice-date"><strong><?php echo $this->formatSqlDateTime($invoice->date, 'Y-m-d', 'd/m/Y'); ?></strong></p>
                     </div>
                 </div>
-                <div class="col-xs-12 col-lg-5">
+                <div class="col-xs-12 col-lg-2">
+                    <div class="form-group">
+                        <label for="invoice-terms">Payment terms:</label>
+                        <select class="form-control" id="invoice-terms" name="invoice_terms">
+                            <option value="0" <?php if ($invoice->terms == 0): ?>selected<?php endif; ?>>Cash</option>
+                            <option value="15" <?php if ($invoice->terms == 15): ?>selected<?php endif; ?>>+15</option>
+                            <option value="30" <?php if ($invoice->terms == 30): ?>selected<?php endif; ?>>+30</option>
+                            <option value="45" <?php if ($invoice->terms == 45): ?>selected<?php endif; ?>>+45</option>
+                            <option value="60" <?php if ($invoice->terms == 60): ?>selected<?php endif; ?>>+60</option>
+                            <option value="90" <?php if ($invoice->terms == 90): ?>selected<?php endif; ?>>+90</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-4">
                     <div class="form-group">
                         <label for="invoice-receipt">Receipt:</label>
                         <input type="text" class="form-control" id="invoice-receipt" name="invoice_receipt" value="<?php echo $this->escape($invoice->receipt) ?>" maxlength="50">
                     </div>
                 </div>
-                <div class="col-xs-12 col-lg-5">
+                <div class="col-xs-12 col-lg-4">
                     <div class="form-group">
                         <label for="invoice-tax">Tax invoice:</label>
                         <input type="text" class="form-control" id="invoice-tax" name="invoice_tax" value="<?php echo $this->escape($invoice->tax) ?>" maxlength="50">
@@ -140,7 +153,7 @@ class Add extends AbstractView
                         <tfoot class="bg-info">
                             <tr>
                                 <td colspan="3" class="text-right"><strong>USD-NIS Rate:</strong></td>
-                                <td><?php echo $quote->usdRate; ?></td>
+                                <td><?php echo number_format($quote->usdRate, 4); ?></td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="text-right"><strong>Sub-Total (NIS):</strong></td>

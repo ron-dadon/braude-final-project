@@ -69,13 +69,19 @@ class Show extends AbstractView
                         <p class="form-control-static" id="invoice-quote"><a href="<?php $this->publicPath() ?>Quotes/Show/<?php echo $invoice->quote->id?>"><strong><?php echo $this->escape(str_pad($invoice->quote->id, 8, '0', STR_PAD_LEFT)) ?></strong></a></p>
                     </div>
                 </div>
-                <div class="col-xs-12 col-lg-4">
+                <div class="col-xs-12 col-lg-2">
+                    <div class="form-group">
+                        <label for="invoice-terms">Payment terms:</label>
+                        <p class="form-control-static" id="invoice-terms"><strong><?php echo $invoice->terms == 0 ? 'Cash' : "+{$invoice->terms}" ?></strong></p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="invoice-receipt">Receipt:</label>
                         <p class="form-control-static" id="invoice-receipt"><strong><?php echo $this->escape($invoice->receipt) ?></strong></p>
                     </div>
                 </div>
-                <div class="col-xs-12 col-lg-4">
+                <div class="col-xs-12 col-lg-3">
                     <div class="form-group">
                         <label for="invoice-tax">Tax invoice:</label>
                         <p class="form-control-static" id="invoice-tax"><strong><?php echo $this->escape($invoice->tax) ?></strong></p>
@@ -197,7 +203,10 @@ class Show extends AbstractView
         </div>
     </div>
 </div>
+<script src="<?php $this->publicPath() ?>js/invoices/invoice-show.js?<?php echo date('YmdHis') ?>"></script>
 <?php
+        $this->getSharedView('ConfirmModal')->render();
+        $this->getSharedView('MessageModal')->render();
         $this->getSharedView('Footer')->render();
     }
 

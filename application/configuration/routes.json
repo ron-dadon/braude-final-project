@@ -197,6 +197,11 @@
             "method": "PrintInvoice"
         },
         {
+            "pattern": "/Invoices/Mail/(id)",
+            "controller": "Invoices",
+            "method": "EmailInvoice"
+        },
+        {
             "pattern": "/Invoices/Update/(id)",
             "controller": "Invoices",
             "method": "Update"

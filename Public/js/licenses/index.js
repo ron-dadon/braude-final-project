@@ -38,6 +38,9 @@ $(document).on('ready', function() {
            "product": function (column, row) {
                return "<a style=\"cursor:pointer\" title=\"Filter by " + row.productName + "\" onclick=\"$('#licenses-table').bootgrid('search','" + row.productName + "')\">" + row.productName + "</a>";
            },
+           "statusFilter": function (column, row) {
+               return "<a style=\"cursor:pointer\" title=\"Filter by " + row.status + "\" onclick=\"$('#licenses-table').bootgrid('search','" + row.status + "')\">" + row.status + "</a>";
+           },
            "types": function (column, row) {
                return "<a style=\"cursor:pointer\" title=\"Filter by " + row.licenseType + "\" onclick=\"$('#licenses-table').bootgrid('search','" + row.licenseType + "')\">" + row.licenseType + "</a>";
            },

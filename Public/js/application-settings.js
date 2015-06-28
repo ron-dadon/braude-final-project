@@ -9,8 +9,9 @@
 var appSettings = {
     "autoLogoutTime": 60,
     "autoLogout": false,
+    "user": 0,
     "homeURI": "http://localhost/iacs/Public",
-    "messageDismissTime": 6000,
+    "messageDismissTime": 10000,
     "tax": 18,
     "exchangeRate": 3.5
 };

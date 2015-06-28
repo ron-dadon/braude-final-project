@@ -135,6 +135,7 @@ class Clients extends AbstractModel
         $query = new Query("SELECT DISTINCT quote_client FROM quotes WHERE quote_delete = 0");
         $query = $this->getMysql()->executeQuery($query);
         if (!$query->isSuccess()) return null;
+        if (!$query->getRowCount()) return [];
         $ids = [];
         foreach ($query->getResultSet() as $row) {
             $ids[] = $row['quote_client'];

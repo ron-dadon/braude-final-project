@@ -1,5 +1,5 @@
 {
-    "environment.production": false,
+    "environment.production": true,
     "environment.zone": "israel",
     "system.debug": false,
     "system.routes": "../Application/Configuration/routes.json",
@@ -12,7 +12,7 @@
     "database.host": "localhost",
     "database.user": "iacs",
     "database.password": "123456",
-    "database.name": "iacs_dev",
+    "database.name": "iacs_prod",
     "user.security.allow-auto-logout": false,
     "user.security.auto-logout-time": 1,
     "user.email.host": "smtp.gmail.com",
@@ -22,5 +22,5 @@
     "user.email.password": "12345678",
     "user.general.tax": "18",
     "api.currency": "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22USDILS%22%29&env=store://datatables.org/alltableswithkeys",
-    "api.last": "3.7584"
+    "api.last": "3.7782"
 }

@@ -79,7 +79,8 @@ class Profile extends IacsBaseController
                         {
                             $this->addLogEntry("Successfully updated user profile", "success");
                             $this->getSession()->set('iacs-logged-user', serialize($user));
-                            $viewData['success'] = "User profile updated successfully!";
+                            $this->setSessionAlertMessage("User profile updated successfully!");
+                            $this->redirect('/Profile');
                         }
                         else
                         {

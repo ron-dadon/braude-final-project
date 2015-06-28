@@ -92,7 +92,7 @@ class Invoices extends AbstractModel
      */
     public function getUnpaid()
     {
-        $list = $this->getORM()->find('Invoice', "invoice_delete = 0 AND invoice_tax = ''");
+        $list = $this->getORM()->find('Invoice', "invoice_delete = 0 AND invoice_tax = '' AND DATEDIFF(NOW(), invoice_date) > invoice_terms");
         if ($list === null) return null;
         foreach ($list as $key => $item) {
             /** @var Invoice $item */

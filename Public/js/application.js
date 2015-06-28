@@ -30,7 +30,7 @@ function htmlEntities(str) {
 }
 
 function formatNumber(num) {
-    return num.replace(/\d(?=(\d{3})+$)/g, '$&,');
+    return num.toString().replace(/\d(?=(\d{3})+$)/g, '$&,');
 }
 
 function autoLogout()
@@ -91,6 +91,11 @@ $(document).on('ready', function() {
         if (e.isDefaultPrevented()) {
             $('button[type=submit]').button('reset').prop('disabled', true);
         }
+    });
+    $("button:contains('Clear filter')").each(function() {
+        $(this).on('click', function() {
+            window.scrollTo(0,0);
+        })
     });
 });
 

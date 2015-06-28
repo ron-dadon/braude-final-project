@@ -110,6 +110,7 @@ class PrintInvoice extends AbstractView
                     <br>
                 </div>
             </div>
+            <?php if (count($licenses)): ?>
             <div class="row">
                 <div class="col-xs-12">
                     <strong>Licenses appendix:</strong>
@@ -123,10 +124,14 @@ class PrintInvoice extends AbstractView
                     </ul>
                 </div>
             </div>
+            <?php endif; ?>
             <div class="row">
                 <div class="col-xs-12">
-                    <p><strong>Dear client,</strong><br>Please pay this invoice within 30 business days. Late payment
-                                                        will include debit.</p>
+                    <?php if ($invoice->terms > 0): ?>
+                    <p><strong>Dear client,</strong><br>Please pay this invoice within <?php echo $invoice->terms ?> business days. Late payment will include debit.</p>
+                    <?php else: ?>
+                    <p><strong>Dear client,</strong><br>This is a cash invoice. Please pay immediately.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

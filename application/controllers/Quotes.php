@@ -9,6 +9,7 @@
 
 namespace Application\Controllers;
 
+use Application\Entities\Client;
 use Application\Entities\Quote;
 use Application\Entities\QuoteProduct;
 use Application\Models\Clients;
@@ -278,7 +279,8 @@ class Quotes extends IacsBaseController
                         if ($result->isSuccess()) {
                             $this->getMysql()->commit();
                             $this->addLogEntry("Updated quote with ID: " . $quote->id, "success");
-                            $viewData['success'] = "Quote updated successfully!";
+                            $this->setSessionAlertMessage("Quote updated successfully!");
+                            $this->redirect("/Quotes/Show/{$quote->id}");
                         } else {
                             $viewData['error'] = "Error updating quote to the database. Check the errors log for further information, or contact your system administrator.";
                             $this->getLog()->newEntry("Error updating quote in database: " . $result->getErrorString(), "Database");
@@ -303,7 +305,7 @@ class Quotes extends IacsBaseController
                 $this->addLogEntry("Failed to update quote with ID: {$quote->id}", "danger");
             }
         }
-        if ($quote->client !== null) {
+        if ($quote->client !== null && !($quote->client instanceof Client)) {
             $quote->client = $clients->getById($quote->client);
         }
         $quote = $quotes->getById($id);
@@ -391,14 +393,14 @@ class Quotes extends IacsBaseController
         ob_start();
         $viewData['quote'] = $quote;
         $viewData['title'] = "IACS Quote No. " . str_pad($quote->id, 8, '0', STR_PAD_LEFT);
-        $this->getView($viewData, "Quotes\\PrintQuote")->render();
+        $this->getView($viewData, "Quotes\\EmailQuote")->render();
         $altBody = $body = ob_get_contents();
         ob_end_clean();
         if ($mailer->send([$quote->client->email => $quote->client->name], 'Quote from IACS', $body, $altBody,[],[],[],['display_name' => 'IACS']))
         {
-            if ($quote->status < 2)
+            if ($quote->status->id < 2)
             {
-                $quote->status = 2;
+                $quote->status->id = 2;
                 $this->getORM()->save($quote);
             }
             echo '1';

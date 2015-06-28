@@ -7,17 +7,17 @@
  **********************************************************************************************************************/
 
 /*
- * Quotes Show
+ * Invoices Show
  */
 
 function showMailingModal(id, mail)
 {
-    showMessageModal('<i class="fa fa-fw fa-send"></i>', 'Sending quote...', '<i class="fa fa-fw fa-spin fa-spinner"></i> Sending quote to <strong>' + mail + '</strong>...please wait...', 'main', false);
-    $.get(appSettings.homeURI + "/Quotes/Mail/" + id , function(data) {
+    showMessageModal('<i class="fa fa-fw fa-send"></i>', 'Sending invoice...', '<i class="fa fa-fw fa-spin fa-spinner"></i> Sending invoice to <strong>' + mail + '</strong>...please wait...', 'main', false);
+    $.get(appSettings.homeURI + "/Invoices/Mail/" + id , function(data) {
         if (data === '1') {
-            showMessageModal('<i class="fa fa-fw fa-check-circle"></i>', 'Quote sent', 'Quote sent to ' + mail, 'success', true);
+            showMessageModal('<i class="fa fa-fw fa-check-circle"></i>', 'Invoice sent', 'Invoice sent to ' + mail, 'success', true);
         } else {
-            showMessageModal('<i class="fa fa-fw fa-times-circle"></i>', 'Quote was not sent', 'Error sending quote: ' + data, 'danger', true);
+            showMessageModal('<i class="fa fa-fw fa-times-circle"></i>', 'Invoice was not sent', 'Error sending invoice: ' + data, 'danger', true);
         }
     });
 }

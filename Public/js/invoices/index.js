@@ -56,6 +56,9 @@ $(document).on('ready', function() {
                //return '<a href="' + appSettings.homeURI + '/Clients/Show/' + row.clientId + '">' + row.clientName + '</a>';
            },
            "invoiceActions": function (column, row) {
+               if (row.taxInvoice.trim() != '' || row.receipt.trim() != '') {
+                   return '<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Invoices/Update/' + row.id + '" title="Update invoice ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-edit"></i></a>';
+               }
                return '<button class="btn btn-xs btn-danger btn-invoice-delete" data-delete-id="' + row.id + '" data-delete-name="' + htmlEntities(row.id.toString().pad("0", 8)) + '" title="Delete invoice ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-trash"></i></button>' +
                       '&nbsp;<a class="btn btn-xs btn-default" href="' + appSettings.homeURI + '/Invoices/Update/' + row.id + '" title="Update invoice ' + htmlEntities(row.id.toString().pad("0", 8)) + '"><i class="fa fa-fw fa-edit"></i></a>';
            }

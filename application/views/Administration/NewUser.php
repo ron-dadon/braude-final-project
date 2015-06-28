@@ -110,8 +110,8 @@ class NewUser extends AbstractView
         <div class="panel">
             <div class="panel-footer text-right">
                 <a href="<?php $this->publicPath() ?>Administration/Users" class="btn btn-link hidden-xs">Back</a>
-                <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plu"></i> Add user</button>
-                <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add user</button>
+                <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Save user</button>
+                <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Save user</button>
                 <a href="<?php $this->publicPath() ?>Administration/Users" class="btn btn-link btn-block visible-xs">Back</a>
             </div>
         </div>

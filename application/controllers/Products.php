@@ -9,6 +9,7 @@
 
 namespace Application\Controllers;
 
+use Application\Entities\LicenseType;
 use Application\Entities\Product;
 use Application\Models\LicenseTypes;
 use Application\Models\Products as ProductsModel;
@@ -57,13 +58,19 @@ class Products extends IacsBaseController
         $licenseTypes = $this->loadModel("LicenseTypes");
         /** @var Product $product */
         $product = $products->getById($id);
-        $product->license = $licenseTypes->getById($product->license);
         if ($product === null)
         {
             $this->setSessionAlertMessage("Can't show product with ID $id. Product was not found.", "error");
             $this->redirect("/Products");
         }
+        if (!($product->license instanceof LicenseType)) {
+            $product->license = $licenseTypes->getById($product->license);
+        }
         $viewData['product'] = $product;
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $this->getView($viewData)->render();
     }
 
@@ -92,7 +99,7 @@ class Products extends IacsBaseController
                     $product->id = $result->getLastId();
                     $this->addLogEntry("Created product with ID: " . $product->id, "success");
                     $this->setSessionAlertMessage("Product {$product->name} added!", "success");
-                    $this->redirect("/Products");
+                    $this->redirect("/Products/Show/{$product->id}");
                 }
                 else
                 {
@@ -202,7 +209,7 @@ class Products extends IacsBaseController
         $product = $products->getById($id);
         /** @var LicenseTypes $licenseTypes */
         $licenseTypes = $this->loadModel('LicenseTypes');
-        $product->license = $licenseTypes->getById($product->license);
+        if (!($product->license instanceof LicenseType)) $product->license = $licenseTypes->getById($product->license);
         $viewData['license-types'] = $licenseTypes->getAll();
         if ($product === null)
         {
@@ -220,7 +227,7 @@ class Products extends IacsBaseController
                 {
                     $this->addLogEntry("Updated product with ID: " . $product->id, "success");
                     $this->setSessionAlertMessage("Product {$product->name} updated.", "success");
-                    $this->redirect("/Products");
+                    $this->redirect("/Products/Show/{$product->id}");
                 }
                 else
                 {

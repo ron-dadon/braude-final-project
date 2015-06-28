@@ -181,10 +181,6 @@ class Licenses extends IacsBaseController
                     {
                         $this->jsonResponse(false);
                     }
-                    else
-                    {
-                        // Go to license show
-                    }
                 }
                 $result = $licenses->delete($license);
                 if ($result->isSuccess())
@@ -193,10 +189,6 @@ class Licenses extends IacsBaseController
                     if ($this->getRequest()->isAjax())
                     {
                         $this->jsonResponse(true, ['license' => $license->serial]);
-                    }
-                    else
-                    {
-                        // Go to license list
                     }
                 }
                 else
@@ -207,10 +199,6 @@ class Licenses extends IacsBaseController
                     {
                         $this->jsonResponse(false);
                     }
-                    else
-                    {
-                        // Go to license show
-                    }
                 }
             }
             catch (\InvalidArgumentException $e)
@@ -219,10 +207,6 @@ class Licenses extends IacsBaseController
                 if ($this->getRequest()->isAjax())
                 {
                     $this->jsonResponse(false);
-                }
-                else
-                {
-                    // Go to license show
                 }
             }
         }

@@ -96,23 +96,14 @@ class Add extends AbstractView
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-lg-3">
-                                <div class="form-group">
-                                    <input type="checkbox" id="redirect-update" name="redirect_update">
-                                    <label for="redirect-update">Go to client card after addition</label>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="panel">
                         <div class="panel-footer text-right">
                             <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link hidden-xs">Back</a>
-                            <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Add client</button>
-                            <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Add client</button>
+                            <button type="submit" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> Save client</button>
+                            <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> Save client</button>
                             <a href="<?php $this->publicPath() ?>Clients" class="btn btn-link btn-block visible-xs">Back</a>
                         </div>
                     </div>

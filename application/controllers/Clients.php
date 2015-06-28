@@ -53,14 +53,6 @@ class Clients extends IacsBaseController
         {
             $data = $this->getRequest()->getPost()->toArray();
             $client->fromArray($data, "client_");
-            try
-            {
-                $goToEdit = $this->getRequest()->getPost()->item('redirect_update');
-            }
-            catch (\InvalidArgumentException $e)
-            {
-                $goToEdit = false;
-            }
             if ($client->isValid())
             {
                 $result = $this->getORM()->save($client);
@@ -70,11 +62,7 @@ class Clients extends IacsBaseController
                     $client->id = $result->getLastId();
                     $this->addLogEntry("Created client with ID: " . $client->id, "success");
                     $this->setSessionAlertMessage("Client " . $client->name . " created successfully.");
-                    if ($goToEdit)
-                    {
-                        $this->redirect("/Clients/Show/" . $client->id);
-                    }
-                    $this->redirect("/Clients");
+                    $this->redirect("/Clients/Show/" . $client->id);
                 }
                 else
                 {

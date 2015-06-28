@@ -78,10 +78,10 @@ class Administration extends IacsBaseController
         /** @var Users $users */
         $users = $this->loadModel('Users');
         $list = $users->getAll();
-        $list = array_filter($list, function($item) {
-            /** @var User $item */
-            return $item->id !== $this->getLoggedUser()->id;
-        });
+        if (($message = $this->pullSessionAlertMessage()) !== null)
+        {
+            $viewData[$message['type']] = $message['message'];
+        }
         $viewData['users'] = $list;
         $this->getView($viewData)->render();
     }
@@ -178,6 +178,7 @@ class Administration extends IacsBaseController
                 $result = $this->getORM()->save($user);
                 if ($result->isSuccess())
                 {
+                    $this->setSessionAlertMessage("The user " . htmlspecialchars($user->firstName . ' ' . $user->lastName) . " was successfully created.");
                     $this->addLogEntry("Successfully created a new user with the ID " . $result->getLastId(), "success");
                     $this->redirect("/Administration/Users");
                 }
@@ -242,8 +243,9 @@ class Administration extends IacsBaseController
                     $result = $this->getORM()->save($user);
                     if ($result->isSuccess())
                     {
+                        $this->setSessionAlertMessage("The user " . htmlspecialchars($user->firstName . ' ' . $user->lastName) . " was successfully updated.");
                         $this->addLogEntry("Successfully updated user with the ID $id", "success");
-                        $viewData['success'] = "User updated successfully!";
+                        $this->redirect('/Administration/Users');
                     }
                     else
                     {

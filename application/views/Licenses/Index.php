@@ -60,6 +60,7 @@ class Index extends AbstractView
                             <th data-column-id="licenseType" data-formatter="types">Type</th>
                             <th data-column-id="expirationDate">Expiration Date</th>
                             <th data-column-id="serial" data-formatter="licenseLink">Serial</th>
+                            <th data-column-id="status" data-formatter="statusFilter">Status</th>
                             <th data-column-id="actions" data-sortable="false" data-formatter="licenseActions">Actions</th>
                         </tr>
                         </thead>
@@ -72,6 +73,7 @@ class Index extends AbstractView
                                 <td><?php echo $license->type->name ?></td>
                                 <td><?php echo (new \DateTime($license->expire))->format('d/m/Y') ?></td>
                                 <td><?php echo $license->serial ?></td>
+                                <td><?php echo (new \DateTime($license->expire)) > (new \DateTime()) ? 'Active' : 'Expired'; ?></td>
                                 <td>Actions</td>
                             </tr>
                         <?php endforeach; ?>
@@ -80,8 +82,10 @@ class Index extends AbstractView
                 </div>
                 <div class="row">
                     <div class="panel-footer text-right">
+                        <button type="button" class="btn btn-default pull-left hidden-xs" onclick="$('#licenses-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
                         <a href="<?php $this->publicPath() ?>Licenses/New" class="btn btn-primary hidden-xs"><i class="fa fa-fw fa-plus"></i> New License</a>
                         <a href="<?php $this->publicPath() ?>Licenses/New" class="btn btn-primary btn-block visible-xs"><i class="fa fa-fw fa-plus"></i> New License</a>
+                        <button type="button" class="btn btn-default btn-block visible-xs" onclick="$('#licenses-table').bootgrid('search','')"><i class="fa fa-fw fa-eraser"></i> Clear filter</button>
                     </div>
                 </div>
             </div>

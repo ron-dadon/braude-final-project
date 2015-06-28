@@ -63,8 +63,8 @@ class Index extends AbstractView
                     <form class="form-inline">
                     <p>Show all expired licenses within the last <input type="number" class="form-control" id="expire-days" value="30"> days.</p>
                     </form>
-                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/ExpiredLicenses/' + $('#expire-days').val())"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
-                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/ExpiredLicenses/' + $('#expire-days').val())"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/ExpiredLicenses/' + $('#expire-days').val())"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/ExpiredLicenses/' + $('#expire-days').val())"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@ class Index extends AbstractView
                     <form class="form-inline">
                     <p>Show all quotes in status <select class="form-control" id="quote-status"><?php foreach ($this->data['quote-status'] as $qs): ?><option value="<?php echo $qs->id ?>"><?php echo $qs->name ?></option><?php endforeach; ?></select></p>
                     </form>
-                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/QuotesByStatus/' + $('#quote-status').val())"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
-                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/QuotesByStatus/' + $('#quote-status').val())"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/QuotesByStatus/' + $('#quote-status').val())"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/QuotesByStatus/' + $('#quote-status').val())"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
                 </div>
             </div>
         </div>
@@ -93,8 +93,8 @@ class Index extends AbstractView
                     <form class="form-inline">
                         <p>Show all invoices without a tax-invoice.</p>
                     </form>
-                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/OpenInvoices')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
-                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/OpenInvoices')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/OpenInvoices')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/OpenInvoices')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
                 </div>
             </div>
         </div>
@@ -107,8 +107,8 @@ class Index extends AbstractView
                     <form class="form-inline">
                         <p>Show all products with their sales statistics.</p>
                     </form>
-                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/ProductsSales')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
-                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/ProductsSales')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/ProductsSales')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/ProductsSales')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
                 </div>
             </div>
         </div>
@@ -123,8 +123,8 @@ class Index extends AbstractView
                     <form class="form-inline">
                         <p>Show all non active clients. A non active client is a client without quotes and/or invoices.</p>
                     </form>
-                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
-                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Perform!</button>
+                    <button type="button" class="btn btn-primary hidden-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
+                    <button type="button" class="btn btn-primary btn-block visible-xs" onclick="goTo('/Reports/NonActiveClients')"><i class="fa fa-fw fa-check-circle"></i> Produce</button>
                 </div>
             </div>
         </div>
